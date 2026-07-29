@@ -127,7 +127,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <div className={styles.vinylWrapper.container}>
             <div className={styles.vinylWrapper.disk}>
               <img
-                src="assets/vinyl_record.jpg"
+                src="/assets/vinyl_record.jpg"
                 alt="Vinyl Record"
                 className={styles.vinylWrapper.img}
               />

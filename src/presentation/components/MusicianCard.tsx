@@ -29,7 +29,7 @@ const DEFAULT_CARD_STYLE =
 const DEFAULT_CARD_IMG_STYLE =
   "w-full h-full object-cover object-center grayscale contrast-[1.15] brightness-95 group-hover:scale-105 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out";
 
-const FALLBACK_IMAGE = "assets/images/fallback_canvas.jpg";
+const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
 
 export const MusicianCard: React.FC<MusicianCardProps> = ({
   musician,

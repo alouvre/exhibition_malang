@@ -33,10 +33,10 @@ export const musiciansRegistry: MusicianData[] = [
     name: "IAN ANTONO",
     genre: "ROCK ORIGINATOR & GUITAR VIRTUOSO",
     year: "1970s - PRESENT",
-    image: "assets/ian_antono/Picture2.jpg",
+    image: "/assets/ian_antono/Picture2.jpg",
     exhibitionImages: [
-      "assets/ian_antono/Picture1.jpg",
-      "assets/ian_antono/Picture3.jpg",
+      "/assets/ian_antono/Picture1.jpg",
+      "/assets/ian_antono/Picture3.jpg",
     ],
     album: "SEMUT HITAM",
     biography:
@@ -107,10 +107,10 @@ export const musiciansRegistry: MusicianData[] = [
     name: "SYLVIA SAARTJE",
     genre: "LADY ROCKER PIONEER",
     year: "1970s - PRESENT",
-    image: "assets/sylvia_saartje/Picture3.jpg",
+    image: "/assets/sylvia_saartje/Picture3.jpg",
     exhibitionImages: [
-      "assets/sylvia_saartje/Picture1.jpg",
-      "assets/sylvia_saartje/Picture2.jpg",
+      "/assets/sylvia_saartje/Picture1.jpg",
+      "/assets/sylvia_saartje/Picture2.jpg",
     ],
     album: "BIARKAN AKU LARI",
     biography:
@@ -174,10 +174,10 @@ export const musiciansRegistry: MusicianData[] = [
     name: "MEY CHAN",
     genre: "POP / ELECTRONIC",
     year: "2008 - PRESENT",
-    image: "assets/mey_chan/Picture1.jpg",
+    image: "/assets/mey_chan/Picture1.jpg",
     exhibitionImages: [
-      "assets/mey_chan/Picture2.jpg",
-      "assets/mey_chan/Picture3.jpg",
+      "/assets/mey_chan/Picture2.jpg",
+      "/assets/mey_chan/Picture3.jpg",
     ],
     album: "MAIA & FRIENDS",
     biography:
@@ -243,10 +243,10 @@ export const musiciansRegistry: MusicianData[] = [
     name: "SAL PRIADI",
     genre: "POETIC POP RENAISSANCE",
     year: "2010s - PRESENT",
-    image: "assets/sal_priadi/Picture1.jpg",
+    image: "/assets/sal_priadi/Picture1.jpg",
     exhibitionImages: [
-      "assets/sal_priadi/Picture2.jpg",
-      "assets/sal_priadi/Picture3.jpg",
+      "/assets/sal_priadi/Picture2.jpg",
+      "/assets/sal_priadi/Picture3.jpg",
     ],
     album: "MARKISA",
     biography:
@@ -324,10 +324,10 @@ export const musiciansRegistry: MusicianData[] = [
     name: "KOS ATOS",
     genre: "FOLK POP / ETHNIC",
     year: "2014 - PRESENT",
-    image: "assets/kos_atos/Picture1.jpg",
+    image: "/assets/kos_atos/Picture1.jpg",
     exhibitionImages: [
-      "assets/kos_atos/Picture1.jpg",
-      "assets/vinyl_record.jpg",
+      "/assets/kos_atos/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
     ],
     album: "LIRIK RETA",
     biography:

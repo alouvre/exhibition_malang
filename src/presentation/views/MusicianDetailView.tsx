@@ -24,13 +24,12 @@ interface LocationState {
   from?: "home" | "extended";
 }
 
-const FALLBACK_IMAGE = "../../../assets/vinyl_record.jpg";
+const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
 
 const resolveAssetPath = (path: string) => {
   if (!path) return FALLBACK_IMAGE;
   if (path.startsWith("http") || path.startsWith("/")) return path;
-  if (path.startsWith("../")) return path;
-  return `../../../${path}`;
+  return `/${path}`;
 };
 
 export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
