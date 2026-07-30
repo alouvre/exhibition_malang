@@ -16,7 +16,19 @@ import {
   Volume2,
   VolumeX,
   ListMusic,
-  Heart
+  Heart,
+  HelpCircle,
+  Mic,
+  Disc,
+  ExternalLink,
+  ArrowLeft,
+  ArrowUpRight,
+  User,
+  Sliders,
+  Bell,
+  LogOut,
+  ArrowRight,
+  RotateCcw
 } from 'lucide';
 
 export class IconService {
@@ -39,7 +51,19 @@ export class IconService {
         Volume2,
         VolumeX,
         ListMusic,
-        Heart
+        Heart,
+        HelpCircle,
+        Mic,
+        Disc,
+        ExternalLink,
+        ArrowLeft,
+        ArrowUpRight,
+        User,
+        Sliders,
+        Bell,
+        LogOut,
+        ArrowRight,
+        RotateCcw
       }
     });
   }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { showGlobalToast } from "../utils/toast";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";

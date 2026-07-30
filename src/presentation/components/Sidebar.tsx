@@ -1,16 +1,115 @@
 import React, { useState, useEffect, useRef } from "react";
-// import { showGlobalToast } from "../utils/toast";
 import { safeInitializeIcons } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { RADIUS, COLORS } from "../styles/theme";
 import { DESIGN_TOKENS } from "../styles/theme";
-// import { showGlobalToast } from "../utils/toast";
 
+/* ==========================================================================
+   SIDEBAR DROPDOWN TYPES & REUSABLE SUB-COMPONENT (Modular Extraction)
+   ========================================================================== */
+export interface SidebarDropdownItem {
+  id: string;
+  label: string;
+  icon: string;
+  onClick: () => void;
+  isDanger?: boolean;
+  hasArrowRight?: boolean;
+}
+
+export interface SidebarDropdownSection {
+  id: string;
+  items: SidebarDropdownItem[];
+}
+
+export interface SidebarDropdownProps {
+  isOpen: boolean;
+  sections: SidebarDropdownSection[];
+  headerTitle?: string;
+  className?: string;
+}
+
+/**
+ * Reusable Contextual Floating Dropdown Menu component.
+ * Adheres to Swiss Design & Stark Minimalism standards.
+ */
+export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
+  isOpen,
+  sections,
+  headerTitle,
+  className,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className={
+        className ||
+        `absolute bottom-0 left-full ml-6 -mb-2 w-64 ${COLORS.secondaryBg} backdrop-blur-xl border border-black/[0.05] rounded-lg shadow-2xl shadow-black/10 z-50 animate-fade-in select-none font-sans`
+      }
+      role="menu"
+      aria-orientation="vertical"
+    >
+      {headerTitle && (
+        <div className="px-3.5 pt-3 pb-2 border-b border-black/[0.05]">
+          <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+            {headerTitle}
+          </span>
+        </div>
+      )}
+
+      {sections.map((section, sectionIdx) => (
+        <div
+          key={section.id || sectionIdx}
+          className={`flex flex-col gap-0.5 p-1.5 ${
+            sectionIdx < sections.length - 1
+              ? "border-b border-black/[0.05]"
+              : ""
+          }`}
+        >
+          {section.items.map((item) => {
+            const isDanger = item.isDanger;
+            return (
+              <button
+                key={item.id}
+                onClick={item.onClick}
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer w-full text-left font-sans ${
+                  isDanger
+                    ? "justify-between text-rose-600 hover:bg-rose-50/[0.6]"
+                    : "text-stone-800 hover:bg-black/[0.04]"
+                }`}
+                role="menuitem"
+              >
+                <div className="flex items-center gap-3">
+                  <i
+                    data-lucide={item.icon}
+                    className={`w-4 h-4 ${isDanger ? "text-rose-600" : "text-stone-600"}`}
+                  />
+                  <span>{item.label}</span>
+                </div>
+                {item.hasArrowRight && (
+                  <i
+                    data-lucide="arrow-right"
+                    className="w-3.5 h-3.5 text-rose-400"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ==========================================================================
+   SIDEBAR COMPONENT
+   ========================================================================== */
 interface SidebarProps {
   activeTab: string;
   isSidebarOpen: boolean;
   onTabSelect: (tabName: string) => void;
   onToggleSidebar: () => void;
+  onOpenOperationalGuide?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -18,28 +117,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isSidebarOpen,
   onTabSelect,
   onToggleSidebar,
+  onOpenOperationalGuide,
 }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
-  // Click outside & Escape key listeners to close popover automatically
+  const settingsRef = useRef<HTMLDivElement>(null);
+  const guideRef = useRef<HTMLDivElement>(null);
+
+  // Click outside & Escape key listeners to close popovers automatically
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        settingsRef.current &&
-        !settingsRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      if (settingsRef.current && !settingsRef.current.contains(target)) {
         setIsSettingsOpen(false);
+      }
+      if (guideRef.current && !guideRef.current.contains(target)) {
+        setIsGuideOpen(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsSettingsOpen(false);
+        setIsGuideOpen(false);
       }
     };
 
-    if (isSettingsOpen) {
+    if (isSettingsOpen || isGuideOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
       safeInitializeIcons();
@@ -49,42 +154,127 @@ export const Sidebar: React.FC<SidebarProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isSettingsOpen]);
+  }, [isSettingsOpen, isGuideOpen]);
 
   const handleSettingsClick = () => {
+    setIsGuideOpen(false);
     setIsSettingsOpen((prev) => !prev);
-    // showGlobalToast("Opening application settings...");
+  };
+
+  const handleGuideClick = () => {
+    setIsSettingsOpen(false);
+    setIsGuideOpen((prev) => !prev);
   };
 
   const handleDropdownAction = (actionLabel: string) => {
-    // showGlobalToast(`${actionLabel} selected`);
     setIsSettingsOpen(false);
+    setIsGuideOpen(false);
   };
 
   const handleToggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement
         .requestFullscreen()
-        .then(() => {
-          // showGlobalToast("Entering full screen...");
-        })
-        .catch(() => {
-          // showGlobalToast("Full screen request blocked by browser");
-        });
+        .then(() => {})
+        .catch(() => {});
     } else {
       if (document.exitFullscreen) {
         document
           .exitFullscreen()
-          .then(() => {
-            // showGlobalToast("Exiting full screen...");
-          })
-          .catch(() => {
-            // showGlobalToast("Exiting full screen failed");
-          });
+          .then(() => {})
+          .catch(() => {});
       }
     }
     setIsSettingsOpen(false);
+    setIsGuideOpen(false);
   };
+
+  // 1. Settings Dropdown Configuration
+  const settingsSections: SidebarDropdownSection[] = [
+    {
+      id: "settings-main",
+      items: [
+        {
+          id: "profile",
+          label: "Profile",
+          icon: "user",
+          onClick: () => handleDropdownAction("Profile"),
+        },
+        {
+          id: "fullscreen",
+          label: "Fullscreen",
+          icon: "sliders",
+          onClick: handleToggleFullscreen,
+        },
+        {
+          id: "updates",
+          label: "Updates",
+          icon: "bell",
+          onClick: () => handleDropdownAction("Updates"),
+        },
+      ],
+    },
+    {
+      id: "settings-account",
+      items: [
+        {
+          id: "signout",
+          label: "Sign out",
+          icon: "log-out",
+          onClick: () => handleDropdownAction("Sign out"),
+          isDanger: true,
+          hasArrowRight: true,
+        },
+      ],
+    },
+  ];
+
+  // 2. Staff Playbook & Operational Guide Dropdown Configuration
+  const staffPlaybookSections: SidebarDropdownSection[] = [
+    {
+      id: "guide-kiosk-ops",
+      items: [
+        {
+          id: "activate-kiosk",
+          label: "Fullscreen Activation Guide",
+          icon: "sliders",
+          onClick: () => {
+            // handleToggleFullscreen();
+          },
+        },
+        {
+          id: "reset-player",
+          label: "System Reset Guide",
+          icon: "rotate-ccw",
+          onClick: () => {
+            // window.dispatchEvent(
+            //   new CustomEvent("show-toast", {
+            //     detail: "OPERATOR ACTION: Visual Archive Player Reset",
+            //   }),
+            // );
+            setIsGuideOpen(false);
+          },
+        },
+        {
+          id: "tech-contact",
+          label: "Technical Contact",
+          icon: "info",
+          onClick: () => {
+            if (onOpenOperationalGuide) {
+              onOpenOperationalGuide();
+            } else {
+              // window.dispatchEvent(
+              //   new CustomEvent("show-toast", {
+              //     detail: "STAFF HELP: FM11 Tech Support (+62 812-3456-7890)",
+              //   }),
+              // );
+            }
+            setIsGuideOpen(false);
+          },
+        },
+      ],
+    },
+  ];
 
   return (
     <div
@@ -144,7 +334,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Bottom Settings & Profile Icons */}
         <div className={styles.bottomSection.layout}>
-          {/* Contextual Floating Dropdown Trigger Container */}
+          {/* 1. Exhibition Operational Guide / Staff Playbook Gateway */}
+          <div
+            ref={guideRef}
+            className="relative flex items-center justify-center"
+          >
+            <button
+              id="exhibition-guide-btn"
+              onClick={handleGuideClick}
+              className={`${styles.iconBtn} ${
+                isGuideOpen ? "bg-black/5 text-stone-900" : ""
+              }`}
+              aria-label="Exhibition Operational Guide"
+              title="Operational manual for gallery staff (e.g., Kiosk Fullscreen activation guide)"
+            >
+              <i
+                data-lucide="help-circle"
+                className={`w-4 h-4 transition-colors ${
+                  isGuideOpen
+                    ? "text-[#FF1F00]"
+                    : "text-slate-500 hover:text-[#FF1F00]"
+                }`}
+              ></i>
+            </button>
+
+            {/* Reusable SidebarDropdown Instance 2: Staff Playbook */}
+            <SidebarDropdown
+              isOpen={isGuideOpen}
+              headerTitle="STAFF GUIDELINE"
+              sections={staffPlaybookSections}
+            />
+          </div>
+
+          {/* 2. Contextual Floating Dropdown Trigger Container (Settings) */}
           <div
             ref={settingsRef}
             className="relative flex items-center justify-center"
@@ -160,83 +382,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF1F00] ring-2 ring-[#F6F4EE]" />
             </button>
 
-            {/* Contextual Floating Dropdown Menu */}
-            {isSettingsOpen && (
-              <div
-                className={styles.popover.container}
-                role="menu"
-                aria-orientation="vertical"
-              >
-                {/* Top Block */}
-                <div className="flex flex-col gap-0.5 p-1.5 border-b border-black/[0.05]">
-                  <button
-                    onClick={() => handleDropdownAction("Profile")}
-                    className={styles.popover.item}
-                    role="menuitem"
-                  >
-                    <i
-                      data-lucide="user"
-                      className="w-4 h-4 text-stone-600"
-                    ></i>
-                    <span>Profile</span>
-                  </button>
-
-                  <button
-                    onClick={handleToggleFullscreen}
-                    className={styles.popover.item}
-                    role="menuitem"
-                  >
-                    <i
-                      data-lucide="sliders"
-                      className="w-4 h-4 text-stone-600"
-                    ></i>
-                    <span>Fullscreen</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleDropdownAction("Updates")}
-                    className={styles.popover.item}
-                    role="menuitem"
-                  >
-                    <i
-                      data-lucide="bell"
-                      className="w-4 h-4 text-stone-600"
-                    ></i>
-                    <span>Updates</span>
-                  </button>
-                </div>
-
-                {/* Bottom Block */}
-                <div className="flex flex-col gap-0.5 p-1.5">
-                  <button
-                    onClick={() => handleDropdownAction("Sign out")}
-                    className={`${styles.popover.item} justify-between text-rose-600 hover:bg-rose-50/[0.6]`}
-                    role="menuitem"
-                  >
-                    <div className="flex items-center gap-3">
-                      <i
-                        data-lucide="log-out"
-                        className="w-4 h-4 text-rose-600"
-                      ></i>
-                      <span>Sign out</span>
-                    </div>
-                    <i
-                      data-lucide="arrow-right"
-                      className="w-3.5 h-3.5 text-rose-400"
-                    ></i>
-                  </button>
-                </div>
-              </div>
-            )}
+            {/* Reusable SidebarDropdown Instance 1: Settings Contextual Menu */}
+            <SidebarDropdown
+              isOpen={isSettingsOpen}
+              sections={settingsSections}
+            />
           </div>
 
-          <button
-            // onClick={() => showGlobalToast("Viewing user profile settings")}
-            className={styles.profileBtn}
-            aria-label="Profile"
-          >
+          {/* 3. User Profile Button */}
+          <button className={styles.profileBtn} aria-label="Profile">
             <img
-              src="assets/avatar.jpg"
+              src="/assets/avatar.jpg"
               alt="User Profile"
               className={styles.profileImg.layout}
             />
