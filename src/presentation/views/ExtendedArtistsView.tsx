@@ -196,7 +196,7 @@ const extendedArtistsStyles = StyleSheet.create({
     description:
       "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case mt-4 max-w-2xl",
     mainContent: "w-full",
-    grid: "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 items-start mt-6",
+    grid: "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 md:gap-6 items-start",
   },
   searchSection: {
     wrapper: "w-full max-w-lg mt-6 relative flex items-center",
