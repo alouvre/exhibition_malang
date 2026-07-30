@@ -257,7 +257,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         },
         {
           id: "tech-contact",
-          label: "Technical Contact",
+          label: "Technical Support",
           icon: "info",
           onClick: () => {
             if (onOpenOperationalGuide) {
