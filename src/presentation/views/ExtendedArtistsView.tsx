@@ -97,42 +97,46 @@ export const ExtendedArtistsView: React.FC = () => {
 
       {/* 2. MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
       <section className={styles.contentSection.layout}>
-        {/* EDITORIAL SECTION TITLE BLOCK */}
+        {/* EDITORIAL SECTION TITLE BLOCK & HERO CONTROLS */}
         <header className={styles.contentSection.header}>
           <span className={styles.contentSection.badge}>
             THE COMPREHENSIVE REGISTRY
           </span>
-          <p className={styles.contentSection.description}>
-            Katalog kuratorial lengkap musisi dan maestro musik kota Malang dari
-            berbagai era, merayakan dedikasi dan warisan karya kebudayaan di
-            Music Gallery Vision.
-          </p>
-        </header>
 
-        {/* IOS MINIMALIST PREMIUM REACTIVE SEARCH BAR */}
-        <div className={styles.searchSection.wrapper}>
-          <div className={styles.searchSection.inputContainer}>
-            <i data-lucide="search" className={styles.searchSection.icon} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search musician by stage or real name..."
-              className={styles.searchSection.input}
-              aria-label="Search musicians by stage or real name"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className={styles.searchSection.clearButton}
-                aria-label="Clear search query"
-              >
-                <i data-lucide="x" className="w-4 h-4 block" />
-              </button>
-            )}
+          {/* ASYMMETRIC FLEX ROW CONTAINER FOR DESCRIPTION & SEARCH BAR */}
+          <div className={styles.contentSection.heroControls}>
+            <p className={styles.contentSection.description}>
+              Katalog kuratorial lengkap musisi dan maestro musik kota Malang
+              dari berbagai era, merayakan dedikasi dan warisan karya
+              kebudayaan.
+            </p>
+
+            {/* IOS MINIMALIST PREMIUM REACTIVE SEARCH BAR */}
+            <div className={styles.searchSection.wrapper}>
+              <div className={styles.searchSection.inputContainer}>
+                <i data-lucide="search" className={styles.searchSection.icon} />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search musician by stage or real name..."
+                  className={styles.searchSection.input}
+                  aria-label="Search musicians by stage or real name"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className={styles.searchSection.clearButton}
+                    aria-label="Clear search query"
+                  >
+                    <i data-lucide="x" className="w-4 h-4 block" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
+        </header>
 
         {/* DYNAMIC CARD GRID & EMPTY STATE FALLBACK */}
         <main className={styles.contentSection.mainContent}>
@@ -187,19 +191,22 @@ const extendedArtistsStyles = StyleSheet.create({
   },
   contentSection: {
     layout:
-      "w-full max-w-7xl mx-auto px-6 md:px-16 py-4 md:py-8 flex flex-col gap-4",
-    header: "flex flex-col",
+      "w-full max-w-7xl mx-auto px-6 md:px-16 py-4 md:py-8 flex flex-col gap-8",
+    header: "flex flex-col w-full",
+    heroControls:
+      "flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full items-start",
     badge:
       "text-[10px] sm:text-xs font-bold tracking-widest text-[#FF1F00] uppercase font-sans mb-2 block",
     title:
       "text-slate-950 font-black not-italic font-display leading-none tracking-tight uppercase text-4xl sm:text-6xl",
     description:
-      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case mt-4 max-w-2xl",
+      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case max-w-sm lg:max-w-lg",
     mainContent: "w-full",
     grid: "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 md:gap-6 items-start",
   },
   searchSection: {
-    wrapper: "w-full max-w-lg mt-6 relative flex items-center",
+    wrapper:
+      "w-full md:max-w-xs lg:max-w-sm relative flex items-center shrink-0",
     inputContainer:
       "relative w-full flex items-center bg-white/70 backdrop-blur-md rounded-2xl border border-black/5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-black/20 focus-within:shadow-md focus-within:bg-white transition-all duration-300 ease-out",
     icon: "absolute left-4 w-4 h-4 text-slate-400 pointer-events-none block",
