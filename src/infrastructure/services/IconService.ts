@@ -28,6 +28,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  ArrowUpLeft,
   ExternalLink,
   // Exhibition Domain Media & Heritage
   Mic,
@@ -48,11 +49,11 @@ import {
 
 /**
  * Anti-Gravity Design System: Core Gallery Icon Registry
- * 
+ *
  * Maps type-safe Lucide icon nodes for DOM-based parsing via `createIcons`.
  * Standardized for Malang Exhibition Gallery Vision 2026.
  */
-export const GALLERY_ICON_REGISTRY: Record<string, IconNode> = {
+export const ICON_MAP = {
   // Navigation & Shell
   Home,
   Info,
@@ -82,6 +83,8 @@ export const GALLERY_ICON_REGISTRY: Record<string, IconNode> = {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  ArrowUpLeft,
+  "arrow-up-left": ArrowUpLeft,
   ExternalLink,
 
   // Exhibition Heritage & Audio Domain
@@ -100,13 +103,15 @@ export const GALLERY_ICON_REGISTRY: Record<string, IconNode> = {
   Repeat,
   Volume2,
   VolumeX,
-};
+} satisfies Record<string, IconNode>;
 
-export type IconRegistry = typeof GALLERY_ICON_REGISTRY;
+export const GALLERY_ICON_REGISTRY: Record<string, IconNode> = ICON_MAP;
+
+export type IconRegistry = typeof ICON_MAP;
 export type IconName = keyof IconRegistry;
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
-  name: string;
+  name: IconName | (string & {});
   size?: number | string;
 }
 
@@ -124,7 +129,7 @@ export const Icon: React.FC<IconProps> = ({
 
   const normalizedSearch = name.toLowerCase().replace(/[-_]/g, "");
   const registryKey = Object.keys(GALLERY_ICON_REGISTRY).find(
-    (key) => key.toLowerCase() === normalizedSearch
+    (key) => key.toLowerCase() === normalizedSearch,
   );
 
   const iconNode: IconNode | undefined = registryKey
@@ -154,8 +159,8 @@ export const Icon: React.FC<IconProps> = ({
       ...rest,
     },
     children?.map(([childTag, childAttrs], idx) =>
-      React.createElement(childTag, { key: idx, ...childAttrs })
-    )
+      React.createElement(childTag, { key: idx, ...childAttrs }),
+    ),
   );
 };
 
@@ -191,10 +196,9 @@ export class IconService {
     if (!iconName) return false;
     const normalizedSearch = iconName.toLowerCase().replace(/[-_]/g, "");
     return Object.keys(GALLERY_ICON_REGISTRY).some(
-      (key) => key.toLowerCase() === normalizedSearch
+      (key) => key.toLowerCase() === normalizedSearch,
     );
   }
 }
 
 export default IconService;
-
