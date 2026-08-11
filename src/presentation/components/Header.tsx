@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   onLeftActionClick,
   leftActionLabel,
   rightTextLeft = "FM 11 MALANG MENYALA",
-  rightTextRight = "EXHIBITION 2026",
+  rightTextRight = "FESTIVAL MBOIS 11",
   showCenterText = true,
   isSticky = false,
   className,
@@ -45,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={`${styles.header.addBtn} mr-4`}
+          className={`${styles.header.addBtn} mr-24`}
           aria-label="Open Navigation Menu"
         >
           <i data-lucide="menu" className="w-5 h-5 text-black block"></i>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 // import { showGlobalToast } from "../utils/toast";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
@@ -60,6 +60,75 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     },
   );
 
+  // 2. ANCHORED SCROLL INITIAL LOAD HANDLING
+  const hasInitialScrolledRef = useRef(false);
+
+  useEffect(() => {
+    hasInitialScrolledRef.current = false;
+  }, [targetSlug]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (!hasInitialScrolledRef.current && location.hash) {
+      const targetId = location.hash.replace("#", "");
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        hasInitialScrolledRef.current = true;
+        timer = setTimeout(() => {
+          targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [targetSlug, location.hash]);
+
+  // 3. SCROLLSPY INTERSECTION OBSERVER WITH URL HASH BINDING
+  useEffect(() => {
+    if (!musician) return;
+
+    const sectionIds = ["hero-section", "catalog-section"];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observerOptions: IntersectionObserverInit = {
+      root: null,
+      threshold: [0.2, 0.4, 0.6],
+    };
+
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+      if (visibleEntries.length > 0) {
+        const mostVisible = visibleEntries.reduce((prev, current) =>
+          current.intersectionRatio > prev.intersectionRatio ? current : prev,
+        );
+        const id = mostVisible.target.id;
+        if (id && window.location.hash !== `#${id}`) {
+          window.history.replaceState(
+            null,
+            "",
+            `${window.location.pathname}#${id}`,
+          );
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [targetSlug, musician, location.pathname]);
+
   useEffect(() => {
     injectStylesheet(
       "gallery-fonts",
@@ -100,7 +169,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     }
   };
 
-  // 2. DATA SAFETY & MEDIA GUARDRAILS
+  // 4. DATA SAFETY & MEDIA GUARDRAILS
   const hasValidMedia = Boolean(
     activeTrack?.youtubeId && activeTrack.youtubeId.trim() !== "",
   );
@@ -108,7 +177,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   if (!musician) {
     return (
       <div className={styles.container}>
-        <section className={styles.heroSection.layout}>
+        <section id="hero-section" className={styles.heroSection.layout}>
           <Header
             leftActionType="back"
             onLeftActionClick={handleReturn}
@@ -144,7 +213,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   return (
     <div className={styles.container}>
       {/* 1. HERO SECTION: Kanvas Khusus Layout Layer Berlapis (Split Screen) */}
-      <section className={styles.heroSection.layout}>
+      <section id="hero-section" className={styles.heroSection.layout}>
         {/* Integrated Static Non-Sticky Header */}
         <Header
           leftActionType="back"
@@ -217,7 +286,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
       </section>
 
       {/* A3. THE CATALOG & EXHIBITION WALL */}
-      <section className={styles.catalogSection.layout}>
+      <section id="catalog-section" className={styles.catalogSection.layout}>
         <div className={styles.catalogSection.container}>
           {/* Left Column: The Tracklist Catalog */}
           <div className={styles.catalogSection.leftCol}>

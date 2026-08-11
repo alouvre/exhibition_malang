@@ -179,7 +179,7 @@ export const ExtendedArtistsView: React.FC = () => {
           {/* EDITORIAL SECTION TITLE BLOCK & CONTROL DECK HERO */}
           <header className={styles.contentSection.header}>
             <span className={styles.contentSection.badge}>
-              THE ALL-ERA DIRECTORY
+              THE ALL-ERA MAESTRO
             </span>
 
             {/* ASYMMETRIC FLEX ROW CONTAINER FOR DESCRIPTION & CONTROL DECK TRIGGER */}
@@ -200,11 +200,6 @@ export const ExtendedArtistsView: React.FC = () => {
                   aria-expanded={isFilterDeckOpen}
                   aria-label="Toggle Filters & Sorting Control Deck"
                 >
-                  <Icon
-                    name="sliders-horizontal"
-                    className="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-[18px] lg:h-[18px] text-slate-600 group-hover:text-[#1e1e1e] transition-colors"
-                  />
-
                   <span className="font-semibold text-slate-900">Filters</span>
 
                   {activeFiltersCount > 0 && (
@@ -462,7 +457,8 @@ const extendedArtistsStyles = StyleSheet.create({
     padding: SPACING.padding.sm,
   },
   heroSection: {
-    layout: "sticky top-0 z-50 w-full flex flex-col bg-[#F6F4EE]/90 backdrop-blur-md",
+    layout:
+      "sticky top-0 z-50 w-full flex flex-col bg-[#F6F4EE]/90 backdrop-blur-md",
     divider: "w-full border-b border-black/10",
   },
   contentSection: {
