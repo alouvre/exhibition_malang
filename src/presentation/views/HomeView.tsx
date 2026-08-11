@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
+import { Icon } from "../../infrastructure/services/IconService";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
 import { Header } from "../components/Header";
@@ -84,11 +85,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
     navigate("/extended-archive");
   };
 
-  const handleTimelineClick = (decade: string, category: string) => {
-    // showGlobalToast(`Exploring Era ${decade}: ${category}`);
+  const handleTimelineClick = (_decade: string, _category: string) => {
+    // showGlobalToast(`Exploring Era ${_decade}: ${_category}`);
   };
 
   const musicians: MusicianIcon[] = musiciansRegistry;
+  const totalMaestros = musicians?.length || 0;
 
   const timelineEras: TimelineEra[] = [
     {
@@ -154,7 +156,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               style={{
                 fontFamily: "'Poppins', Georgia, serif",
                 fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)",
-                fontWeight: 900,
+                fontWeight: 800,
                 letterSpacing: "-0.05em",
               }}
             >
@@ -169,7 +171,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               style={{
                 fontFamily: "'Poppins', Georgia, serif",
                 fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)",
-                fontWeight: 900,
+                fontWeight: 800,
                 letterSpacing: "-0.05em",
               }}
             >
@@ -198,28 +200,33 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 lineHeight: "0.95",
               }}
             >
-              THE ICONS
+              HALL OF LEGENDS
             </h2>
           </div>
 
           {/* 🏛️ OPSI A: Tombol Editorial Samping Judul (Header Action Alignment) */}
-          <button
-            onClick={handleExploreExtendedArchive}
-            className="group flex items-center gap-2.5 px-4 py-2 rounded-full border border-black/10 hover:border-[#FF1F00]/50 bg-stone-900/[0.02] hover:bg-[#FF1F00]/[0.05] transition-all duration-300 cursor-pointer self-start sm:self-auto mb-1"
-            aria-label="Explore Extended Archive"
-          >
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-stone-600 group-hover:text-[#FF1F00] transition-colors duration-300 font-sans">
-              EXTENDED ARCHIVE
+          <div className="flex flex-col items-start sm:items-end self-start sm:self-auto mb-1">
+            <span className="text-[10px] sm:text-[10px] font-medium tracking-wider text-stone-500/60 uppercase mb-2 font-sans">
+              Showcasing {totalMaestros} maestros
             </span>
-            <i
-              data-lucide="arrow-up-right"
-              className="w-3.5 h-3.5 text-stone-500 group-hover:text-[#FF1F00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
-            />
-          </button>
+            <button
+              onClick={handleExploreExtendedArchive}
+              className="group flex items-center gap-2.5 px-4 py-2 rounded-full border border-black/10 hover:border-[#FF1F00]/50 bg-stone-900/[0.02] hover:bg-[#FF1F00]/[0.05] transition-all duration-300 cursor-pointer"
+              aria-label="Explore Extended Archive"
+            >
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-stone-600 group-hover:text-[#FF1F00] transition-colors duration-300 font-sans">
+                EXPLORE HERE
+              </span>
+              <Icon
+                name="arrow-up-right"
+                className="w-3.5 h-3.5 text-stone-500 group-hover:text-[#FF1F00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+              />
+            </button>
+          </div>
         </div>
 
         <div className={styles.iconsSection.grid}>
-          {(musicians ?? []).map((musician, index) => (
+          {(musicians ?? []).slice(0, 5).map((musician, index) => (
             <MusicianCard
               key={musician.id || index}
               musician={musician}
@@ -354,7 +361,7 @@ const styles = StyleSheet.create({
       "relative w-full max-w-full px-0 pt-0 pb-12 md:pb-16 overflow-hidden flex flex-col justify-between min-h-screen md:min-h-[750px] border-b border-black/10 " +
       COLORS.canvasBg,
     contentWrapper:
-      "relative w-full max-w-7xl mx-auto px-6 md:px-16 py-8 md:py-16 flex flex-col justify-end items-center flex-1 min-h-[70px]",
+      "relative w-full max-w-7xl mx-auto px-6 py-8 md:px-16 md:py-0 lg:px-16 lg:py-0 flex flex-col justify-end items-center flex-1 min-h-[70px]",
     textGrid:
       "w-full flex flex-col md:flex-row items-center md:items-end justify-between gap-[clamp(2rem,5vh,6rem)] md:gap-0 z-10 pointer-events-none mix-blend-darken",
     typographyLeft:
@@ -365,18 +372,21 @@ const styles = StyleSheet.create({
 
   vinylWrapper: {
     container:
-      "relative w-[22rem] h-[22rem] sm:w-[28rem] sm:h-[28rem] md:w-[32rem] md:h-[32rem] my-6 md:my-0 flex items-center justify-center z-10 flex-shrink-0 pointer-events-auto",
+      // 💡 md dinaikkan dari [32rem] ke [38rem] (Bisa disesuaikan ke [40rem] jika ingin ultra-besar)
+      "relative w-[32rem] h-[32rem] sm:w-[38rem] sm:h-[38rem] md:w-[38rem] md:h-[38rem] lg:w-[44rem] lg:h-[44rem] my-6 md:my-0 flex items-center justify-center z-10 flex-shrink-0 pointer-events-auto",
     disk: "relative w-full h-full rounded-full overflow-hidden shadow-2xl border border-black/20 transform hover:rotate-90 transition-transform duration-1000 ease-out flex items-center justify-center cursor-pointer",
     img: "w-full h-full object-cover rounded-full",
     centerLabel:
-      "absolute w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-[#F4EFE6] border-2 border-stone-800/20 shadow-inner flex items-center justify-center z-20 pointer-events-none",
+      // 💡 Label tengah disesuaikan secara simetris, md dinaikkan dari w-40 ke w-[12rem] (atau w-48)
+      "absolute w-28 h-28 sm:w-36 sm:h-36 md:w-[12rem] md:h-[12rem] lg:w-[14rem] lg:h-[14rem] rounded-full bg-[#F4EFE6] border-2 border-stone-800/20 shadow-inner flex items-center justify-center z-20 pointer-events-none",
     spindleHole:
-      "w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-[#FF1F00] border border-black/30",
+      // 💡 Lubang poros tengah md dinaikkan sedikit dari w-7 ke w-8 agar tetap proporsional
+      "w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-full bg-[#FF1F00] border border-black/30",
   },
 
   ticketBtn: {
     circular:
-      "absolute bottom-4 right-4 w-20 h-20 md:w-24 md:h-24 rounded-full bg-black text-white hover:scale-105 active:scale-95 transition-transform duration-300 flex flex-col items-center justify-center cursor-pointer shadow-2xl z-30 border border-white/20",
+      "absolute bottom-8 right-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-black text-white hover:scale-105 active:scale-95 transition-transform duration-300 flex flex-col items-center justify-center cursor-pointer shadow-2xl z-30 border border-white/20",
     labelTop:
       "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-stone-200 font-sans",
     labelBottom:

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Sidebar } from "../components/Sidebar";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 import { HomeView } from "./HomeView";
 import { AboutView } from "./AboutView";
 import { MusicianDetailView } from "./MusicianDetailView";
@@ -112,7 +113,14 @@ export const MainView: React.FC = () => {
             }
           />
           <Route path="/musician/:slug" element={<MusicianDetailView />} />
-          <Route path="/extended-archive" element={<ExtendedArtistsView />} />
+          <Route
+            path="/extended-archive"
+            element={
+              <ErrorBoundary>
+                <ExtendedArtistsView />
+              </ErrorBoundary>
+            }
+          />
           <Route path="/about" element={<AboutView />} />
         </Routes>
       </div>

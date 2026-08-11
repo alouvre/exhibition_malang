@@ -1,70 +1,146 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../components/Header";
 import { MusicianCard } from "../components/MusicianCard";
 import { musiciansRegistry, MusicianData } from "../data/musiciansRegistry";
 import { safeInitializeIcons } from "../utils/dom";
+import { Icon } from "../../infrastructure/services/IconService";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
+import { useMusicianFilter, SortType } from "../hooks/useMusicianFilter";
 
 /**
  * Helper utility to resolve a URL-friendly slug for a musician.
  * Prioritizes custom `slug` or `id`, defaulting to a sanitized lowercase name string.
  */
-const getMusicianSlug = (musician: MusicianData): string => {
+const getMusicianSlug = (musician?: MusicianData): string => {
+  if (!musician) return "";
   return (
     musician.slug ||
     musician.id ||
-    musician.name.toLowerCase().replace(/\s+/g, "-")
+    (musician.name ? musician.name.toLowerCase().replace(/\s+/g, "-") : "")
   );
+};
+
+interface SortOption {
+  id: SortType;
+  label: string;
+}
+
+const sortYearOptions: SortOption[] = [
+  { id: "oldest", label: "Oldest First" },
+  { id: "newest", label: "Newest First" },
+];
+
+const sortAlphaOptions: SortOption[] = [
+  { id: "a-z", label: "A to Z" },
+  { id: "z-a", label: "Z to A" },
+];
+
+const categoryOptions = [
+  { id: "ALL", label: "ALL CATEGORIES" },
+  { id: "ROCK", label: "ROCK ORIGINATOR" },
+  { id: "POP", label: "POP & ELECTRONIC" },
+  { id: "FOLK", label: "FOLK & ETHNIC" },
+  { id: "KRONCONG", label: "KRONCONG & KLASIK" },
+  { id: "LADY ROCKER", label: "LADY ROCKER" },
+];
+
+const alphabetOptions = [
+  "ALL",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
+
+const dropdownAnimationProps = {
+  initial: { opacity: 0, y: -10, scale: 0.95 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -10, scale: 0.95 },
+  transition: { type: "spring", stiffness: 450, damping: 30 },
 };
 
 /**
  * ExtendedArtistsView Component
  *
  * Renders the full, comprehensive registry archive of musicians in Malang.
- * Features a Reactive Client-Side Search Engine for filtering musicians by
- * stage name and real name/biography in real time with a stark minimalist aesthetic.
+ * Equipped with an iOS Minimalist Premium 'Filters & Sorting' Control Deck
+ * and floating pop-over menu for interactive multi-parameter catalog exploration.
  */
 export const ExtendedArtistsView: React.FC = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+
+  // Interaction Deck State
+  const [isFilterDeckOpen, setIsFilterDeckOpen] = useState<boolean>(false);
+
+  // Custom Filter & Sorting State Hook
+  const {
+    sortType,
+    setSortType,
+    selectedCategory,
+    setSelectedCategory,
+    selectedAlphabet,
+    setSelectedAlphabet,
+    searchQuery,
+    setSearchQuery,
+    filteredMusicians,
+    activeFiltersCount,
+    handleResetFilters,
+  } = useMusicianFilter(musiciansRegistry);
+
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     safeInitializeIcons();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // Re-initialize Lucide icons dynamically when search results or query change
+  // Click outside listener for Pop-over dismiss
   useEffect(() => {
-    safeInitializeIcons();
-  }, [searchQuery]);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setIsFilterDeckOpen(false);
+      }
+    };
 
-  /**
-   * Dual-parameter reactive filter logic.
-   * Flexibly matches the query against musician.name (stage name),
-   * musician.realName (if present), and musician.biography (real names mentioned in text).
-   */
-  const filteredMusicians = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-    if (!normalizedQuery) return musiciansRegistry ?? [];
-
-    return (musiciansRegistry ?? []).filter((musician: MusicianData) => {
-      const stageNameMatches = musician.name
-        .toLowerCase()
-        .includes(normalizedQuery);
-      const realNameProperty =
-        (
-          musician as MusicianData & { realName?: string }
-        ).realName?.toLowerCase() ?? "";
-      const realNameMatches = realNameProperty.includes(normalizedQuery);
-      const biographyMatches = musician.biography
-        .toLowerCase()
-        .includes(normalizedQuery);
-
-      return stageNameMatches || realNameMatches || biographyMatches;
-    });
-  }, [searchQuery]);
+    if (isFilterDeckOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFilterDeckOpen]);
 
   /**
    * Handles navigation back to the main showcase section of the exhibition.
@@ -78,96 +154,296 @@ export const ExtendedArtistsView: React.FC = () => {
    * Passes the required route state payload for context preservation.
    */
   const handleSelectMusician = (musician: MusicianData): void => {
+    if (!musician) return;
     const slug = getMusicianSlug(musician);
     navigate(`/musician/${slug}`, { state: { musician, from: "extended" } });
   };
 
   return (
-    <div className={styles.container}>
-      {/* 1. HERO / NAVIGATION SECTION */}
-      <section className={styles.heroSection.layout}>
-        <Header
-          leftActionType="back"
-          leftActionLabel="Return to Showcase"
-          onLeftActionClick={handleNavigateBackToShowcase}
-          showCenterText={false}
-        />
-        <div className={styles.heroSection.divider} />
-      </section>
+    <ErrorBoundary onReset={handleResetFilters}>
+      <div className={styles.container}>
+        {/* 1. HERO / NAVIGATION SECTION */}
+        <section className={styles.heroSection.layout}>
+          <Header
+            leftActionType="back"
+            leftActionLabel="Return to Showcase"
+            onLeftActionClick={handleNavigateBackToShowcase}
+            showCenterText={false}
+            isSticky={true}
+          />
+          <div className={styles.heroSection.divider} />
+        </section>
 
-      {/* 2. MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
-      <section className={styles.contentSection.layout}>
-        {/* EDITORIAL SECTION TITLE BLOCK & HERO CONTROLS */}
-        <header className={styles.contentSection.header}>
-          <span className={styles.contentSection.badge}>
-            THE COMPREHENSIVE REGISTRY
-          </span>
+        {/* 2. MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
+        <section className={styles.contentSection.layout}>
+          {/* EDITORIAL SECTION TITLE BLOCK & CONTROL DECK HERO */}
+          <header className={styles.contentSection.header}>
+            <span className={styles.contentSection.badge}>
+              THE ALL-ERA DIRECTORY
+            </span>
 
-          {/* ASYMMETRIC FLEX ROW CONTAINER FOR DESCRIPTION & SEARCH BAR */}
-          <div className={styles.contentSection.heroControls}>
-            <p className={styles.contentSection.description}>
-              Katalog kuratorial lengkap musisi dan maestro musik kota Malang
-              dari berbagai era, merayakan dedikasi dan warisan karya
-              kebudayaan.
-            </p>
+            {/* ASYMMETRIC FLEX ROW CONTAINER FOR DESCRIPTION & CONTROL DECK TRIGGER */}
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-12 w-full items-start">
+              <p className="text-sm sm:text-base text-stone-800/90 font-sans leading-relaxed tracking-tight max-w-xl lg:max-w-2xl">
+                Etalase kolektif yang merekam jejak seluruh musisi dan maestro
+                musik kota Malang. Dari era pionir legenda hingga gelombang
+                modern, setiap rekam jejak terarsip lengkap di sini.
+              </p>
 
-            {/* IOS MINIMALIST PREMIUM REACTIVE SEARCH BAR */}
-            <div className={styles.searchSection.wrapper}>
-              <div className={styles.searchSection.inputContainer}>
-                <i data-lucide="search" className={styles.searchSection.icon} />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search musician by stage or real name..."
-                  className={styles.searchSection.input}
-                  aria-label="Search musicians by stage or real name"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery("")}
-                    className={styles.searchSection.clearButton}
-                    aria-label="Clear search query"
-                  >
-                    <i data-lucide="x" className="w-4 h-4 block" />
-                  </button>
-                )}
+              {/* CONTROL DECK & POP-OVER CONTAINER */}
+              <div className="relative shrink-0">
+                <button
+                  ref={triggerRef}
+                  type="button"
+                  onClick={() => setIsFilterDeckOpen((prev) => !prev)}
+                  className="relative inline-flex items-center gap-1 md:gap-1 cursor-pointer group rounded-xl bg-white/80 hover:bg-white backdrop-blur-md border border-black/10 shadow-sm hover:shadow-md transition-all duration-300 font-sans tracking-wide text-slate-800 px-4 py-2 md:px-4 md:py-2 lg:px-4 lg:py-2 text-[9px] md:text-[10px] lg:text-xs"
+                  aria-expanded={isFilterDeckOpen}
+                  aria-label="Toggle Filters & Sorting Control Deck"
+                >
+                  <Icon
+                    name="sliders-horizontal"
+                    className="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-[18px] lg:h-[18px] text-slate-600 group-hover:text-[#1e1e1e] transition-colors"
+                  />
+
+                  <span className="font-semibold text-slate-900">Filters</span>
+
+                  {activeFiltersCount > 0 && (
+                    <span className="flex items-center justify-center min-w-[18px] h-4.5 md:min-w-[20px] md:h-5 lg:min-w-[22px] lg:h-5.5 text-[9px] md:text-[10px] lg:text-xs font-bold bg-[#FF1F00] text-white rounded-full px-1.5 shadow-sm">
+                      {activeFiltersCount}
+                    </span>
+                  )}
+
+                  <Icon
+                    name="chevron-down"
+                    className={`w-3.5 h-3.5 md:w-4 md:h-4 lg:w-[18px] lg:h-[18px] text-slate-500 transition-transform duration-300 ${
+                      isFilterDeckOpen ? "rotate-180 text-[#FF1F00]" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* FLOATING MENU POP-OVER PANEL */}
+                <AnimatePresence>
+                  {isFilterDeckOpen && (
+                    <motion.div
+                      ref={popoverRef}
+                      variants={dropdownAnimationProps}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="absolute right-0 top-full mt-3 z-50 w-80 sm:w-96 max-w-[calc(100vw-2rem)] rounded-3xl bg-white/95 backdrop-blur-xl border border-black/10 shadow-2xl shadow-black/10 p-5 sm:p-6 flex flex-col gap-5 text-slate-900"
+                    >
+                      {/* Quick Search inside Pop-over */}
+                      <div className="relative flex items-center bg-slate-100/80 rounded-xl px-3.5 py-2.5 border border-black/5 focus-within:border-black/20 focus-within:bg-white focus-within:shadow-sm transition-all">
+                        <Icon
+                          name="search"
+                          className="w-4 h-4 text-slate-400 mr-2.5 shrink-0"
+                        />
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          placeholder="Cari musisi atau kata kunci..."
+                          className="w-full bg-transparent text-xs sm:text-sm font-sans border-none outline-none text-slate-800 placeholder-slate-400"
+                        />
+                        {searchQuery && (
+                          <button
+                            type="button"
+                            onClick={() => setSearchQuery("")}
+                            className="p-1 text-slate-400 hover:text-slate-800 rounded-full hover:bg-black/5 transition-colors"
+                            aria-label="Clear search"
+                          >
+                            <Icon name="x" className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* SORT BY YEAR SECTION */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+                          SORT BY YEAR
+                        </span>
+                        <div className="flex flex-col gap-1">
+                          {sortYearOptions.map((opt) => {
+                            const isSelected = sortType === opt.id;
+                            return (
+                              <button
+                                key={opt.id}
+                                type="button"
+                                onClick={() => setSortType(opt.id)}
+                                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-sans transition-all text-left cursor-pointer ${
+                                  isSelected
+                                    ? "bg-slate-900 text-white font-medium shadow-sm"
+                                    : "hover:bg-slate-100 text-slate-700"
+                                }`}
+                              >
+                                <span>{opt.label}</span>
+                                <Icon
+                                  name={isSelected ? "check" : "circle"}
+                                  className={`w-4 h-4 ${
+                                    isSelected
+                                      ? "text-[#FF1F00]"
+                                      : "text-slate-300"
+                                  }`}
+                                />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* SORT BY ALPHABET SECTION */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+                          SORT BY ALPHABET
+                        </span>
+                        <div className="flex flex-col gap-1">
+                          {sortAlphaOptions.map((opt) => {
+                            const isSelected = sortType === opt.id;
+                            return (
+                              <button
+                                key={opt.id}
+                                type="button"
+                                onClick={() => setSortType(opt.id)}
+                                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-sans transition-all text-left cursor-pointer ${
+                                  isSelected
+                                    ? "bg-slate-900 text-white font-medium shadow-sm"
+                                    : "hover:bg-slate-100 text-slate-700"
+                                }`}
+                              >
+                                <span>{opt.label}</span>
+                                <Icon
+                                  name={isSelected ? "check" : "circle"}
+                                  className={`w-4 h-4 ${
+                                    isSelected
+                                      ? "text-[#FF1F00]"
+                                      : "text-slate-300"
+                                  }`}
+                                />
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* FILTER BY INITIAL LETTER GRID */}
+                        <div className="pt-2">
+                          <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans mb-1.5 block">
+                            FILTER BY INITIAL LETTER
+                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {alphabetOptions.map((letter) => {
+                              const isSelected = selectedAlphabet === letter;
+                              return (
+                                <button
+                                  key={letter}
+                                  type="button"
+                                  onClick={() => setSelectedAlphabet(letter)}
+                                  className={`min-w-[28px] h-7 px-1.5 rounded-lg text-xs font-sans font-medium transition-all cursor-pointer flex items-center justify-center border ${
+                                    isSelected
+                                      ? "bg-[#FF1F00] text-white border-[#FF1F00] font-bold shadow-sm"
+                                      : "bg-slate-100/80 text-slate-700 border-black/5 hover:bg-slate-200/70"
+                                  }`}
+                                >
+                                  {letter}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* FILTER BY CATEGORY (BADGE GRID) */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+                          FILTER BY CATEGORY
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {categoryOptions.map((cat) => {
+                            const isSelected = selectedCategory === cat.id;
+                            return (
+                              <button
+                                key={cat.id}
+                                type="button"
+                                onClick={() => setSelectedCategory(cat.id)}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-sans font-medium transition-all cursor-pointer border ${
+                                  isSelected
+                                    ? "bg-[#FF1F00] text-white border-[#FF1F00] shadow-sm font-semibold"
+                                    : "bg-slate-100/80 text-slate-700 border-black/5 hover:bg-slate-200/70 hover:border-black/10"
+                                }`}
+                              >
+                                {cat.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* RESET & STATUS FOOTER */}
+                      {activeFiltersCount > 0 && (
+                        <div className="pt-3 border-t border-black/10 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={handleResetFilters}
+                            className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#FF1F00] transition-colors cursor-pointer"
+                          >
+                            <Icon name="rotate-ccw" className="w-3.5 h-3.5" />
+                            <span>Reset All Filters</span>
+                          </button>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        {/* DYNAMIC CARD GRID & EMPTY STATE FALLBACK */}
-        <main className={styles.contentSection.mainContent}>
-          {filteredMusicians.length > 0 ? (
-            <div className={styles.contentSection.grid}>
-              {filteredMusicians.map(
-                (musician: MusicianData, index: number) => (
-                  <MusicianCard
-                    key={musician.id || index}
-                    musician={musician}
-                    index={index}
-                    onClick={() => handleSelectMusician(musician)}
-                  />
-                ),
-              )}
-            </div>
-          ) : (
-            <div className={styles.emptyState.container}>
-              <i data-lucide="search-x" className={styles.emptyState.icon} />
-              <h3 className={styles.emptyState.title}>
-                No archives found matching your query.
-              </h3>
-              <p className={styles.emptyState.subtitle}>
-                Try adjusting your search keywords or clearing the filter to
-                explore the catalog.
-              </p>
-            </div>
-          )}
-        </main>
-      </section>
-    </div>
+          {/* DYNAMIC CARD GRID & EMPTY STATE FALLBACK */}
+          <main className={styles.contentSection.mainContent}>
+            {filteredMusicians.length > 0 ? (
+              /* Menggunakan Flexbox Wrapping + Justify Center agar baris terakhir simetris di tengah */
+              <div className="flex flex-wrap justify-center items-stretch gap-4 sm:gap-4 lg:gap-6 max-w-7xl mx-auto">
+                {filteredMusicians.map(
+                  (musician: MusicianData, index: number) => {
+                    if (!musician) return null;
+                    return (
+                      /* Ukuran item disesuaikan presisi untuk 5 kolom pada screen besar (xl), tapi tetap responsif */
+                      <div
+                        key={musician.id || `musician-${index}`}
+                        className="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-20px)] flex"
+                      >
+                        <MusicianCard
+                          musician={musician}
+                          index={index}
+                          onClick={() => handleSelectMusician(musician)}
+                        />
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+            ) : (
+              <div className={styles.emptyState.container}>
+                <Icon name="search-x" className={styles.emptyState.icon} />
+                <h3 className={styles.emptyState.title}>
+                  No archives found matching your query or active filters.
+                </h3>
+                <p className={styles.emptyState.subtitle}>
+                  Try adjusting your search keywords, changing sorting options,
+                  or resetting active filters.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-sans font-medium hover:bg-[#FF1F00] transition-colors cursor-pointer"
+                >
+                  Reset Filters & Sorting
+                </button>
+              </div>
+            )}
+          </main>
+        </section>
+      </div>
+    </ErrorBoundary>
   );
 };
 
@@ -191,7 +467,7 @@ const extendedArtistsStyles = StyleSheet.create({
   },
   contentSection: {
     layout:
-      "w-full max-w-7xl mx-auto px-6 md:px-16 py-4 md:py-8 flex flex-col gap-8",
+      "w-full max-w-7xl mx-auto px-6 md:px-16 py-4 md:py-4 flex flex-col gap-6",
     header: "flex flex-col w-full",
     heroControls:
       "flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full items-start",
@@ -200,7 +476,7 @@ const extendedArtistsStyles = StyleSheet.create({
     title:
       "text-slate-950 font-black not-italic font-display leading-none tracking-tight uppercase text-4xl sm:text-6xl",
     description:
-      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case max-w-sm lg:max-w-lg",
+      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case max-w-xl lg:max-w-2xl",
     mainContent: "w-full",
     grid: "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 md:gap-6 items-start",
   },

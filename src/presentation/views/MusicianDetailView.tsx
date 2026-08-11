@@ -150,6 +150,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
           leftActionType="back"
           onLeftActionClick={handleReturn}
           showCenterText={false}
+          isSticky={true}
         />
 
         {/* Hero Body Layout */}

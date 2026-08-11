@@ -69,35 +69,35 @@ export const musiciansRegistry: MusicianData[] = [
         title: "Rumah Kita",
         album: "Semut Hitam",
         duration: "05:19",
-        youtubeId: "u5yYGshuQRM", // God Bless - Rumah Kita Official
+        youtubeId: "u5yYGshuQRM",
       },
       {
         number: "02",
         title: "Panggung Sandiwara",
         album: "Cermin",
         duration: "05:23",
-        youtubeId: "3P9LzwaVtLo", // God Bless - Panggung Sandiwara Live
+        youtubeId: "3P9LzwaVtLo",
       },
       {
         number: "03",
         title: "Kehidupan",
         album: "Semut Hitam",
         duration: "05:43",
-        youtubeId: "ByO7Y6sv908", // God Bless - Kehidupan
+        youtubeId: "ByO7Y6sv908",
       },
       {
         number: "04",
         title: "Bis Kota",
         album: "Semut Hitam",
         duration: "04:04",
-        youtubeId: "kKEXFLMhOEs", // God Bless - Bis Kota
+        youtubeId: "kKEXFLMhOEs",
       },
       {
         number: "05",
         title: "Gersang",
         album: "Song Book I",
         duration: "04:34",
-        youtubeId: "8wGAwePGxaI", // Gong 2000 - Bahtera Cinta
+        youtubeId: "8wGAwePGxaI",
       },
     ],
   },
@@ -383,6 +383,489 @@ export const musiciansRegistry: MusicianData[] = [
         title: "Mblenjani Roso",
         album: "Esok Lagi",
         duration: "03:58",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "krisdayanti",
+    slug: "krisdayanti",
+    name: "KRISDAYANTI",
+    genre: "POP / DIVA",
+    year: "1990 - PRESENT",
+    image: "/assets/krisdayanti/Picture1.jpg",
+    exhibitionImages: [
+      "/assets/krisdayanti/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "SAYANG",
+    biography:
+      "Krisdayanti adalah salah satu maestro dan diva pop terbesar Indonesia yang lahir di Batu, Malang. Dikenal dengan jangkauan vokal yang luar biasa dan kekuatan performa panggung yang megah, karir profesionalnya melejit setelah menjuarai Asia Bagus pada tahun 1992, menjadikannya ikon musik populer tanah air yang menginspirasi generasi penyanyi lintas dekade.",
+    historyTimeline: [
+      {
+        year: "1992",
+        event:
+          "Menjuarai ajang pencarian bakat internasional Asia Bagus di Jepang, memicu lonjakan karir musik profesionalnya.",
+      },
+      {
+        year: "1998",
+        event:
+          "Merilis album solo fenomenal 'Sayang' yang meledak di pasaran dan mengukuhkan posisinya sebagai Diva Pop Indonesia.",
+      },
+      {
+        year: "2006",
+        event:
+          "Mengadakan konser tunggal megah dan terus aktif menelurkan karya kolaboratif skala internasional.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Menghitung Hari",
+        album: "Sayang",
+        duration: "04:30",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "02",
+        title: "Cobalah Untuk Setia",
+        album: "Cahaya",
+        duration: "04:25",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "I'm Sorry Goodbye",
+        album: "Krisdayanti",
+        duration: "03:48",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "04",
+        title: "Mencintaimu",
+        album: "Mencintaimu",
+        duration: "05:00",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Mahakarya Cinta",
+        album: "CTKD",
+        duration: "04:15",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "yuni-shara",
+    slug: "yuni-shara",
+    name: "YUNI SHARA",
+    genre: "POP / NOSTALGIA",
+    year: "1987 - PRESENT",
+    image: "/assets/yuni_shara/Picture1.webp",
+    exhibitionImages: [
+      "/assets/yuni_shara/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "MENGATAKAN CINTA",
+    biography:
+      "Wahyu Setyaningrum, yang lebih dikenal sebagai Yuni Shara, adalah penyanyi legendaris kelahiran Batu, Malang. Memiliki karakter vokal sopran yang bening dan lembut, Yuni Shara menjadi maestro daur ulang tembang-tembang nostalgia Indonesia serta Mandarin, membuktikan konsistensi karya yang tak lekang oleh waktu.",
+    historyTimeline: [
+      {
+        year: "1987",
+        event:
+          "Mengawali langkah profesional dengan mengikuti Festival Janur Kuning dan mengamankan posisi juara.",
+      },
+      {
+        year: "1996",
+        event:
+          "Merilis album 'Mengapa Tiada Maaf' yang meledak luar biasa dengan rekor penjualan fantastis di industri musik nasional.",
+      },
+      {
+        year: "2011",
+        event:
+          "Membentuk grup vokal 5 Wanita bersama penyanyi ternama lainnya, mempertegas kontribusi musiknya.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Mengapa Tiada Maaf",
+        album: "Mengapa Tiada Maaf",
+        duration: "04:10",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Desember Kelabu",
+        album: "Kasih",
+        duration: "04:35",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "50 Tahun Lagi",
+        album: "Tuhan Jagakan Dia",
+        duration: "03:55",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Bukit Bulu Biru",
+        album: "Mengatakan Cinta",
+        duration: "04:05",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Hilang Permataku",
+        album: "Nostalgia",
+        duration: "04:20",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "flanella",
+    slug: "flanella",
+    name: "FLANELLA",
+    genre: "POP ROCK / ALTERNATIVE",
+    year: "2000 - PRESENT",
+    image: "/assets/flanella/Picture1.jpg",
+    exhibitionImages: [
+      "/assets/flanella/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "AKU BISA",
+    biography:
+      "Flanella adalah grup musik pop-rock romantic ikonik asal Malang yang dibentuk pada era milenium. Dikenal dengan balutan aransemen piano manis dan lirik patah hati yang emosional, lagu-lagu hits Flanella menjadi soundtrack memori populer anak muda Indonesia di era 2000-an awal.",
+    historyTimeline: [
+      {
+        year: "2000",
+        event:
+          "Resmi didirikan di Malang, merintis karir dari panggung-panggung festival kampus lokal.",
+      },
+      {
+        year: "2003",
+        event:
+          "Merilis album debut self-titled dengan single hits 'Bila Ku Jauh' yang merajai tangga lagu radio nasional.",
+      },
+      {
+        year: "2005",
+        event:
+          "Meluncurkan album kedua 'Aku Bisa' yang semakin mengukuhkan nama Flanella di jajaran grup pop papan atas.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Bila Ku Jauh",
+        album: "Flanella",
+        duration: "04:12",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Aku Bisa",
+        album: "Aku Bisa",
+        duration: "04:00",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "Hal Tersulit",
+        album: "Berjalan Bersama",
+        duration: "03:50",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Tiga Hari Yang Lalu",
+        album: "Flanella",
+        duration: "04:25",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Anugerah",
+        album: "Aku Bisa",
+        duration: "03:45",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "abadi-soesman",
+    slug: "abadi-soesman",
+    name: "ABADI SOESMAN",
+    genre: "ROCK / CLASSIC ROCK",
+    year: "1960S - PRESENT",
+    image: "/assets/abadi_soesman/Picture1.webp",
+    exhibitionImages: [
+      "/assets/abadi_soesman/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "ABADI SOESMAN BAND",
+    biography:
+      "Abadi Soesman adalah multi-instrumentalis legendaris kelahiran Malang yang memegang peranan vital dalam sejarah perkembangan musik rock, blues, dan pop Indonesia. Terkenal atas kepiawaiannya memainkan keyboard dan piano, beliau pernah memperkuat band-band raksasa tanah air seperti God Bless.",
+    historyTimeline: [
+      {
+        year: "1960s",
+        event:
+          "Mulai mengasah bakat musik di Malang sebelum bergerak menjajal skena musik profesional di Jakarta.",
+      },
+      {
+        year: "1979",
+        event:
+          "Bergabung dengan grup rock legendaris God Bless dan berkontribusi besar pada album-album monumental mereka.",
+      },
+      {
+        year: "1990s",
+        event:
+          "Membentuk Abadi Soesman Band dan terus mendedikasikan hidupnya sebagai penggerak komunitas The Beatles Indonesia.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Cita-Cita",
+        album: "Abadi Soesman Express",
+        duration: "04:05",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Selamat Pagi Kota Batu",
+        album: "Karya Abadi",
+        duration: "03:50",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "Misteri",
+        album: "God Bless - Semut Hitam",
+        duration: "04:40",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Rock N Roll Indonesia",
+        album: "Abadi Soesman Band",
+        duration: "03:30",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Malam Minggu",
+        album: "Tembang Kenangan",
+        duration: "04:15",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "elpamas",
+    slug: "elpamas",
+    name: "ELPAMAS",
+    genre: "HARD ROCK / HEAVY METAL",
+    year: "1983 - PRESENT",
+    image: "/assets/elpamas/Picture1.webp",
+    exhibitionImages: [
+      "/assets/elpamas/Picture1.webp",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "PAK TUA",
+    biography:
+      "Elpamas (Elektronik Papan Mas) adalah grup rock legendaris asal Pandaan-Malang yang berdiri sejak awal 80-an. Terkenal lewat lirik-lirik kritikan sosial yang tajam dan distorsi gitar gahar, Elpamas melahirkan lagu perlawanan ikonik 'Pak Tua' yang ditulis oleh Iwan Fals (dengan nama samaran)",
+    historyTimeline: [
+      {
+        year: "1983",
+        event:
+          "Didirikan di Malang/Pandaan, menjadi salah satu pelopor kejayaan musik hard rock di Jawa Timur.",
+      },
+      {
+        year: "1989",
+        event:
+          "Menjuarai Festival Rock Se-Indonesia Log Zhelebour, melejitkan nama mereka di kancah rock nasional.",
+      },
+      {
+        year: "1991",
+        event:
+          "Merilis album monumental 'Tato' dengan anthem rock sosial kontroversial 'Pak Tua'.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Pak Tua",
+        album: "Tato",
+        duration: "04:45",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Tato",
+        album: "Tato",
+        duration: "05:10",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "Brang Wetan",
+        album: "Bos",
+        duration: "04:30",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Nyah",
+        album: "Dongeng Strategi",
+        duration: "04:15",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Anak Lapis Tiga",
+        album: "Tato",
+        duration: "04:50",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "toto-tewel",
+    slug: "toto-tewel",
+    name: "TOTO TEWEL",
+    genre: "ROCK / GUITAR HERO",
+    year: "1970S - PRESENT",
+    image: "/assets/toto_tewel/Picture1.jpg",
+    exhibitionImages: [
+      "/assets/toto_tewel/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "GIZI",
+    biography:
+      "Gatot Istiono, yang akrab disapa Toto Tewel, adalah salah satu dewa gitar (guitar hero) paling disegani di Indonesia kelahiran Malang. Merupakan gitaris utama band Elpamas dan kolaborator kunci dalam grup raksasa SWAMI, Kantata Takwa, serta pengiring panggung Sirkus Barock dan Iwan Fals.",
+    historyTimeline: [
+      {
+        year: "1970s",
+        event:
+          "Aktif mengolah teknik raungan gitar khasnya di Malang sebelum bergabung dengan jajaran elite musisi nasional.",
+      },
+      {
+        year: "1984",
+        event:
+          "Sabet gelar Gitaris Terbaik Festival Rock Se-Indonesia secara berturut-turut.",
+      },
+      {
+        year: "1989",
+        event:
+          "Mengisi instrumen gitar dalam proyek supergrup SWAMI dan Kantata Takwa bersama legenda musik tanah air.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Satu Kata (Guitar Version)",
+        album: "Koleksi Gitaris Indonesia",
+        duration: "04:20",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Bento (Live Guitar Riff)",
+        album: "Swami Live",
+        duration: "05:40",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "Tangis Jiwa",
+        album: "Solo Instrumental",
+        duration: "04:50",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Kuda Lumping Rock",
+        album: "Eksplorasi Etnik",
+        duration: "03:55",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Melodi Kota Dingin",
+        album: "Gizi",
+        duration: "04:10",
+        youtubeId: "7V-3S4q24x8",
+      },
+    ],
+  },
+  {
+    id: "laily-dimjatie",
+    slug: "laily-dimjatie",
+    name: "LAILY DIMJATIE",
+    genre: "KRONCONG / POP KLASIK",
+    year: "1950S - 1980S",
+    image: "/assets/laily_dimjatie/Picture1.webp",
+    exhibitionImages: [
+      "/assets/laily_dimjatie/Picture1.jpg",
+      "/assets/vinyl_record.jpg",
+    ],
+    album: "BUNGA ROSE",
+    biography:
+      "Laily Dimjatie adalah penyanyi serba bisa dan diva keroncong legendaris asal Malang yang sangat populer pada era 1950-an hingga 1970-an. Dengan intonasi cengkok keroncong yang amat murni dan anggun, lagu-lagunya memuat rekaman sejarah estetika musik Indonesia pasca-kemerdekaan.",
+    historyTimeline: [
+      {
+        year: "1950s",
+        event:
+          "Memulai karir bernyanyinya bersama orkes keroncong lokal di Malang dan menembus rekaman piringan hitam.",
+      },
+      {
+        year: "1965",
+        event:
+          "Merilis album piringan hitam 'Bunga Rose' yang diproduksi oleh Lokananta / Irama Record.",
+      },
+      {
+        year: "1972",
+        event:
+          "Diakui secara nasional sebagai salah satu maestro pelestari irama keroncong dan langgam Jawa modern.",
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Bunga Rose",
+        album: "Bunga Rose",
+        duration: "03:40",
+        youtubeId: "sKHoqxOmrjk",
+      },
+      {
+        number: "02",
+        title: "Keroncong Kota Malang",
+        album: "Langgam Kenangan",
+        duration: "04:15",
+        youtubeId: "M9JX8DMzqiw",
+      },
+      {
+        number: "03",
+        title: "Tanam Padi",
+        album: "Keroncong Asli",
+        duration: "03:55",
+        youtubeId: "v79TLVgct_E",
+      },
+      {
+        number: "04",
+        title: "Rangkaian Melati",
+        album: "Bunga Rose",
+        duration: "04:05",
+        youtubeId: "7V-3S4q24x8",
+      },
+      {
+        number: "05",
+        title: "Setitik Embun",
+        album: "Irama Klasik",
+        duration: "03:50",
         youtubeId: "7V-3S4q24x8",
       },
     ],
