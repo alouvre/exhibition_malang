@@ -27,7 +27,7 @@ const DEFAULT_CARD_STYLE =
   "relative group w-full bg-white/40 backdrop-blur-xl hover:bg-white/75 cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl shadow-sm rounded-xl overflow-hidden select-none flex flex-col justify-between";
 
 const DEFAULT_CARD_IMG_STYLE =
-  "w-full h-full object-cover object-center grayscale contrast-[1.15] brightness-95 group-hover:scale-105 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out";
+  "w-full h-full object-cover object-center grayscale contrast-[1.20] brightness-95 group-hover:scale-105 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out";
 
 const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
 
@@ -75,25 +75,29 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
       {/* 1. Photo Canvas with Full Aspect Ratio & Z-Index Container */}
       <div className="relative w-full aspect-[9/16] overflow-hidden rounded-lg bg-black/5">
         <img
-          src={musician.image}
-          alt={musician.name}
+          src={musician?.image || FALLBACK_IMAGE}
+          alt={musician?.name || "Musician"}
           onError={handleImageError}
           className={cardImgStyle}
         />
 
         {/* Legibility Gradient Overlay for Overlapping Text */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none" />
 
         {/* 2. Editorial Overlap Typography: Z-Index Stacking Directly Over Photo Canvas */}
         <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-col gap-1">
-          {/* Musician Name: Massive Bold-Italic Overlapping Headline */}
-          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white uppercase leading-none group-hover:text-[#FF1F00] transition-colors duration-300 drop-shadow-md">
-            {musician.name}
+          {/* Musician Name: Multi-Word Line Break Headline with Tight Leading */}
+          <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase leading-[0.9] group-hover:text-[#FF1F00] transition-colors duration-300 drop-shadow-md">
+            {(musician?.name || "UNTITLED").split(" ").map((word, i) => (
+              <span key={i} className="block">
+                {word}
+              </span>
+            ))}
           </h3>
 
           {/* Year / Era Marker: Micro Warm Stone Gray Tag */}
-          <p className="text-[10px] font-bold tracking-widest text-stone-300 uppercase font-sans mt-1">
-            {musician.year}
+          <p className="text-[10px] sm:text-[10px] font-bold tracking-widest text-white/80 uppercase font-sans mt-1">
+            {musician?.year || ""}
           </p>
         </div>
       </div>

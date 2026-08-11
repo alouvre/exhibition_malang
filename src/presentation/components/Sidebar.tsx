@@ -166,7 +166,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setIsGuideOpen((prev) => !prev);
   };
 
-  const handleDropdownAction = (actionLabel: string) => {
+  const handleDropdownAction = (_actionLabel: string) => {
     setIsSettingsOpen(false);
     setIsGuideOpen(false);
   };

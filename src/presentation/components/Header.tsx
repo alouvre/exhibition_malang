@@ -11,6 +11,7 @@ export interface HeaderProps {
   rightTextLeft?: string;
   rightTextRight?: string;
   showCenterText?: boolean;
+  isSticky?: boolean;
   className?: string;
 }
 
@@ -21,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   rightTextLeft = "FM 11 MALANG MENYALA",
   rightTextRight = "EXHIBITION 2026",
   showCenterText = true,
+  isSticky = false,
   className,
 }) => {
   const navigate = useNavigate();
@@ -74,9 +76,13 @@ export const Header: React.FC<HeaderProps> = ({
     );
   };
 
+  const dynamicStickyClass = isSticky
+    ? "sticky top-0 z-50 backdrop-blur-md bg-[#F6F4EE]/90"
+    : "relative w-full z-20 bg-[#F6F4EE]";
+
   return (
-    <div
-      className={styles.header.container + (className ? ` ${className}` : "")}
+    <header
+      className={`${styles.header.container} ${dynamicStickyClass}${className ? ` ${className}` : ""}`}
     >
       {renderLeftAction()}
       {showCenterText && rightTextLeft ? (
@@ -85,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
       {showCenterText && rightTextRight ? (
         <div className={styles.header.ticketBtn}>{rightTextRight}</div>
       ) : null}
-    </div>
+    </header>
   );
 };
 
@@ -95,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
 const styles = StyleSheet.create({
   header: {
     container:
-      "flex items-center justify-between z-20 px-6 py-4 w-full border-b border-black/10 bg-[#F6F4EE]",
+      "flex items-center justify-between px-6 py-4 border-b border-black/10",
     addBtn:
       "w-8 h-8 hover:bg-black/5 " +
       RADIUS.full +
