@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { safeInitializeIcons } from "../utils/dom";
+import { FontService } from "../../infrastructure/services/FontService";
 
 export interface MusicianIcon {
   id?: string;
@@ -54,6 +55,7 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
 
   const cardBaseStyle = styles?.card || DEFAULT_CARD_STYLE;
   const cardImgStyle = styles?.cardImg || DEFAULT_CARD_IMG_STYLE;
+  const cardNameFontClass = FontService.getInstance().getFontClass("CARD_NAME");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -101,7 +103,7 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
         {/* 2. Editorial Overlap Typography: Z-Index Stacking Directly Over Photo Canvas */}
         <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-col gap-1">
           {/* Musician Name: Multi-Word Line Break Headline with Tight Leading */}
-          <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase leading-[0.9] group-hover:text-[#FF1F00] transition-colors duration-300 drop-shadow-md">
+          <h3 className={`text-xl sm:text-2xl ${cardNameFontClass} font-black tracking-tight text-white uppercase leading-[0.9] group-hover:text-[#FF1F00] transition-colors duration-300 drop-shadow-md`}>
             {(musician?.name || "UNTITLED").split(" ").map((word, i) => (
               <span key={i} className="block">
                 {word}

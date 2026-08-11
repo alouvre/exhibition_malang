@@ -1,3 +1,5 @@
+import { FontService } from "../../infrastructure/services/FontService";
+
 /**
  * Anti-Gravity Design System Pattern
  * Centralized, strictly-typed design tokens for Music Gallery Vision.
@@ -58,6 +60,8 @@ export const COLORS = {
   },
 } as const;
 
+const fontService = FontService.getInstance();
+
 /* ==========================================================================
    2. TYPOGRAPHY SYSTEM (FONTS & WEIGHTS)
    ========================================================================== */
@@ -66,15 +70,31 @@ export const TYPOGRAPHY = {
     sans: "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     display: "'Bodoni Moda', 'Poppins', Georgia, serif",
     cursive: "'Pinyon Script', cursive",
+    satoshi: "'Satoshi', sans-serif",
+    generalsans: "'General Sans', sans-serif",
+    jakarta: "'Plus Jakarta Sans', sans-serif",
+    syne: "'Syne', sans-serif",
   },
   fontClasses: {
     sans: "font-sans",
     display: "font-display",
     cursive: "font-cursive",
+    satoshi: fontService.getFontFamily("satoshi"),
+    generalsans: fontService.getFontFamily("generalsans"),
+    jakarta: fontService.getFontFamily("jakarta"),
+    syne: fontService.getFontFamily("syne"),
+  },
+  roles: {
+    heroTitle: fontService.getFontClass("HERO_TITLE"),
+    sectionHeader: fontService.getFontClass("SECTION_HEADER"),
+    cardName: fontService.getFontClass("CARD_NAME"),
+    bodyText: fontService.getFontClass("BODY_TEXT"),
+    badgeTag: fontService.getFontClass("BADGE_TAG"),
   },
   weights: {
     light: "font-light", // 300
     regular: "font-normal", // 400
+    medium: "font-medium", // 500
     semibold: "font-semibold", // 600
     bold: "font-bold", // 700
     extrabold: "font-extrabold", // 800

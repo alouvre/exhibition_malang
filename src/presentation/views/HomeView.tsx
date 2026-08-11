@@ -7,6 +7,7 @@ import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
 import { Header } from "../components/Header";
 import { MusicianCard, MusicianIcon } from "../components/MusicianCard";
 import { musiciansRegistry } from "../data/musiciansRegistry";
+import { FontService } from "../../infrastructure/services/FontService";
 
 interface TimelineEra {
   decade: string;
@@ -23,6 +24,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onToggleSidebar,
   onSelectMusician,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const iconsSectionRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,12 +45,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
     // 2. Safely initialize Lucide icons
     safeInitializeIcons();
 
-    // 3. Target Anchored Scroll Detection
-    if (
-      window.location.hash === "#showcase-icons" ||
-      location.hash === "#showcase-icons"
-    ) {
-      const element = document.getElementById("showcase-icons");
+    // 3. Target Anchored Scroll Detection on Initial Load
+    const initialHash = window.location.hash || location.hash;
+    if (initialHash) {
+      const targetId = initialHash.replace("#", "");
+      const element = document.getElementById(targetId);
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -56,6 +57,47 @@ export const HomeView: React.FC<HomeViewProps> = ({
       }
     }
   }, [location]);
+
+  // 4. Scrollspy with URL Hash Syncing via IntersectionObserver
+  useEffect(() => {
+    const sectionIds = ["hero-section", "showcase-icons", "timeline-section"];
+    const sectionElements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sectionElements.length === 0) return;
+
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      const intersectingEntries = entries.filter(
+        (entry) => entry.isIntersecting,
+      );
+
+      if (intersectingEntries.length > 0) {
+        // Determine the dominant section currently in the viewport
+        const dominantEntry = intersectingEntries.reduce((max, entry) =>
+          entry.intersectionRatio > max.intersectionRatio ? entry : max,
+        );
+
+        const newHash = `#${dominantEntry.target.id}`;
+
+        // Only update history hash if it has changed to prevent unnecessary replaceState calls
+        if (window.location.hash !== newHash) {
+          window.history.replaceState(window.history.state, "", newHash);
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: containerRef.current || null,
+      threshold: 0.4,
+    });
+
+    sectionElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const handleMenuClick = () => {
     if (onToggleSidebar) {
@@ -116,9 +158,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   return (
-    <div className={styles.container}>
+    <div ref={containerRef} className={styles.container}>
       {/* 1. HERO SECTION: Kanvas Khusus Layout Layer Berlapis */}
-      <section className={styles.heroSection.layout}>
+      <section id="hero-section" className={styles.heroSection.layout}>
         {/* Integrated Static Non-Sticky Header */}
         <Header leftActionType="menu" onLeftActionClick={handleMenuClick} />
 
@@ -152,9 +194,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <div className={styles.heroSection.textGrid}>
             {/* Left Lower Headline: THE SOUND (Rata Kiri bawah) */}
             <div
-              className={styles.heroSection.typographyLeft}
+              className={`${styles.heroSection.typographyLeft} ${FontService.getInstance().getFontClass("HERO_TITLE")}`}
               style={{
-                fontFamily: "'Poppins', Georgia, serif",
                 fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.05em",
@@ -167,9 +208,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
             {/* Right Lower Headline: OF MALANG (Rata Kanan bawah) */}
             <div
-              className={styles.heroSection.typographyRight}
+              className={`${styles.heroSection.typographyRight} ${FontService.getInstance().getFontClass("HERO_TITLE")}`}
               style={{
-                fontFamily: "'Poppins', Georgia, serif",
                 fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.05em",
@@ -206,7 +246,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
           {/* 🏛️ OPSI A: Tombol Editorial Samping Judul (Header Action Alignment) */}
           <div className="flex flex-col items-start sm:items-end self-start sm:self-auto mb-1">
-            <span className="text-[10px] sm:text-[10px] font-medium tracking-wider text-stone-500/60 uppercase mb-2 font-sans">
+            <span
+              className={`text-[10px] sm:text-[10px] font-medium tracking-wider text-stone-500/60 uppercase mb-2 ${FontService.getInstance().getFontClass("BODY_TEXT")}`}
+            >
               Showcasing {totalMaestros} maestros
             </span>
             <button
@@ -214,7 +256,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
               className="group flex items-center gap-2.5 px-4 py-2 rounded-full border border-black/10 hover:border-[#FF1F00]/50 bg-stone-900/[0.02] hover:bg-[#FF1F00]/[0.05] transition-all duration-300 cursor-pointer"
               aria-label="Explore Extended Archive"
             >
-              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-stone-600 group-hover:text-[#FF1F00] transition-colors duration-300 font-sans">
+              <span
+                className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-stone-600 group-hover:text-[#FF1F00] transition-colors duration-300 ${FontService.getInstance().getFontClass("BADGE_TAG")}`}
+              >
                 EXPLORE HERE
               </span>
               <Icon
@@ -238,7 +282,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* 3. TIMELINE SECTION: Asymmetric Left-Aligned Studio Look */}
-      <section className={styles.timelineSection.layout}>
+      <section id="timeline-section" className={styles.timelineSection.layout}>
         <div className={styles.timelineSection.headerGroup}>
           <span className={styles.timelineSection.subtitle}>
             CULTURAL TIMELINE
@@ -365,9 +409,9 @@ const styles = StyleSheet.create({
     textGrid:
       "w-full flex flex-col md:flex-row items-center md:items-end justify-between gap-[clamp(2rem,5vh,6rem)] md:gap-0 z-10 pointer-events-none mix-blend-darken",
     typographyLeft:
-      "flex flex-col items-center text-center md:items-start md:text-left text-stone-950 font-display font-black leading-[0.8] tracking-tighter w-full md:w-auto",
+      "flex flex-col items-center text-center md:items-start md:text-left text-stone-950 font-black leading-[0.8] tracking-tighter w-full md:w-auto",
     typographyRight:
-      "flex flex-col items-center text-center md:items-end md:text-right text-stone-950 font-display font-black leading-[0.8] tracking-tighter w-full md:w-auto",
+      "flex flex-col items-center text-center md:items-end md:text-right text-stone-950 font-black leading-[0.8] tracking-tighter w-full md:w-auto",
   },
 
   vinylWrapper: {
@@ -388,9 +432,11 @@ const styles = StyleSheet.create({
     circular:
       "absolute bottom-8 right-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-black text-white hover:scale-105 active:scale-95 transition-transform duration-300 flex flex-col items-center justify-center cursor-pointer shadow-2xl z-30 border border-white/20",
     labelTop:
-      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-stone-200 font-sans",
+      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-stone-200 " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
     labelBottom:
-      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-[#FF1F00] mt-1 font-sans",
+      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-[#FF1F00] mt-1 " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
   },
 
   // CHARACTER 2: Kontainer Melebar Luas (Max-W 7xl) Dengan Penataan Grid 4-Kolom Desktop & Fluid Padding Vertikal
@@ -403,8 +449,11 @@ const styles = StyleSheet.create({
     subtitle:
       "text-[10px] font-bold tracking-widest " +
       COLORS.primaryText +
-      " uppercase font-sans",
-    title: "font-black tracking-tight text-stone-950 uppercase font-display",
+      " uppercase " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
+    title:
+      "font-black tracking-tight text-stone-950 uppercase " +
+      FontService.getInstance().getFontClass("SECTION_HEADER"),
     grid: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-4",
     card: "relative group w-full bg-[#F6F4EE] hover:bg-white border border-black/10 hover:border-black/30 cursor-pointer p-5 sm:p-6 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between select-none",
     cardImg:
@@ -417,19 +466,24 @@ const styles = StyleSheet.create({
       "px-6 sm:px-12 md:px-16 py-[clamp(8rem,18vh,16rem)] border-b border-black/10 flex flex-col gap-12 bg-[#F6F4EE]",
     headerGroup: "flex flex-col items-start text-left pl-6 gap-2",
     subtitle:
-      "text-[10px] font-bold tracking-widest text-stone-400 uppercase text-left tracking-[0.2em] font-sans",
+      "text-[10px] font-bold tracking-widest text-stone-400 uppercase text-left tracking-[0.2em] " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
     title:
-      "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-stone-950 uppercase text-left leading-[0.9] max-w-3xl font-sans",
+      "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-stone-950 uppercase text-left leading-[0.9] max-w-3xl " +
+      FontService.getInstance().getFontClass("SECTION_HEADER"),
     table:
       "flex flex-col divide-y divide-black/10 mt-6 max-w-7xl mx-auto w-full border-t border-b border-black/10",
     row: "py-6 md:py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group hover:bg-stone-900/[0.02] px-4 transition-colors duration-300 ease-out cursor-pointer",
     decade:
-      "text-3xl md:text-4xl font-black italic text-stone-300 group-hover:text-black transition-colors duration-300 font-sans tracking-tight",
+      "text-3xl md:text-4xl font-black italic text-stone-300 group-hover:text-black transition-colors duration-300 tracking-tight " +
+      FontService.getInstance().getFontClass("SECTION_HEADER"),
     details: "flex flex-col text-left sm:text-right gap-0.5",
     category:
-      "text-sm md:text-base font-black tracking-wider text-stone-900 uppercase font-sans transition-colors duration-300 group-hover:text-[#FF1F00]",
+      "text-sm md:text-base font-black tracking-wider text-stone-900 uppercase transition-colors duration-300 group-hover:text-[#FF1F00] " +
+      FontService.getInstance().getFontClass("CARD_NAME"),
     artists:
-      "text-[10px] md:text-xs font-medium tracking-widest text-stone-400 uppercase font-sans",
+      "text-[10px] md:text-xs font-medium tracking-widest text-stone-400 uppercase " +
+      FontService.getInstance().getFontClass("BODY_TEXT"),
   },
 
   // CHARACTER 4: Penataan Kotak Informasi Terbagi Rapi Menggunakan Grid 3-Kolom Seimbang & Fluid Padding Top
@@ -440,24 +494,36 @@ const styles = StyleSheet.create({
       "w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 items-start z-10",
     brandBlock: "flex flex-col gap-3 max-w-sm",
     brandTitle:
-      "text-lg font-black tracking-widest uppercase text-stone-950 font-sans leading-none",
+      "text-lg font-black tracking-widest uppercase text-stone-950 leading-none " +
+      FontService.getInstance().getFontClass("SECTION_HEADER"),
     brandText:
-      "text-[10px] md:text-xs text-stone-500 leading-relaxed uppercase tracking-wide font-sans font-medium",
+      "text-[10px] md:text-xs text-stone-500 leading-relaxed uppercase tracking-wide font-medium " +
+      FontService.getInstance().getFontClass("BODY_TEXT"),
     detailsBlock: "flex flex-col gap-4 w-full",
     subtitle:
       "text-[10px] font-bold tracking-widest " +
       COLORS.primaryText +
-      " uppercase font-sans tracking-[0.15em]",
+      " uppercase tracking-[0.15em] " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
     table:
-      "flex flex-col divide-y divide-black/10 border-t border-b border-black/10 text-[11px] font-sans w-full",
+      "flex flex-col divide-y divide-black/10 border-t border-b border-black/10 text-[11px] w-full " +
+      FontService.getInstance().getFontClass("BODY_TEXT"),
     tableRow:
       "py-3 flex justify-between items-center gap-6 transition-colors hover:bg-black/[0.01] px-1",
-    tableLabel: "font-bold text-stone-400 uppercase tracking-wider font-sans",
+    tableLabel:
+      "font-bold text-stone-400 uppercase tracking-wider " +
+      FontService.getInstance().getFontClass("BADGE_TAG"),
     tableValueActive:
-      "font-bold " + COLORS.primaryText + " uppercase tracking-wide font-sans",
-    tableValue: "font-bold text-stone-900 uppercase tracking-wide font-sans",
+      "font-bold " +
+      COLORS.primaryText +
+      " uppercase tracking-wide " +
+      FontService.getInstance().getFontClass("BODY_TEXT"),
+    tableValue:
+      "font-bold text-stone-900 uppercase tracking-wide " +
+      FontService.getInstance().getFontClass("BODY_TEXT"),
     watermark:
-      "absolute right-4 bottom-2 text-7xl sm:text-8xl md:text-9xl font-black text-stone-950/[0.03] select-none pointer-events-none tracking-tighter uppercase font-sans leading-none",
+      "absolute right-4 bottom-2 text-7xl sm:text-8xl md:text-9xl font-black text-stone-950/[0.03] select-none pointer-events-none tracking-tighter uppercase leading-none " +
+      FontService.getInstance().getFontClass("HERO_TITLE"),
   },
 });
 
