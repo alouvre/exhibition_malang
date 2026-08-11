@@ -464,7 +464,7 @@ export const musiciansRegistry: MusicianData[] = [
     year: "1987 - PRESENT",
     image: "/assets/yuni_shara/Picture1.webp",
     exhibitionImages: [
-      "/assets/yuni_shara/Picture1.jpg",
+      "/assets/yuni_shara/Picture1.webp",
       "/assets/vinyl_record.jpg",
     ],
     album: "MENGATAKAN CINTA",
@@ -809,7 +809,7 @@ export const musiciansRegistry: MusicianData[] = [
     year: "1950S - 1980S",
     image: "/assets/laily_dimjatie/Picture1.webp",
     exhibitionImages: [
-      "/assets/laily_dimjatie/Picture1.jpg",
+      "/assets/laily_dimjatie/Picture1.webp",
       "/assets/vinyl_record.jpg",
     ],
     album: "BUNGA ROSE",
