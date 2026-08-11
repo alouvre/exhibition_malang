@@ -31,6 +31,17 @@ const DEFAULT_CARD_IMG_STYLE =
 
 const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
 
+/**
+ * Ensures asset path starts with a leading slash for Vite static root resolution
+ */
+const resolveAssetPath = (path?: string): string => {
+  if (!path || path.trim() === "") return FALLBACK_IMAGE;
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  return `/${path}`;
+};
+
 export const MusicianCard: React.FC<MusicianCardProps> = ({
   musician,
   index: _index,
@@ -57,6 +68,9 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
     const target = e.currentTarget;
     if (target.getAttribute("data-fallback-attempted") !== "true") {
       target.setAttribute("data-fallback-attempted", "true");
+      console.warn(
+        `[MusicianCard Image Fallback] Image failed to load for "${musician?.name}" (Attempted URL: ${target.src}). Falling back to ${FALLBACK_IMAGE}`,
+      );
       target.src = FALLBACK_IMAGE;
     }
   };
@@ -75,7 +89,7 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
       {/* 1. Photo Canvas with Full Aspect Ratio & Z-Index Container */}
       <div className="relative w-full aspect-[9/16] overflow-hidden rounded-lg bg-black/5">
         <img
-          src={musician?.image || FALLBACK_IMAGE}
+          src={resolveAssetPath(musician?.image)}
           alt={musician?.name || "Musician"}
           onError={handleImageError}
           className={cardImgStyle}

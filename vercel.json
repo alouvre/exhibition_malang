@@ -4,7 +4,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/|.*\\.(?:js|css|ico|png|jpg|jpeg|gif|webp|svg|woff2?|ttf|eot)).*)",
       "destination": "/index.html"
     }
   ],
