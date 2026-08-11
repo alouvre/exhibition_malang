@@ -207,12 +207,6 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70" />
               <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white z-10">
-                <div className="flex items-center gap-2">
-                  <i data-lucide="mic" className="w-5 h-5 text-[#FF1F00]"></i>
-                  <span className="text-xs font-bold tracking-widest uppercase font-sans">
-                    MALANG MUSIC HERITAGE
-                  </span>
-                </div>
                 <span className="text-[10px] font-mono px-2 py-1 bg-white/20 backdrop-blur-md rounded">
                   ARCHIVE #{musician.id.toUpperCase()}
                 </span>

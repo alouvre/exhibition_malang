@@ -263,7 +263,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               </span>
               <Icon
                 name="arrow-up-right"
-                className="w-3.5 h-3.5 text-stone-500 group-hover:text-[#FF1F00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                className="w-4 h-4 text-stone-500 group-hover:text-[#FF1F00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
               />
             </button>
           </div>
@@ -416,27 +416,22 @@ const styles = StyleSheet.create({
 
   vinylWrapper: {
     container:
-      // 💡 md dinaikkan dari [32rem] ke [38rem] (Bisa disesuaikan ke [40rem] jika ingin ultra-besar)
       "relative w-[32rem] h-[32rem] sm:w-[38rem] sm:h-[38rem] md:w-[38rem] md:h-[38rem] lg:w-[44rem] lg:h-[44rem] my-6 md:my-0 flex items-center justify-center z-10 flex-shrink-0 pointer-events-auto",
     disk: "relative w-full h-full rounded-full overflow-hidden shadow-2xl border border-black/20 transform hover:rotate-90 transition-transform duration-1000 ease-out flex items-center justify-center cursor-pointer",
     img: "w-full h-full object-cover rounded-full",
     centerLabel:
-      // 💡 Label tengah disesuaikan secara simetris, md dinaikkan dari w-40 ke w-[12rem] (atau w-48)
       "absolute w-28 h-28 sm:w-36 sm:h-36 md:w-[12rem] md:h-[12rem] lg:w-[14rem] lg:h-[14rem] rounded-full bg-[#F4EFE6] border-2 border-stone-800/20 shadow-inner flex items-center justify-center z-20 pointer-events-none",
     spindleHole:
-      // 💡 Lubang poros tengah md dinaikkan sedikit dari w-7 ke w-8 agar tetap proporsional
-      "w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-full bg-[#FF1F00] border border-black/30",
+      "w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-30 lg:h-30  rounded-full bg-[#FF1F00] border border-black/30",
   },
 
   ticketBtn: {
     circular:
-      "absolute bottom-8 right-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-black text-white hover:scale-105 active:scale-95 transition-transform duration-300 flex flex-col items-center justify-center cursor-pointer shadow-2xl z-30 border border-white/20",
+      "absolute bottom-75 w-20 h-20 md:w-26 md:h-26 rounded-full bg-black text-white hover:scale-105 active:scale-95 transition-full duration-300 flex flex-col items-center justify-center cursor-pointer shadow-2xl z-30 border-2 border-stone-200/30",
     labelTop:
-      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-stone-200 " +
-      FontService.getInstance().getFontClass("BADGE_TAG"),
+      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-stone-200 ",
     labelBottom:
-      "text-[9px] md:text-[10px] font-black tracking-widest leading-none text-[#FF1F00] mt-1 " +
-      FontService.getInstance().getFontClass("BADGE_TAG"),
+      "text-[9px] md:text-[10px] font-black tracking-widest leading-none mt-1 ",
   },
 
   // CHARACTER 2: Kontainer Melebar Luas (Max-W 7xl) Dengan Penataan Grid 4-Kolom Desktop & Fluid Padding Vertikal

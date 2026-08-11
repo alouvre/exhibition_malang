@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { safeInitializeIcons } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { RADIUS } from "../styles/theme";
+import { Icon } from "../../infrastructure/services/IconService";
 
 export interface HeaderProps {
   leftActionType?: "menu" | "back" | "custom";
@@ -35,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
     if (onLeftActionClick) {
       onLeftActionClick();
     } else if (leftActionType === "back") {
-      navigate("/#showcase-icons");
+      navigate("/showcase-icons");
     }
   };
 
@@ -44,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={styles.header.addBtn}
+          className={`${styles.header.addBtn} mr-4`}
           aria-label="Open Navigation Menu"
         >
           <i data-lucide="menu" className="w-5 h-5 text-black block"></i>
@@ -59,7 +60,10 @@ export const Header: React.FC<HeaderProps> = ({
           className={styles.header.backBtn}
           aria-label="Return to Showcase"
         >
-          <i data-lucide="arrow-left" className="w-5 h-5 text-black block"></i>
+          <Icon
+            name="arrow-up-left"
+            className="w-4 h-4 tracking-[0.2em] text-stone-600 block group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+          />
           {leftActionLabel || "Return to Showcase"}
         </button>
       );
@@ -77,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const dynamicStickyClass = isSticky
-    ? "sticky top-0 z-50 backdrop-blur-md bg-[#F6F4EE]/90"
+    ? "sticky top-0 z-50 w-full backdrop-blur-md bg-[#F6F4EE]/90"
     : "relative w-full z-20 bg-[#F6F4EE]";
 
   return (

@@ -462,7 +462,7 @@ const extendedArtistsStyles = StyleSheet.create({
     padding: SPACING.padding.sm,
   },
   heroSection: {
-    layout: "w-full flex flex-col",
+    layout: "sticky top-0 z-50 w-full flex flex-col bg-[#F6F4EE]/90 backdrop-blur-md",
     divider: "w-full border-b border-black/10",
   },
   contentSection: {
