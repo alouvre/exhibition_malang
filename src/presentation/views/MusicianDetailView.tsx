@@ -4,7 +4,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
-import { Header } from "../components/Header";
+import { Header, HeaderNavItem } from "../components/Header";
 import {
   musiciansRegistry,
   MusicianData as MusicianDetailData,
@@ -26,6 +26,11 @@ interface LocationState {
 
 const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
 
+const MUSICIAN_NAV_ITEMS: HeaderNavItem[] = [
+  { id: "biography", label: "BIOGRAPHY", targetId: "hero-section" },
+  { id: "discography", label: "DISCOGRAPHY", targetId: "catalog-section" },
+];
+
 const resolveAssetPath = (path: string) => {
   if (!path) return FALLBACK_IMAGE;
   if (path.startsWith("http") || path.startsWith("/")) return path;
@@ -46,7 +51,8 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     (item) => item.slug === targetSlug || item.id === targetSlug,
   );
 
-  // 1. ACTIVE TRACK STATE MANAGEMENT WITH GUARDRAIL INITIALIZATION
+  // 1. ACTIVE TRACK STATE & NAVIGATION MANAGEMENT
+  const [activeNavItemId, setActiveNavItemId] = useState<string>("biography");
   const [activeTrack, setActiveTrack] = useState<TrackCatalogItem | null>(
     () => {
       if (!musician?.catalog || musician.catalog.length === 0) return null;
@@ -107,6 +113,11 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
           current.intersectionRatio > prev.intersectionRatio ? current : prev,
         );
         const id = mostVisible.target.id;
+        if (id === "hero-section") {
+          setActiveNavItemId("biography");
+        } else if (id === "catalog-section") {
+          setActiveNavItemId("discography");
+        }
         if (id && window.location.hash !== `#${id}`) {
           window.history.replaceState(
             null,
@@ -220,6 +231,9 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
           onLeftActionClick={handleReturn}
           showCenterText={false}
           isSticky={true}
+          customNavItems={MUSICIAN_NAV_ITEMS}
+          activeNavItemId={activeNavItemId}
+          onNavItemClick={(item) => setActiveNavItemId(item.id)}
         />
 
         {/* Hero Body Layout */}

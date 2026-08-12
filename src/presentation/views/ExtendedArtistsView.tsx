@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../components/Header";
+import { InfoModal } from "../components/InfoModal";
 import { MusicianCard } from "../components/MusicianCard";
 import { musiciansRegistry, MusicianData } from "../data/musiciansRegistry";
 import { safeInitializeIcons } from "../utils/dom";
@@ -94,9 +95,20 @@ const dropdownAnimationProps = {
  */
 export const ExtendedArtistsView: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location.state as { showInfoModal?: boolean } | null;
+
+  // InfoModal Auto-Trigger State
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
 
   // Interaction Deck State
   const [isFilterDeckOpen, setIsFilterDeckOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (locationState?.showInfoModal) {
+      setIsInfoModalOpen(true);
+    }
+  }, [locationState]);
 
   // Custom Filter & Sorting State Hook
   const {
@@ -176,20 +188,9 @@ export const ExtendedArtistsView: React.FC = () => {
 
         {/* 2. MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
         <section className={styles.contentSection.layout}>
-          {/* EDITORIAL SECTION TITLE BLOCK & CONTROL DECK HERO */}
+          {/* EDITORIAL CONTROL DECK HEADER */}
           <header className={styles.contentSection.header}>
-            <span className={styles.contentSection.badge}>
-              THE ALL-ERA MAESTRO
-            </span>
-
-            {/* ASYMMETRIC FLEX ROW CONTAINER FOR DESCRIPTION & CONTROL DECK TRIGGER */}
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-12 w-full items-start">
-              <p className="text-sm sm:text-base text-stone-800/90 font-sans leading-relaxed tracking-tight max-w-xl lg:max-w-2xl">
-                Etalase kolektif yang merekam jejak seluruh musisi dan maestro
-                musik kota Malang. Dari era pionir legenda hingga gelombang
-                modern, setiap rekam jejak terarsip lengkap di sini.
-              </p>
-
+            <div className="flex flex-row items-center justify-end w-full">
               {/* CONTROL DECK & POP-OVER CONTAINER */}
               <div className="relative shrink-0">
                 <button
@@ -437,6 +438,18 @@ export const ExtendedArtistsView: React.FC = () => {
             )}
           </main>
         </section>
+
+        {/* DYNAMIC REUSABLE INFOMODAL */}
+        <InfoModal
+          isOpen={isInfoModalOpen}
+          onClose={() => setIsInfoModalOpen(false)}
+          title="THE ALL-ERA MAESTRO"
+          badgeText="MALANG ARCHIVE"
+          description="Etalase kolektif yang merekam jejak seluruh musisi dan maestro musik kota Malang. Dari era pionir legenda hingga gelombang modern, setiap rekam jejak terarsip lengkap di sini."
+          primaryButtonText="START EXPLORE"
+          onPrimaryClick={() => setIsInfoModalOpen(false)}
+          showCloseIcon={false}
+        />
       </div>
     </ErrorBoundary>
   );
@@ -450,7 +463,7 @@ export const ExtendedArtistsView: React.FC = () => {
 const extendedArtistsStyles = StyleSheet.create({
   container: {
     layout:
-      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in " +
+      "flex flex-col flex-1 h-full w-full overflow-hidden select-none animate-fade-in " +
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",
@@ -458,13 +471,13 @@ const extendedArtistsStyles = StyleSheet.create({
   },
   heroSection: {
     layout:
-      "sticky top-0 z-50 w-full flex flex-col bg-[#F6F4EE]/90 backdrop-blur-md",
+      "flex-shrink-0 z-30 w-full flex flex-col bg-[#F6F4EE]/90 backdrop-blur-md",
     divider: "w-full border-b border-black/10",
   },
   contentSection: {
     layout:
-      "w-full max-w-7xl mx-auto px-6 md:px-16 py-4 md:py-4 flex flex-col gap-6",
-    header: "flex flex-col w-full",
+      "flex flex-col flex-1 w-full max-w-7xl mx-auto px-6 md:px-16 pt-4 pb-0 overflow-visible min-h-0 relative",
+    header: "flex-shrink-0 w-full pb-4 border-b border-black/10 relative z-40",
     heroControls:
       "flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full items-start",
     badge:
@@ -473,7 +486,8 @@ const extendedArtistsStyles = StyleSheet.create({
       "text-slate-950 font-black not-italic font-display leading-none tracking-tight uppercase text-4xl sm:text-6xl",
     description:
       "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal normal-case max-w-xl lg:max-w-2xl",
-    mainContent: "w-full",
+    mainContent:
+      "flex-1 w-full overflow-y-auto custom-scrollbar py-6 min-h-0 relative z-10",
     grid: "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 md:gap-6 items-start",
   },
   searchSection: {

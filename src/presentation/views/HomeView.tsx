@@ -125,7 +125,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   // 🏛️ Navigation Gateway Action Handler to Extended Roster / Archive Exhibition
   const handleExploreExtendedArchive = () => {
     // showGlobalToast("Opening Extended Archive & Musician Roster");
-    navigate("/extended-archive");
+    navigate("/extended-archive", { state: { showInfoModal: true } });
   };
 
   const handleTimelineClick = (_decade: string, _category: string) => {
