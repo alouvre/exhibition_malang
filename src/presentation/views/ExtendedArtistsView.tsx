@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Header } from "../components/Header";
 import { InfoModal } from "../components/InfoModal";
 import { MusicianCard } from "../components/MusicianCard";
 import { musiciansRegistry, MusicianData } from "../data/musiciansRegistry";
 import { safeInitializeIcons } from "../utils/dom";
 import { Icon } from "../../infrastructure/services/IconService";
+import { FontService } from "../../infrastructure/services/FontService";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
@@ -49,36 +49,6 @@ const categoryOptions = [
   { id: "LADY ROCKER", label: "LADY ROCKER" },
 ];
 
-const alphabetOptions = [
-  "ALL",
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
-
 const dropdownAnimationProps = {
   initial: { opacity: 0, y: -10, scale: 0.95 },
   animate: { opacity: 1, y: 0, scale: 1 },
@@ -116,8 +86,6 @@ export const ExtendedArtistsView: React.FC = () => {
     setSortType,
     selectedCategory,
     setSelectedCategory,
-    selectedAlphabet,
-    setSelectedAlphabet,
     searchQuery,
     setSearchQuery,
     filteredMusicians,
@@ -154,6 +122,9 @@ export const ExtendedArtistsView: React.FC = () => {
     };
   }, [isFilterDeckOpen]);
 
+  const fontService = FontService.getInstance();
+  const fontBadge = fontService.getFontClass("BADGE_TAG");
+
   /**
    * Handles navigation back to the main showcase section of the exhibition.
    */
@@ -162,8 +133,7 @@ export const ExtendedArtistsView: React.FC = () => {
   };
 
   /**
-   * Handles musician card selection and navigates to the detail page.
-   * Passes the required route state payload for context preservation.
+   * Handles navigation to detailed musician bio & archive page.
    */
   const handleSelectMusician = (musician: MusicianData): void => {
     if (!musician) return;
@@ -174,25 +144,27 @@ export const ExtendedArtistsView: React.FC = () => {
   return (
     <ErrorBoundary onReset={handleResetFilters}>
       <div className={styles.container}>
-        {/* 1. HERO / NAVIGATION SECTION */}
-        <section className={styles.heroSection.layout}>
-          <Header
-            leftActionType="back"
-            leftActionLabel="Return to Showcase"
-            onLeftActionClick={handleNavigateBackToShowcase}
-            showCenterText={false}
-            isSticky={true}
-          />
-          <div className={styles.heroSection.divider} />
-        </section>
-
-        {/* 2. MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
+        {/* MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
         <section className={styles.contentSection.layout}>
-          {/* EDITORIAL CONTROL DECK HEADER */}
+          {/* EDITORIAL CONTROL DECK HEADER WITH INLINE RETURN TO SHOWCASE BUTTON */}
           <header className={styles.contentSection.header}>
-            <div className="flex flex-row items-center justify-end w-full">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 w-full">
+              {/* Inline Return to Showcase Capsule Button */}
+              <button
+                type="button"
+                onClick={handleNavigateBackToShowcase}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 hover:bg-white text-zinc-900 border border-zinc-200/80 shadow-sm backdrop-blur-md transition-all duration-200 text-xs font-bold uppercase tracking-wider hover:scale-[1.02] active:scale-[0.98] cursor-pointer group self-start sm:self-auto"
+                aria-label="Return to Showcase"
+              >
+                <Icon
+                  name="arrow-up-left"
+                  className="w-4 h-4 text-stone-600 group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                />
+                <span className={`text-xs ${fontBadge}`}>Return to Showcase</span>
+              </button>
+
               {/* CONTROL DECK & POP-OVER CONTAINER */}
-              <div className="relative shrink-0">
+              <div className="relative shrink-0 self-end sm:self-auto">
                 <button
                   ref={triggerRef}
                   type="button"
@@ -202,12 +174,6 @@ export const ExtendedArtistsView: React.FC = () => {
                   aria-label="Toggle Filters & Sorting Control Deck"
                 >
                   <span className="font-semibold text-slate-900">Filters</span>
-
-                  {activeFiltersCount > 0 && (
-                    <span className="flex items-center justify-center min-w-[18px] h-4.5 md:min-w-[20px] md:h-5 lg:min-w-[22px] lg:h-5.5 text-[9px] md:text-[10px] lg:text-xs font-bold bg-[#FF1F00] text-white rounded-full px-1.5 shadow-sm">
-                      {activeFiltersCount}
-                    </span>
-                  )}
 
                   <Icon
                     name="chevron-down"
@@ -318,32 +284,6 @@ export const ExtendedArtistsView: React.FC = () => {
                               </button>
                             );
                           })}
-                        </div>
-
-                        {/* FILTER BY INITIAL LETTER GRID */}
-                        <div className="pt-2">
-                          <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans mb-1.5 block">
-                            FILTER BY INITIAL LETTER
-                          </span>
-                          <div className="flex flex-wrap gap-1">
-                            {alphabetOptions.map((letter) => {
-                              const isSelected = selectedAlphabet === letter;
-                              return (
-                                <button
-                                  key={letter}
-                                  type="button"
-                                  onClick={() => setSelectedAlphabet(letter)}
-                                  className={`min-w-[28px] h-7 px-1.5 rounded-lg text-xs font-sans font-medium transition-all cursor-pointer flex items-center justify-center border ${
-                                    isSelected
-                                      ? "bg-[#FF1F00] text-white border-[#FF1F00] font-bold shadow-sm"
-                                      : "bg-slate-100/80 text-slate-700 border-black/5 hover:bg-slate-200/70"
-                                  }`}
-                                >
-                                  {letter}
-                                </button>
-                              );
-                            })}
-                          </div>
                         </div>
                       </div>
 

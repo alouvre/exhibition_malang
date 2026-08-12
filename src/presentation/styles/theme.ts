@@ -27,13 +27,15 @@ export const COLORS = {
   // Canvas & Background Colors
   canvas: "#F6F4EE",
   canvasBg: "bg-[#F6F4EE]",
+  ivory: "#FBFBF9",
+  ivoryBg: "bg-[#FBFBF9]",
   dark: "#111111",
   darkBg: "bg-[#111111]",
   secondaryBg: "bg-[#FFFFFF]",
 
   // Neutrals (Slate Palette)
   slate: {
-    50: "bg-blue-50",
+    50: "bg-slate-50",
     100: "bg-slate-100",
     200: "bg-slate-200/80",
     300: "text-slate-300",
@@ -153,8 +155,8 @@ export const DESIGN_TOKENS = {
   },
   button: {
     glass: `glass-btn cursor-pointer transition-all`,
-    primary: `${COLORS.primaryBg} text-white ${RADIUS.md} shadow-md shadow-blue-500/20 cursor-pointer transition-all`,
-    upgrade: `px-4 py-2 border border-blue-200 rounded-full text-xs font-semibold text-blue-600 hover:bg-blue-50/50 shadow-sm glass-btn cursor-pointer transition-all font-sans`,
+    primary: `${COLORS.primaryBg} text-white ${RADIUS.md} shadow-md shadow-[#FF1F00]/25 cursor-pointer transition-all`,
+    upgrade: `px-4 py-2 border border-[#FF1F00]/30 rounded-full text-xs font-semibold text-[#FF1F00] hover:bg-[#FF1F00]/10 shadow-sm glass-btn cursor-pointer transition-all font-sans`,
   },
   text: {
     heading: "text-2xl font-bold text-slate-800 tracking-tight font-sans",

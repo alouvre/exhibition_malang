@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     sizing: "w-16 h-16",
     background: COLORS.slate[50],
-    color: "text-blue-600",
+    color: "text-[#FF1F00]",
     radius: RADIUS.full,
     border: "shadow-sm",
     display: DESIGN_TOKENS.utility.flexCenter,

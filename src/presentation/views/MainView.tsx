@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Sidebar } from "../components/Sidebar";
+import { OnboardingCoachmark } from "../components/OnboardingCoachmark";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { HomeView } from "./HomeView";
 import { AboutView } from "./AboutView";
@@ -18,8 +19,36 @@ export const MainView: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
 
+  // 0. ONBOARDING COACHMARK TOUR STATE (Triggers automatically on every first-load / refresh session)
+  const [isTourOpen, setIsTourOpen] = useState<boolean>(true);
+  const [tourStep, setTourStep] = useState<number>(1);
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleNextTourStep = () => {
+    if (tourStep === 1) {
+      setIsSidebarOpen(true);
+      setTourStep(2);
+    } else if (tourStep === 2) {
+      setIsSidebarOpen(true);
+      setTourStep(3);
+    }
+  };
+
+  const handlePrevTourStep = () => {
+    if (tourStep === 3) {
+      setIsSidebarOpen(true);
+      setTourStep(2);
+    } else if (tourStep === 2) {
+      setTourStep(1);
+    }
+  };
+
+  const handleCloseTour = () => {
+    setIsTourOpen(false);
+    setIsSidebarOpen(false); // Otomatis tutup sidebar pada saat tur selesai atau dilewati
+  };
 
   const getActiveTab = (): TabName => {
     if (
@@ -68,15 +97,10 @@ export const MainView: React.FC = () => {
     };
   }, [toastMessage]);
 
-  // const showToast = (message: string) => {
-  //   setToastMessage(message);
-  // };
-
   const handleTabSelect = (tab: string) => {
     if (tab === "home") navigate("/");
     else if (tab === "playlist") navigate("/playlist");
     else if (tab === "about") navigate("/about");
-    // showToast(`Switched navigation: ${tab.toUpperCase()}`);
   };
 
   const tabs: Array<{ id: string; name: TabName; icon: string }> = [
@@ -89,6 +113,17 @@ export const MainView: React.FC = () => {
       className={styles.mainWrapper}
       style={{ height: "calc(100vh - 24px)" }}
     >
+      {/* 3-Step Contextual Onboarding Coachmark Tour */}
+      <OnboardingCoachmark
+        isOpen={isTourOpen && !isMobile}
+        currentStep={tourStep}
+        totalSteps={3}
+        onNextStep={handleNextTourStep}
+        onPrevStep={handlePrevTourStep}
+        onSkip={handleCloseTour}
+        onFinish={handleCloseTour}
+      />
+
       {/* Sidebar - Desktop Only */}
       {!isMobile && (
         <Sidebar
@@ -96,6 +131,8 @@ export const MainView: React.FC = () => {
           isSidebarOpen={isSidebarOpen}
           onTabSelect={handleTabSelect}
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          controlledGuideOpen={isTourOpen && tourStep === 2}
+          controlledSettingsOpen={isTourOpen && tourStep === 3}
         />
       )}
 
@@ -176,11 +213,11 @@ const styles = StyleSheet.create({
   },
   mobileNavBtnActive: {
     sizing: "w-11 h-11",
-    background: "bg-blue-600",
+    background: "bg-[#FF1F00]",
     color: "text-white",
     radius: RADIUS.md,
     interactive:
-      "shadow-md shadow-blue-500/20 cursor-pointer transition-all duration-300",
+      "shadow-md shadow-[#FF1F00]/30 cursor-pointer transition-all duration-300",
     display: DESIGN_TOKENS.utility.flexCenter,
   },
   mobileNavBtnInactive: {

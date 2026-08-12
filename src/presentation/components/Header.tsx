@@ -4,6 +4,7 @@ import { safeInitializeIcons } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { RADIUS } from "../styles/theme";
 import { Icon } from "../../infrastructure/services/IconService";
+import { FontService } from "../../infrastructure/services/FontService";
 
 export interface HeaderNavItem {
   id: string;
@@ -43,6 +44,8 @@ export const Header: React.FC<HeaderProps> = ({
   onNavItemClick,
 }) => {
   const navigate = useNavigate();
+  const fontService = FontService.getInstance();
+  const fontBadge = fontService.getFontClass("BADGE_TAG");
 
   useEffect(() => {
     safeInitializeIcons();
@@ -89,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={styles.header.backBtn}
+          className={`${styles.header.backBtn} ${fontBadge}`}
           aria-label="Return to Showcase"
         >
           <Icon
@@ -104,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
     return (
       <button
         onClick={handleAction}
-        className={styles.header.addBtn}
+        className={`${styles.header.addBtn} ${fontBadge}`}
         aria-label="Action"
       >
         {leftActionLabel || "ACTION"}
@@ -137,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
                 key={item.id}
                 type="button"
                 onClick={(e) => handleNavItemClick(e, item)}
-                className={`text-xs sm:text-sm font-sans tracking-wider uppercase transition-colors cursor-pointer ${
+                className={`text-xs sm:text-sm tracking-wider uppercase transition-colors cursor-pointer ${fontBadge} ${
                   isActive
                     ? "text-zinc-950 font-bold border-b-2 border-[#FF1F00] pb-0.5"
                     : "text-stone-400 hover:text-stone-700 font-medium"
@@ -152,10 +155,14 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Default Right Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
-        <div className={styles.header.ticketBtn}>{rightTextLeft}</div>
+        <div className={`${styles.header.ticketBtn} ${fontBadge}`}>
+          {rightTextLeft}
+        </div>
       ) : null}
       {!hasCustomNav && showCenterText && rightTextRight ? (
-        <div className={styles.header.ticketBtn}>{rightTextRight}</div>
+        <div className={`${styles.header.ticketBtn} ${fontBadge}`}>
+          {rightTextRight}
+        </div>
       ) : null}
     </header>
   );
@@ -171,12 +178,12 @@ const styles = StyleSheet.create({
     addBtn:
       "w-8 h-8 hover:bg-black/5 " +
       RADIUS.full +
-      " text-slate-800 transition-all flex items-center justify-center cursor-pointer",
+      " text-stone-800 transition-all flex items-center justify-center cursor-pointer",
     backBtn:
-      "w-auto h-8 text-xs font-bold tracking-widest text-slate-800 hover:text-[#FF1F00] transition-colors cursor-pointer font-sans uppercase flex items-center gap-2 group",
-    logo: "text-3xl font-normal text-slate-900 font-cursive",
+      "w-auto h-8 text-xs font-bold tracking-widest text-stone-800 hover:text-[#FF1F00] transition-colors cursor-pointer uppercase flex items-center gap-2 group",
+    logo: "text-3xl font-normal text-stone-900 font-cursive",
     ticketBtn:
-      "text-slate-800 hover:text-black text-xs font-bold tracking-widest transition-colors cursor-pointer font-sans",
+      "text-stone-800 hover:text-black text-xs font-bold tracking-widest transition-colors cursor-pointer",
   },
 });
 

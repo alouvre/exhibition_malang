@@ -182,6 +182,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
             {/* Circular Black Action Button Floating Near Vinyl */}
             <button
+              id="tour-step-1-start-journey"
               onClick={handleStartJourney}
               className={styles.ticketBtn.circular}
               aria-label="Start Journey"

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { safeInitializeIcons } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
 import { RADIUS, COLORS } from "../styles/theme";
 import { DESIGN_TOKENS } from "../styles/theme";
+import { FontService } from "../../infrastructure/services/FontService";
 
 /* ==========================================================================
    SIDEBAR DROPDOWN TYPES & REUSABLE SUB-COMPONENT (Modular Extraction)
@@ -31,6 +33,7 @@ export interface SidebarDropdownProps {
 /**
  * Reusable Contextual Floating Dropdown Menu component.
  * Adheres to Swiss Design & Stark Minimalism standards.
+ * Enhanced with Framer Motion Apple-like spring/cubic-bezier easing curve.
  */
 export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
   isOpen,
@@ -38,20 +41,28 @@ export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
   headerTitle,
   className,
 }) => {
+  const fontService = FontService.getInstance();
+  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  const fontBody = fontService.getFontClass("BODY_TEXT");
+
   if (!isOpen) return null;
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       className={
         className ||
-        `absolute bottom-0 left-full ml-6 -mb-2 w-64 ${COLORS.secondaryBg} backdrop-blur-xl border border-black/[0.05] rounded-lg shadow-2xl shadow-black/10 z-50 animate-fade-in select-none font-sans`
+        `absolute bottom-0 left-full ml-6 -mb-2 w-64 ${COLORS.secondaryBg} backdrop-blur-xl border border-black/[0.05] rounded-lg shadow-2xl shadow-black/10 z-50 select-none`
       }
       role="menu"
       aria-orientation="vertical"
     >
       {headerTitle && (
         <div className="px-3.5 pt-3 pb-2 border-b border-black/[0.05]">
-          <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+          <span className={`text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase ${fontBadge}`}>
             {headerTitle}
           </span>
         </div>
@@ -72,7 +83,7 @@ export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
               <button
                 key={item.id}
                 onClick={item.onClick}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer w-full text-left font-sans ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer w-full text-left ${fontBody} ${
                   isDanger
                     ? "justify-between text-rose-600 hover:bg-rose-50/[0.6]"
                     : "text-stone-800 hover:bg-black/[0.04]"
@@ -97,7 +108,7 @@ export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
           })}
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
@@ -110,6 +121,8 @@ interface SidebarProps {
   onTabSelect: (tabName: string) => void;
   onToggleSidebar: () => void;
   onOpenOperationalGuide?: () => void;
+  controlledGuideOpen?: boolean;
+  controlledSettingsOpen?: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -118,12 +131,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTabSelect,
   onToggleSidebar,
   onOpenOperationalGuide,
+  controlledGuideOpen,
+  controlledSettingsOpen,
 }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const settingsRef = useRef<HTMLDivElement>(null);
   const guideRef = useRef<HTMLDivElement>(null);
+
+  // Sync controlled popover state from external tour manager
+  useEffect(() => {
+    if (controlledGuideOpen !== undefined) {
+      setIsGuideOpen(controlledGuideOpen);
+    }
+  }, [controlledGuideOpen]);
+
+  useEffect(() => {
+    if (controlledSettingsOpen !== undefined) {
+      setIsSettingsOpen(controlledSettingsOpen);
+    }
+  }, [controlledSettingsOpen]);
 
   // Click outside & Escape key listeners to close popovers automatically
   useEffect(() => {
@@ -336,6 +364,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className={styles.bottomSection.layout}>
           {/* 1. Exhibition Operational Guide / Staff Playbook Gateway */}
           <div
+            id="tour-step-2-staff-guideline"
             ref={guideRef}
             className="relative flex items-center justify-center"
           >
@@ -359,19 +388,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
 
             {/* Reusable SidebarDropdown Instance 2: Staff Playbook */}
-            <SidebarDropdown
-              isOpen={isGuideOpen}
-              headerTitle="STAFF GUIDELINE"
-              sections={staffPlaybookSections}
-            />
+            <AnimatePresence>
+              {isGuideOpen && (
+                <SidebarDropdown
+                  isOpen={isGuideOpen}
+                  headerTitle="STAFF GUIDELINE"
+                  sections={staffPlaybookSections}
+                />
+              )}
+            </AnimatePresence>
           </div>
 
           {/* 2. Contextual Floating Dropdown Trigger Container (Settings) */}
           <div
+            id="tour-step-3-settings"
             ref={settingsRef}
             className="relative flex items-center justify-center"
           >
             <button
+              id="sidebar-settings-btn"
               onClick={handleSettingsClick}
               className={`${styles.iconBtn} ${
                 isSettingsOpen ? "bg-black/5 text-stone-900" : ""
@@ -383,10 +418,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
 
             {/* Reusable SidebarDropdown Instance 1: Settings Contextual Menu */}
-            <SidebarDropdown
-              isOpen={isSettingsOpen}
-              sections={settingsSections}
-            />
+            <AnimatePresence>
+              {isSettingsOpen && (
+                <SidebarDropdown
+                  isOpen={isSettingsOpen}
+                  sections={settingsSections}
+                />
+              )}
+            </AnimatePresence>
           </div>
 
           {/* 3. User Profile Button */}

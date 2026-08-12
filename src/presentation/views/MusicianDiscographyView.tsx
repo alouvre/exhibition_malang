@@ -161,7 +161,7 @@ export const MusicianDiscographyView: React.FC = () => {
             {hasValidMedia && activeTrack?.youtubeId ? (
               <iframe
                 className="absolute inset-0 w-full h-full object-cover scale-105 z-0 opacity-100 border-none pointer-events-none"
-                src={`https://www.youtube.com/embed/${activeTrack.youtubeId}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&loop=1&playlist=${activeTrack.youtubeId}`}
+                src={`https://www.youtube.com/embed/${activeTrack.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0`}
                 title={activeTrack.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 referrerPolicy="strict-origin-when-cross-origin"

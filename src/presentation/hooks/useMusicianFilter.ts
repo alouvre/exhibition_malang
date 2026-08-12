@@ -33,9 +33,9 @@ export const getStartingYear = (yearStr?: string): number => {
  * alphabet initial letter filtering, and text search query intersection.
  */
 export const useMusicianFilter = (
-  musicians: MusicianData[]
+  musicians: MusicianData[],
 ): UseMusicianFilterReturn => {
-  const [sortType, setSortType] = useState<SortType>("oldest");
+  const [sortType, setSortType] = useState<SortType>("newest");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [selectedAlphabet, setSelectedAlphabet] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -52,7 +52,9 @@ export const useMusicianFilter = (
           .toLowerCase()
           .includes(normalizedQuery);
         const realNameProperty =
-          (musician as MusicianData & { realName?: string }).realName?.toLowerCase() ?? "";
+          (
+            musician as MusicianData & { realName?: string }
+          ).realName?.toLowerCase() ?? "";
         const realNameMatches = realNameProperty.includes(normalizedQuery);
         const biographyMatches = (musician.biography ?? "")
           .toLowerCase()
@@ -92,9 +94,13 @@ export const useMusicianFilter = (
 
     // 4. Dual Sorting Logic (Year & Alphabetical)
     if (sortType === "oldest") {
-      result.sort((a, b) => getStartingYear(a?.year) - getStartingYear(b?.year));
+      result.sort(
+        (a, b) => getStartingYear(a?.year) - getStartingYear(b?.year),
+      );
     } else if (sortType === "newest") {
-      result.sort((a, b) => getStartingYear(b?.year) - getStartingYear(a?.year));
+      result.sort(
+        (a, b) => getStartingYear(b?.year) - getStartingYear(a?.year),
+      );
     } else if (sortType === "a-z") {
       result.sort((a, b) => (a?.name ?? "").localeCompare(b?.name ?? ""));
     } else if (sortType === "z-a") {
