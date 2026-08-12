@@ -5,6 +5,7 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 import { HomeView } from "./HomeView";
 import { AboutView } from "./AboutView";
 import { MusicianDetailView } from "./MusicianDetailView";
+import { MusicianDiscographyView } from "./MusicianDiscographyView";
 import { ExtendedArtistsView } from "./ExtendedArtistsView";
 import { safeInitializeIcons } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
@@ -113,6 +114,10 @@ export const MainView: React.FC = () => {
             }
           />
           <Route path="/musician/:slug" element={<MusicianDetailView />} />
+          <Route
+            path="/musician/:slug/discography"
+            element={<MusicianDiscographyView />}
+          />
           <Route
             path="/extended-archive"
             element={
