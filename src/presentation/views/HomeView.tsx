@@ -5,6 +5,7 @@ import { Icon } from "../../infrastructure/services/IconService";
 import { StyleSheet } from "../utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
 import { Header } from "../components/Header";
+import { OverlayNavbar } from "../components/OverlayNavbar";
 import { MusicianCard, MusicianIcon } from "../components/MusicianCard";
 import { musiciansRegistry } from "../data/musiciansRegistry";
 import { FontService } from "../../infrastructure/services/FontService";
@@ -223,6 +224,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       </section>
 
+      {/* REUSABLE FLOATING BOTTOM OVERLAY NAVBAR (NO ICONS) */}
+      <OverlayNavbar />
+
       {/* 2. ICONS SECTION: Lebar Penuh (Max-W 7xl) & Grid Editorial Transisi Mikro Asimetris */}
       <section
         id="showcase-icons"
@@ -330,7 +334,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* 4. FOOTER SECTION: Penataan Struktur 3-Kolom Seimbang & Lapisan Watermark Terpisah */}
-      <footer className={styles.footerSection.layout}>
+      <footer id="footer-section" className={styles.footerSection.layout}>
         <div className={styles.footerSection.gridContainer}>
           {/* Kolom 1 */}
           <div className={styles.footerSection.brandBlock}>
