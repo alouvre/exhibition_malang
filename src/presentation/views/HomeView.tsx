@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
 import { Icon } from "../../infrastructure/services/IconService";
 import { StyleSheet } from "../utils/stylesheet";
-import { COLORS, SPACING, DESIGN_TOKENS } from "../styles/theme";
+import { COLORS, DESIGN_TOKENS } from "../styles/theme";
 import { Header } from "../components/Header";
 import { OverlayNavbar } from "../components/OverlayNavbar";
 import { MusicianCard, MusicianIcon } from "../components/MusicianCard";
@@ -400,7 +400,9 @@ const styles = StyleSheet.create({
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-stone-900",
-    padding: SPACING.padding.sm,
+    // paddingTop: 0,
+    // paddingLeft: SPACING.padding.sm,
+    // paddingRight: SPACING.padding.sm,
   },
 
   // CHARACTER 1: Kontainer Khusus Bertinggi Penuh Viewport Untuk Layering Center
