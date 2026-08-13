@@ -157,12 +157,12 @@ export const MusicianDiscographyView: React.FC = () => {
         />
 
         {/* BODY CONTENT: Full-Bleed Video Background & Floating Glass Tracklist Overlay */}
-        <div className="relative flex-1 w-full min-h-[calc(100vh-180px)] overflow-hidden">
+        <div className="relative flex-1 w-full min-h-[calc(100vh-177px)] overflow-hidden">
           {/* Full-Bleed Background Video / Fallback Image Layer (z-0 / z-10) */}
           <div className="absolute inset-0 aspect-video w-full z-0 overflow-hidden">
             {hasValidMedia && activeTrack?.youtubeId ? (
               <iframe
-                className="absolute inset-0 w-full h-full object-cover scale-105 z-0 opacity-100 border-none pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover scale-105 z-0 opacity-100 border-none pointer-events-none pt-4"
                 src={`https://www.youtube.com/embed/${activeTrack.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0`}
                 title={activeTrack.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
