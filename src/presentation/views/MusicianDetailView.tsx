@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",
-    padding: SPACING.padding.sm,
+    // padding: SPACING.padding.sm,
   },
 
   // CHARACTER 1: Kontainer Khusus Bertinggi Penuh Viewport Untuk Layering Center

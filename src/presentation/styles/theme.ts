@@ -143,7 +143,7 @@ export const RADIUS = {
 export const DESIGN_TOKENS = {
   layout: {
     mainWrapper:
-      "flex select-none w-full h-full max-w-[1440px] max-h-[850px] relative overflow-hidden",
+      "flex select-none w-full h-full min-h-screen relative overflow-hidden",
     sidebarWrapper:
       "relative h-full flex-shrink-0 transition-all duration-300 ease-in-out z-30",
   },

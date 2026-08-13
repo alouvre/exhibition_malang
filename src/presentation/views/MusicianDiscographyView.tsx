@@ -116,6 +116,7 @@ export const MusicianDiscographyView: React.FC = () => {
             leftActionType="back"
             onLeftActionClick={handleReturn}
             showCenterText={false}
+            variant="dark"
           />
           <div className="flex-1 flex flex-col items-center justify-center p-12 text-center my-auto min-h-[500px]">
             <span className="text-xs font-bold tracking-widest text-[#FF1F00] uppercase font-sans mb-2">
@@ -149,15 +150,16 @@ export const MusicianDiscographyView: React.FC = () => {
           onLeftActionClick={handleReturn}
           showCenterText={false}
           isSticky={true}
+          variant="dark"
           customNavItems={MUSICIAN_NAV_ITEMS}
           activeNavItemId="discography"
           onNavItemClick={handleNavClick}
         />
 
         {/* BODY CONTENT: Full-Bleed Video Background & Floating Glass Tracklist Overlay */}
-        <div className="relative flex-1 w-full min-h-[calc(100vh-140px)] overflow-hidden">
+        <div className="relative flex-1 w-full min-h-[calc(100vh-180px)] overflow-hidden">
           {/* Full-Bleed Background Video / Fallback Image Layer (z-0 / z-10) */}
-          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+          <div className="absolute inset-0 aspect-video w-full z-0 overflow-hidden">
             {hasValidMedia && activeTrack?.youtubeId ? (
               <iframe
                 className="absolute inset-0 w-full h-full object-cover scale-105 z-0 opacity-100 border-none pointer-events-none"
@@ -185,7 +187,8 @@ export const MusicianDiscographyView: React.FC = () => {
               <div className="flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/15">
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans truncate">
-                    DISCOGRAPHY • {musician.name.toUpperCase()}
+                    {musician.name.toUpperCase()} •{" "}
+                    {(activeTrack?.album || musician.album).toUpperCase()}
                   </span>
                   <h3 className="text-base sm:text-lg font-black uppercase text-white font-sans tracking-tight truncate">
                     THE CATALOG
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
       DESIGN_TOKENS.utility.scrollbar,
     background: "bg-black",
     text: "text-white",
-    padding: SPACING.padding.sm,
+    // padding: SPACING.padding.sm,
   },
   heroSection: {
     layout:

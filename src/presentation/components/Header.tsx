@@ -22,6 +22,8 @@ export interface HeaderProps {
   showCenterText?: boolean;
   isSticky?: boolean;
   className?: string;
+  /** Header color variant for light canvas or dark/transparent backgrounds */
+  variant?: "light" | "dark" | "transparent";
   /** Optional custom middle navigation links for views like MusicianDetailView */
   customNavItems?: HeaderNavItem[];
   /** Currently active navigation item ID */
@@ -39,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   showCenterText = true,
   isSticky = false,
   className,
+  variant = "light",
   customNavItems,
   activeNavItemId,
   onNavItemClick,
@@ -75,15 +78,20 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const isDarkOrTransparent = variant === "dark" || variant === "transparent";
+
   const renderLeftAction = () => {
     if (leftActionType === "menu") {
       return (
         <button
           onClick={handleAction}
-          className={`${styles.header.addBtn} mr-24`}
+          className={`w-8 h-8 ${isDarkOrTransparent ? "hover:bg-white/10 text-white" : "hover:bg-black/5 text-stone-800"} ${RADIUS.full} transition-all flex items-center justify-center cursor-pointer mr-24`}
           aria-label="Open Navigation Menu"
         >
-          <i data-lucide="menu" className="w-5 h-5 text-black block"></i>
+          <i
+            data-lucide="menu"
+            className={`w-5 h-5 ${isDarkOrTransparent ? "text-white" : "text-black"} block`}
+          ></i>
         </button>
       );
     }
@@ -92,12 +100,18 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={`${styles.header.backBtn} ${fontBadge}`}
+          className={`w-auto h-8 text-xs font-bold tracking-widest transition-colors cursor-pointer uppercase flex items-center gap-2 group ${fontBadge} ${
+            isDarkOrTransparent
+              ? "text-white hover:text-[#FF1F00]"
+              : "text-stone-800 hover:text-[#FF1F00]"
+          }`}
           aria-label="Return to Showcase"
         >
           <Icon
             name="arrow-up-left"
-            className="w-4 h-4 tracking-[0.2em] text-stone-600 block group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+            className={`w-4 h-4 tracking-[0.2em] block group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 ${
+              isDarkOrTransparent ? "text-white/80" : "text-stone-600"
+            }`}
           />
           {leftActionLabel || "Return to Showcase"}
         </button>
@@ -107,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
     return (
       <button
         onClick={handleAction}
-        className={`${styles.header.addBtn} ${fontBadge}`}
+        className={`w-8 h-8 ${isDarkOrTransparent ? "hover:bg-white/10 text-white" : "hover:bg-black/5 text-stone-800"} ${RADIUS.full} ${fontBadge}`}
         aria-label="Action"
       >
         {leftActionLabel || "ACTION"}
@@ -115,9 +129,31 @@ export const Header: React.FC<HeaderProps> = ({
     );
   };
 
+  let variantBgClass = "bg-[#F6F4EE] border-b border-black/10";
+  if (isSticky) {
+    if (variant === "dark") {
+      variantBgClass =
+        "bg-gradient-to-b from-black/90 via-black/50 to-transparent backdrop-blur-sm border-b border-white/10";
+    } else if (variant === "transparent") {
+      variantBgClass = "bg-transparent border-b border-transparent";
+    } else {
+      variantBgClass =
+        "backdrop-blur-md bg-[#F6F4EE]/90 border-b border-black/10";
+    }
+  } else {
+    if (variant === "dark") {
+      variantBgClass =
+        "bg-gradient-to-b from-black/90 via-black/50 to-transparent border-b border-white/10";
+    } else if (variant === "transparent") {
+      variantBgClass = "bg-transparent border-b border-transparent";
+    } else {
+      variantBgClass = "bg-[#F6F4EE] border-b border-black/10";
+    }
+  }
+
   const dynamicStickyClass = isSticky
-    ? "sticky top-0 z-50 w-full backdrop-blur-md bg-[#F6F4EE]/90"
-    : "relative w-full z-20 bg-[#F6F4EE]";
+    ? `sticky top-0 z-50 w-full ${variantBgClass}`
+    : `relative w-full z-20 ${variantBgClass}`;
 
   const hasCustomNav = customNavItems && customNavItems.length > 0;
 
@@ -142,8 +178,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => handleNavItemClick(e, item)}
                 className={`text-xs sm:text-sm tracking-wider uppercase transition-colors cursor-pointer ${fontBadge} ${
                   isActive
-                    ? "text-zinc-950 font-bold border-b-2 border-[#FF1F00] pb-0.5"
-                    : "text-stone-400 hover:text-stone-700 font-medium"
+                    ? `${isDarkOrTransparent ? "text-white" : "text-zinc-950"} font-bold border-b-2 border-[#FF1F00] pb-0.5`
+                    : `${isDarkOrTransparent ? "text-white/60 hover:text-white" : "text-stone-400 hover:text-stone-700"} font-medium`
                 }`}
               >
                 {item.label}
@@ -155,12 +191,16 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Default Right Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
-        <div className={`${styles.header.ticketBtn} ${fontBadge}`}>
+        <div
+          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
+        >
           {rightTextLeft}
         </div>
       ) : null}
       {!hasCustomNav && showCenterText && rightTextRight ? (
-        <div className={`${styles.header.ticketBtn} ${fontBadge}`}>
+        <div
+          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
+        >
           {rightTextRight}
         </div>
       ) : null}
@@ -174,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({
 const styles = StyleSheet.create({
   header: {
     container:
-      "flex items-center justify-between px-6 py-4 border-b border-black/10 relative",
+      "flex items-center justify-between px-9 py-0 pt-7 pb-4 relative",
     addBtn:
       "w-8 h-8 hover:bg-black/5 " +
       RADIUS.full +

@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Sound of Malang - Music in Malang Space</title>
     <meta name="description" content="Sounds of Malang" />
 
@@ -19,24 +22,9 @@
       href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,800&f[]=general-sans@400,500,600,700&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      :root {
-        --color-gallery-white: #ffffff;
-      }
-      html,
-      body {
-        background-color: #ffffff !important;
-      }
-    </style>
   </head>
-  <body
-    class="bg-white flex items-center justify-center min-h-screen overflow-hidden"
-  >
-    <div
-      id="app"
-      class="w-full h-full flex items-center justify-center bg-white"
-    ></div>
+  <body class="m-0 p-0 w-full h-full min-h-screen overflow-hidden">
+    <div id="app" class="w-full h-full min-h-screen"></div>
     <script type="module" src="/src/presentation/main.tsx"></script>
   </body>
 </html>

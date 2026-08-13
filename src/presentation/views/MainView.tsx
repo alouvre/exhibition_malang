@@ -109,10 +109,7 @@ export const MainView: React.FC = () => {
   ];
 
   return (
-    <main
-      className={styles.mainWrapper}
-      style={{ height: "calc(100vh - 24px)" }}
-    >
+    <main className={styles.mainWrapper}>
       {/* 3-Step Contextual Onboarding Coachmark Tour */}
       <OnboardingCoachmark
         isOpen={isTourOpen && !isMobile}
