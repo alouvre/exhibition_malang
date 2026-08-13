@@ -181,8 +181,8 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
             {/* Headline Summary */}
             {musician.headlineSummary && (
-              <div className="pl-16 mr-48">
-                <p className="text-base sm:text-lg font-semibold text-slate-900 font-sans pl-10 -mt-4 border-l-1 border-[#7d7d7d] py-0.5">
+              <div className="pl-16 mr-0">
+                <p className="text-base sm:text-lg font-serif text-slate-700 leading-snug tracking-tight italic pl-10 -mt-2 border-l-1 border-[#7d7d7d] py-0.5">
                   "{musician.headlineSummary}"
                 </p>
               </div>
@@ -361,11 +361,6 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                             onError={handleImageError}
                             className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
                           />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                            <span className="text-[9px] font-mono font-bold text-white bg-black/70 px-1.5 py-0.5 rounded">
-                              #{idx + 1}
-                            </span>
-                          </div>
                         </div>
                       ))}
                     </div>

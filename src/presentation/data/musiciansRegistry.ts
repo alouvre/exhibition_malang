@@ -1,4 +1,9 @@
-export type MilestoneCategory = "release" | "award" | "concert" | "career" | "legacy";
+export type MilestoneCategory =
+  | "release"
+  | "award"
+  | "concert"
+  | "career"
+  | "legacy";
 
 export interface HistoryEvent {
   year: string;
@@ -70,14 +75,19 @@ export const musiciansRegistry: MusicianData[] = [
     album: "SEMUT HITAM",
     biography:
       "Jusuf Antono Djauhari, secara profesional dikenal sebagai Ian Antono, lahir di Malang pada 29 Oktober 1950. Beliau adalah gitaris, komposer, dan produser musik paling berpengaruh dalam sejarah musik Indonesia. Sebagai jenderal musik God Bless dan Gong 2000, komposisi riff gitar Ian Antono seperti 'Rumah Kita', 'Panggung Sandiwara', dan 'Kehidupan' menjadi lagu kebangsaan lintas generasi dan pilar utama warisan kebudayaan musik kota Malang.",
-    headlineSummary: "Jenderal Musik God Bless & Pelopor Riff Gitar Rock Indonesia",
+    headlineSummary:
+      "Jenderal Musik God Bless & Pelopor Riff Gitar Rock Indonesia",
     signatureQuote: {
       text: "Musik rock bukan sekadar distorsi keras, melainkan kejujuran ekspresi dan energi jiwa yang tidak bisa dibeli.",
       source: "Ian Antono - Biografi Panggung Sandiwara",
       year: "2014",
     },
     musicalProfile: {
-      primaryInstruments: ["Gibson Les Paul Custom", "Fender Stratocaster", "Acoustic 12-String"],
+      primaryInstruments: [
+        "Gibson Les Paul Custom",
+        "Fender Stratocaster",
+        "Acoustic 12-String",
+      ],
       influences: ["Deep Purple", "Led Zeppelin", "Jimi Hendrix"],
       subGenres: ["Classic Rock", "Hard Rock", "Symphonic Rock"],
     },
@@ -95,7 +105,13 @@ export const musiciansRegistry: MusicianData[] = [
         category: "Best Album",
       },
     ],
-    collaborations: ["God Bless", "Gong 2000", "Iwan Fals", "Nicky Astria", "Ikang Sulaiman"],
+    collaborations: [
+      "God Bless",
+      "Gong 2000",
+      "Iwan Fals",
+      "Nicky Astria",
+      "Ikang Sulaiman",
+    ],
     historyTimeline: [
       {
         year: "1974",
@@ -174,7 +190,8 @@ export const musiciansRegistry: MusicianData[] = [
     album: "BIARKAN AKU LARI",
     biography:
       "Sylvia Saartje, dengan nama panggilan ikonik Jpie, lahir di Arnhem (Belanda) pada 15 September 1956 dan tumbuh besar di Malang. Beliau adalah sosok pionir wanita pertama di Indonesia yang mempopulerkan musik rock (Lady Rocker). Dengan karakter vokal serak yang bertenaga masif dan penampilan panggung penuh kharisma, Jpie mendobrak batas gender di era 1970-an dan menjadi inspirasi utama bagi generasi penyanyi wanita setelahnya.",
-    headlineSummary: "Pionir Lady Rocker Pertama Indonesia & Ikon Vokal Rock Berkarakter",
+    headlineSummary:
+      "Pionir Lady Rocker Pertama Indonesia & Ikon Vokal Rock Berkarakter",
     signatureQuote: {
       text: "Di atas panggung rock, tidak ada perbedaan gender. Yang ada hanyalah keberanian dan karakter vokal yang jujur.",
       source: "Sylvia Saartje - 50 Tahun Berkarya",
@@ -193,7 +210,14 @@ export const musiciansRegistry: MusicianData[] = [
         category: "Honorary Award",
       },
     ],
-    collaborations: ["Ian Antono", "God Bless", "Arema Rock Community"],
+    collaborations: [
+      "Ahmad Albar",
+      "God Bless",
+      "Ian Antono",
+      "Gito Rollies dan The Rollies",
+      "Mus Mulyadi",
+      "Ari Koesmiran",
+    ],
     historyTimeline: [
       {
         year: "1978",
@@ -265,7 +289,8 @@ export const musiciansRegistry: MusicianData[] = [
     album: "MAIA & FRIENDS",
     biography:
       "Dilahirkan di Malang dengan nama Dita Anggraeni, Mey Chan melesat ke puncak industri musik nasional lewat karakter vokalnya yang kuat, tinggi, dan berkarakter khas. Terkenal luas melalui kolaborasi fenomenalnya di duo papan atas, ia membuktikan versatilitasnya sebagai musisi yang tidak hanya fasih menjelajahi harmoni pop komersial, namun juga eksploratif dalam ranah musik elektronik modern, menjadikannya salah satu solois wanita paling berpengaruh yang lahir dari rahim kultural Malang.",
-    headlineSummary: "Solois Pop & Vokalis Duo Populer Berkarakter Vokal Melengking Khas",
+    headlineSummary:
+      "Solois Pop & Vokalis Duo Populer Berkarakter Vokal Melengking Khas",
     signatureQuote: {
       text: "Musik selalu bergerak. Eksplorasi dari pop komersial ke musik elektronik adalah cara saya merayakan kebebasan berkarya.",
       source: "Dita Meychan Interview",
@@ -357,32 +382,37 @@ export const musiciansRegistry: MusicianData[] = [
     album: "MARKISA",
     biography:
       "Salmantyo Ashrizky Priadi, dikenal profesional sebagai Sal Priadi, lahir di Malang pada 30 April 1992. Beliau adalah solois, penulis lagu puitis, dan aktor yang memimpin gelombang baru musik pop alternatif kontemporer Indonesia. Lirik-lirik aransemen lagunya menggabungkan dramaturgi teater, romansa magis, dan ritme eksperimental yang memperkaya wacana kota Malang sebagai UNESCO Creative City of Media Arts.",
-    headlineSummary: "Pujangga Pop Kontemporer & Aktor Teatrikal Pelopor Gelombang Baru",
+    headlineSummary:
+      "Pujangga Pop Kontemporer & Pelopor Lirik Teatrikal",
     signatureQuote: {
       text: "Saya menulis lagu seperti menulis surat cinta yang panjang. Setiap bait harus punya ruang untuk membayangkan keajaiban kecil.",
-      source: "Sal Priadi - Berhati Journal",
+      source: "Berhati Journal",
       year: "2020",
     },
     musicalProfile: {
       primaryInstruments: ["Vocalist", "Acoustic Guitar", "Poetic Storyteller"],
       influences: ["Sore", "Candra Darusman", "Frank Sinatra"],
-      subGenres: ["Art Pop", "Indie Folk", "Poetic Ballad"],
+      subGenres: ["Indie Pop", "Art Pop", "Chamber Pop"],
     },
     awards: [
       {
         year: "2018",
         title: "Nominasi Artis Solo Pria Pop Terbaik",
         organization: "AMI Awards",
-        category: "Pop Male Soloist",
       },
       {
         year: "2021",
         title: "Nominasi Aktor Pendukung Terbaik",
         organization: "Festival Film Indonesia (FFI)",
-        category: "Cinematic Acting",
       },
     ],
-    collaborations: ["Nadin Amizah", "Rara Sekar", "Lomba Sihir", "Dere"],
+    collaborations: [
+      "Nadin Amizah",
+      "Rara Sekar",
+      "Lomba Sihir",
+      "Dere",
+      "Rendy Pandugo",
+    ],
     historyTimeline: [
       {
         year: "2018",
@@ -461,13 +491,47 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "FOLK POP / ETHNIC",
     year: "2014 - PRESENT",
     image: "/assets/kos_atos/Picture1.jpg",
-    exhibitionImages: [
-      "/assets/kos_atos/Picture1.jpg",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/kos_atos/Picture1.jpg"],
     album: "LIRIK RETA",
     biography:
       "Kos Atos adalah kolektif musik modern berpilar folk kontemporer yang lahir di jantung kota Malang pada tahun 2014. Dikenal lewat keberanian mereka mengawinkan instrumen akustik tradisional dengan lirik-lirik naratif berbahasa lokal dan Indonesia, Kos Atos menjadi representasi kuat dari geliat musik independen Arema yang adaptif, jujur, dan berakar pada identitas kultural masyarakat urban.",
+    headlineSummary:
+      "Pionir Folk-Pop Etnik Malang & Penjaga Narasi Lokal Modern",
+    signatureQuote: {
+      text:
+        "Musik folk adalah cara kami mencatat denyut hidup warga Malang, menggabungkan nada etnik dengan kehangatan obrolan warung kopi.",
+      source: "Wawancara Eksklusif KULTUR Malang",
+      year: "2019",
+    },
+    musicalProfile: {
+      primaryInstruments: [
+        "Acoustic Guitar",
+        "Ukulele",
+        "Cajon Drums",
+        "Accordion",
+        "Bass",
+      ],
+      influences: ["Payung Teduh", "Iwan Fals", "Keroncong Kebangsaan"],
+      subGenres: ["Folk Pop", "Contemporary Ethnic", "Indie Acoustic"],
+    },
+    awards: [
+      {
+        year: "2018",
+        title: "Album Folk Etnik Terbaik Jawa Timur",
+        organization: "Radar Malang Awards",
+      },
+      {
+        year: "2023",
+        title: "Duta Musik Budaya Malang",
+        organization: "Dinas Kebudayaan & Pariwisata Kota Malang",
+      },
+    ],
+    collaborations: [
+      "Sal Priadi",
+      "Komunitas Musik Folk Malang",
+      "Tani Maju",
+      "Dinas Kebudayaan Kota Malang",
+    ],
     historyTimeline: [
       {
         year: "2014",
@@ -530,13 +594,48 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "POP / DIVA",
     year: "1990 - PRESENT",
     image: "/assets/krisdayanti/Picture1.jpg",
-    exhibitionImages: [
-      "/assets/krisdayanti/Picture1.jpg",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/krisdayanti/Picture1.jpg"],
     album: "SAYANG",
     biography:
       "Krisdayanti adalah salah satu maestro dan diva pop terbesar Indonesia yang lahir di Batu, Malang. Dikenal dengan jangkauan vokal yang luar biasa dan kekuatan performa panggung yang megah, karir profesionalnya melejit setelah menjuarai Asia Bagus pada tahun 1992, menjadikannya ikon musik populer tanah air yang menginspirasi generasi penyanyi lintas dekade.",
+    headlineSummary:
+      "Diva Pop Terbesar Indonesia & Maestro Vokal Megah Asal Batu",
+    signatureQuote: {
+      text:
+        "Bernyanyi adalah tentang kepasrahan jiwa dan kedisiplinan teknik. Panggung adalah tempat di mana rasa diuji di depan jutaan mata.",
+      source: "Biografi My Life, My Secret",
+      year: "2009",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Soprano Lead Vocals"],
+      influences: ["Whitney Houston", "Barbra Streisand", "Titiek Puspa"],
+      subGenres: ["Pop Ballad", "Adult Contemporary", "Orchestral Pop"],
+    },
+    awards: [
+      {
+        year: "1992",
+        title: "Grand Prix Winner",
+        organization: "Asia Bagus Festival Tokyo",
+      },
+      {
+        year: "1999",
+        title: "Artis Solo Pria/Wanita Pop Terbaik",
+        organization: "Anugerah Musik Indonesia",
+      },
+      {
+        year: "2001",
+        title: "Most Popular Female Artist",
+        organization: "MTV Asia Awards",
+      },
+    ],
+    collaborations: [
+      "Anang Hermansyah",
+      "Erwin Gutawa",
+      "Melly Goeslaw",
+      "Siti Nurhaliza",
+      "Ruth Sahanaya",
+      "Titi DJ",
+    ],
     historyTimeline: [
       {
         year: "1992",
@@ -599,13 +698,41 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "POP / NOSTALGIA",
     year: "1987 - PRESENT",
     image: "/assets/yuni_shara/Picture1.webp",
-    exhibitionImages: [
-      "/assets/yuni_shara/Picture1.webp",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/yuni_shara/Picture1.webp"],
     album: "MENGATAKAN CINTA",
     biography:
       "Wahyu Setyaningrum, yang lebih dikenal sebagai Yuni Shara, adalah penyanyi legendaris kelahiran Batu, Malang. Memiliki karakter vokal sopran yang bening dan lembut, Yuni Shara menjadi maestro daur ulang tembang-tembang nostalgia Indonesia serta Mandarin, membuktikan konsistensi karya yang tak lekang oleh waktu.",
+    headlineSummary:
+      "Maestro Pop Nostalgia & Vokalis Sopran Bening Lintas Generasi",
+    signatureQuote: {
+      text:
+        "Lagu lama selalu punya nyawa yang tidak pernah mati. Menyanyikannya kembali adalah tentang merawat ingatan indah kebudayaan kita.",
+      source: "Dokumenter Tembang Kenangan",
+      year: "2015",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Soprano Vocals"],
+      influences: ["Brotomulyo", "Titiek Puspa", "Teresa Teng"],
+      subGenres: ["Pop Nostalgia", "Adult Contemporary", "Classic Ballad"],
+    },
+    awards: [
+      {
+        year: "1987",
+        title: "Juara 1 Festival Janur Kuning",
+        organization: "Festival Janur Kuning Jakarta",
+      },
+      {
+        year: "1996",
+        title: "Penjualan Album Nostalgia Tertinggi",
+        organization: "HDX Awards",
+      },
+    ],
+    collaborations: [
+      "5 Wanita",
+      "Raffi Ahmad",
+      "Didi Kempot",
+      "Erwin Gutawa",
+    ],
     historyTimeline: [
       {
         year: "1987",
@@ -668,13 +795,46 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "POP ROCK / ALTERNATIVE",
     year: "2000 - PRESENT",
     image: "/assets/flanella/Picture1.jpg",
-    exhibitionImages: [
-      "/assets/flanella/Picture1.jpg",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/flanella/Picture1.jpg"],
     album: "AKU BISA",
     biography:
       "Flanella adalah grup musik pop-rock romantic ikonik asal Malang yang dibentuk pada era milenium. Dikenal dengan balutan aransemen piano manis dan lirik patah hati yang emosional, lagu-lagu hits Flanella menjadi soundtrack memori populer anak muda Indonesia di era 2000-an awal.",
+    headlineSummary:
+      "Pelopor Pop-Rock Romantis Era 2000-an & Soundtrack Memori Anak Muda",
+    signatureQuote: {
+      text:
+        "Melodi piano manis dan lirik patah hati selalu menemukan jalannya sendiri menuju hati pendengar yang sedang merindu.",
+      source: "Catatan Album Aku Bisa",
+      year: "2005",
+    },
+    musicalProfile: {
+      primaryInstruments: [
+        "Grand Piano / Synthesizer",
+        "Lead Vocals",
+        "Electric Guitar",
+        "Bass",
+        "Drums",
+      ],
+      influences: ["Keane", "Coldplay", "Kla Project"],
+      subGenres: ["Piano Pop", "Pop Rock", "Alternative Romance"],
+    },
+    awards: [
+      {
+        year: "2004",
+        title: "Band Pendatang Baru Terbaik",
+        organization: "Dahsyatnya Awards / MTV Indonesia",
+      },
+      {
+        year: "2006",
+        title: "Nominasi Duo/Grup Pop Terbaik",
+        organization: "Anugerah Musik Indonesia",
+      },
+    ],
+    collaborations: [
+      "Arema Pop Collective",
+      "Dhani Ahmad (Mastering)",
+      "Trinity Optima Production",
+    ],
     historyTimeline: [
       {
         year: "2000",
@@ -737,13 +897,48 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "ROCK / CLASSIC ROCK",
     year: "1960S - PRESENT",
     image: "/assets/abadi_soesman/Picture1.webp",
-    exhibitionImages: [
-      "/assets/abadi_soesman/Picture1.jpg",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/abadi_soesman/Picture1.jpg"],
     album: "ABADI SOESMAN BAND",
     biography:
       "Abadi Soesman adalah multi-instrumentalis legendaris kelahiran Malang yang memegang peranan vital dalam sejarah perkembangan musik rock, blues, dan pop Indonesia. Terkenal atas kepiawaiannya memainkan keyboard dan piano, beliau pernah memperkuat band-band raksasa tanah air seperti God Bless.",
+    headlineSummary:
+      "Maestro Multi-Instrumentalis & Virtuoso Organ/Keyboard Legend Indonesia",
+    signatureQuote: {
+      text:
+        "Musik adalah bahasa kebebasan tanpa batas usia. Jari-jari di atas tuts piano tidak pernah bohong tentang apa yang dirasakan hati.",
+      source: "Wawancara Maestro Rock Indonesia",
+      year: "2016",
+    },
+    musicalProfile: {
+      primaryInstruments: [
+        "Hammond Organ",
+        "Grand Piano",
+        "Synthesizer",
+        "Lead Guitar",
+        "Bass",
+      ],
+      influences: ["The Beatles", "Ray Charles", "Jon Lord (Deep Purple)"],
+      subGenres: ["Classic Rock", "Blues", "Rock 'n' Roll", "Psychedelic Pop"],
+    },
+    awards: [
+      {
+        year: "2012",
+        title: "Lifetime Achievement Award",
+        organization: "Anugerah Musik Indonesia",
+      },
+      {
+        year: "2017",
+        title: "Penghargaan Maestro Musik Indonesia",
+        organization: "Kementerian Pendidikan & Kebudayaan RI",
+      },
+    ],
+    collaborations: [
+      "God Bless",
+      "Abadi Soesman Express",
+      "Gito Rollies",
+      "Iwan Fals",
+      "SWAMI",
+    ],
     historyTimeline: [
       {
         year: "1960s",
@@ -806,13 +1001,46 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "HARD ROCK / HEAVY METAL",
     year: "1983 - PRESENT",
     image: "/assets/elpamas/Picture1.webp",
-    exhibitionImages: [
-      "/assets/elpamas/Picture1.webp",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/elpamas/Picture1.webp"],
     album: "PAK TUA",
     biography:
       "Elpamas (Elektronik Papan Mas) adalah grup rock legendaris asal Pandaan-Malang yang berdiri sejak awal 80-an. Terkenal lewat lirik-lirik kritikan sosial yang tajam dan distorsi gitar gahar, Elpamas melahirkan lagu perlawanan ikonik 'Pak Tua' yang ditulis oleh Iwan Fals (dengan nama samaran)",
+    headlineSummary:
+      "Band Hard Rock Perlawanan & Pencipta Anthem Sosial 'Pak Tua'",
+    signatureQuote: {
+      text:
+        "Rock Elpamas bukan hanya raungan distorsi, tapi suara nurani rakyat dan kritikan sosial yang disampaikan tanpa rasa takut.",
+      source: "Dokumenter Rock Jawa Timur",
+      year: "1992",
+    },
+    musicalProfile: {
+      primaryInstruments: [
+        "Distortion Guitar",
+        "Powerful Lead Vocals",
+        "Bass",
+        "Heavy Drums",
+      ],
+      influences: ["Deep Purple", "Whitesnake", "Iron Maiden"],
+      subGenres: ["Hard Rock", "Heavy Metal", "Social Protest Rock"],
+    },
+    awards: [
+      {
+        year: "1989",
+        title: "Juara 1 Festival Rock Se-Indonesia V",
+        organization: "Log Zhelebour Production",
+      },
+      {
+        year: "1991",
+        title: "Lagu Kritik Sosial Terbaik ('Pak Tua')",
+        organization: "Anugerah Musik Indonesia / HDX Awards",
+      },
+    ],
+    collaborations: [
+      "Iwan Fals (Penulis Pak Tua)",
+      "Log Zhelebour",
+      "Toto Tewel",
+      "Tatang Elpamas",
+    ],
     historyTimeline: [
       {
         year: "1983",
@@ -875,13 +1103,47 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "ROCK / GUITAR HERO",
     year: "1970S - PRESENT",
     image: "/assets/toto_tewel/Picture1.jpg",
-    exhibitionImages: [
-      "/assets/toto_tewel/Picture1.jpg",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/toto_tewel/Picture1.jpg"],
     album: "GIZI",
     biography:
       "Gatot Istiono, yang akrab disapa Toto Tewel, adalah salah satu dewa gitar (guitar hero) paling disegani di Indonesia kelahiran Malang. Merupakan gitaris utama band Elpamas dan kolaborator kunci dalam grup raksasa SWAMI, Kantata Takwa, serta pengiring panggung Sirkus Barock dan Iwan Fals.",
+    headlineSummary:
+      "Dewa Gitar Rock Indonesia & Arsitek Riff Magis SWAMI & Kantata Takwa",
+    signatureQuote: {
+      text:
+        "Gitar bagi saya merupakan perpanjangan suara batin. Satu petikan string berjiwa lebih keras daripada seribu kata tanpa makna.",
+      source: "Wawancara Gitaris Indonesia",
+      year: "2011",
+    },
+    musicalProfile: {
+      primaryInstruments: [
+        "Fender Stratocaster",
+        "Gibson Les Paul",
+        "Acoustic Guitar",
+      ],
+      influences: ["Jimi Hendrix", "Ritchie Blackmore", "Jeff Beck"],
+      subGenres: ["Hard Rock", "Progressive Rock", "Blues Rock"],
+    },
+    awards: [
+      {
+        year: "1984",
+        title: "Gitaris Terbaik Festival Rock Se-Indonesia",
+        organization: "Log Zhelebour Production",
+      },
+      {
+        year: "1986",
+        title: "Gitaris Terbaik Festival Rock Se-Indonesia",
+        organization: "Log Zhelebour Production",
+      },
+    ],
+    collaborations: [
+      "Elpamas",
+      "SWAMI",
+      "Kantata Takwa",
+      "Sirkus Barock",
+      "Iwan Fals",
+      "Sawung Jabo",
+    ],
     historyTimeline: [
       {
         year: "1970s",
@@ -944,13 +1206,40 @@ export const musiciansRegistry: MusicianData[] = [
     genre: "KRONCONG / POP KLASIK",
     year: "1950S - 1980S",
     image: "/assets/laily_dimjatie/Picture1.webp",
-    exhibitionImages: [
-      "/assets/laily_dimjatie/Picture1.webp",
-      "/assets/vinyl_record.jpg",
-    ],
+    exhibitionImages: ["/assets/laily_dimjatie/Picture1.webp"],
     album: "BUNGA ROSE",
     biography:
       "Laily Dimjatie adalah penyanyi serba bisa dan diva keroncong legendaris asal Malang yang sangat populer pada era 1950-an hingga 1970-an. Dengan intonasi cengkok keroncong yang amat murni dan anggun, lagu-lagunya memuat rekaman sejarah estetika musik Indonesia pasca-kemerdekaan.",
+    headlineSummary:
+      "Diva Keroncong Klasik Malang & Pelestari Langgam Jawa Pasca-Kemerdekaan",
+    signatureQuote: {
+      text:
+        "Cengkok keroncong adalah pusaka rasa. Menyanyikannya dengan tulus berarti merawat keanggunan sejarah bangsa.",
+      source: "Arsip Radio Republik Indonesia (RRI) Malang",
+      year: "1968",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Classical Soprano Vocals"],
+      influences: ["Gesang", "Waldjinah", "Orkes Keroncong Lokananta"],
+      subGenres: ["Keroncong Asli", "Langgam Jawa", "Pop Klasik Era 50-an"],
+    },
+    awards: [
+      {
+        year: "1965",
+        title: "Penghargaan Maestro Keroncong Lokananta",
+        organization: "Lokananta Records",
+      },
+      {
+        year: "1975",
+        title: "Anugerah Pelestari Seni Budaya Malang",
+        organization: "Pemerintah Kota Malang",
+      },
+    ],
+    collaborations: [
+      "Orkes Keroncong Lokananta",
+      "Radio Republik Indonesia (RRI) Malang Orchestra",
+      "Irama Record",
+    ],
     historyTimeline: [
       {
         year: "1950s",
