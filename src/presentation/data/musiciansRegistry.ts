@@ -1,6 +1,9 @@
+export type MilestoneCategory = "release" | "award" | "concert" | "career" | "legacy";
+
 export interface HistoryEvent {
   year: string;
   event: string;
+  category?: MilestoneCategory;
 }
 
 export interface TrackCatalogItem {
@@ -9,6 +12,25 @@ export interface TrackCatalogItem {
   album: string;
   duration: string;
   youtubeId?: string;
+}
+
+export interface MusicianQuote {
+  text: string;
+  source?: string;
+  year?: string;
+}
+
+export interface AwardItem {
+  year: string;
+  title: string;
+  organization: string;
+  category?: string;
+}
+
+export interface MusicalProfile {
+  primaryInstruments: string[];
+  influences?: string[];
+  subGenres?: string[];
 }
 
 export interface MusicianData {
@@ -20,10 +42,17 @@ export interface MusicianData {
   image: string;
   album: string;
   biography: string;
-  historyTimeline: HistoryEvent[];
-  catalog: TrackCatalogItem[];
   exhibitionImages?: string[];
   youtubeId?: string;
+  historyTimeline: HistoryEvent[];
+  catalog: TrackCatalogItem[];
+
+  // Field Pengayaan Baru (Optional)
+  headlineSummary?: string;
+  signatureQuote?: MusicianQuote;
+  musicalProfile?: MusicalProfile;
+  awards?: AwardItem[];
+  collaborations?: string[];
 }
 
 export const musiciansRegistry: MusicianData[] = [
@@ -41,26 +70,56 @@ export const musiciansRegistry: MusicianData[] = [
     album: "SEMUT HITAM",
     biography:
       "Jusuf Antono Djauhari, secara profesional dikenal sebagai Ian Antono, lahir di Malang pada 29 Oktober 1950. Beliau adalah gitaris, komposer, dan produser musik paling berpengaruh dalam sejarah musik Indonesia. Sebagai jenderal musik God Bless dan Gong 2000, komposisi riff gitar Ian Antono seperti 'Rumah Kita', 'Panggung Sandiwara', dan 'Kehidupan' menjadi lagu kebangsaan lintas generasi dan pilar utama warisan kebudayaan musik kota Malang.",
+    headlineSummary: "Jenderal Musik God Bless & Pelopor Riff Gitar Rock Indonesia",
+    signatureQuote: {
+      text: "Musik rock bukan sekadar distorsi keras, melainkan kejujuran ekspresi dan energi jiwa yang tidak bisa dibeli.",
+      source: "Ian Antono - Biografi Panggung Sandiwara",
+      year: "2014",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Gibson Les Paul Custom", "Fender Stratocaster", "Acoustic 12-String"],
+      influences: ["Deep Purple", "Led Zeppelin", "Jimi Hendrix"],
+      subGenres: ["Classic Rock", "Hard Rock", "Symphonic Rock"],
+    },
+    awards: [
+      {
+        year: "2014",
+        title: "AMI Legend Award",
+        organization: "Anugerah Musik Indonesia",
+        category: "Lifetime Achievement",
+      },
+      {
+        year: "1988",
+        title: "Album Rock Terlaris 'Semut Hitam'",
+        organization: "HDX Awards",
+        category: "Best Album",
+      },
+    ],
+    collaborations: ["God Bless", "Gong 2000", "Iwan Fals", "Nicky Astria", "Ikang Sulaiman"],
     historyTimeline: [
       {
         year: "1974",
         event:
           "Bergabung dengan God Bless sebagai gitaris utama dan penata musik komposer utama.",
+        category: "career",
       },
       {
         year: "1988",
         event:
           "Merilis album 'Semut Hitam' yang mencetak rekor penjualan musik rock terbesar di Indonesia.",
+        category: "release",
       },
       {
         year: "1991",
         event:
           "Mendirikan Gong 2000 dan menggelar konser kolosal di Stadion Senayan Jakarta.",
+        category: "concert",
       },
       {
         year: "2014",
         event:
           "Menerima Penghargaan Anugerah Musik Indonesia (AMI) Legend Award atas kontribusi seumur hidup.",
+        category: "award",
       },
     ],
     catalog: [
@@ -115,26 +174,50 @@ export const musiciansRegistry: MusicianData[] = [
     album: "BIARKAN AKU LARI",
     biography:
       "Sylvia Saartje, dengan nama panggilan ikonik Jpie, lahir di Arnhem (Belanda) pada 15 September 1956 dan tumbuh besar di Malang. Beliau adalah sosok pionir wanita pertama di Indonesia yang mempopulerkan musik rock (Lady Rocker). Dengan karakter vokal serak yang bertenaga masif dan penampilan panggung penuh kharisma, Jpie mendobrak batas gender di era 1970-an dan menjadi inspirasi utama bagi generasi penyanyi wanita setelahnya.",
+    headlineSummary: "Pionir Lady Rocker Pertama Indonesia & Ikon Vokal Rock Berkarakter",
+    signatureQuote: {
+      text: "Di atas panggung rock, tidak ada perbedaan gender. Yang ada hanyalah keberanian dan karakter vokal yang jujur.",
+      source: "Sylvia Saartje - 50 Tahun Berkarya",
+      year: "2022",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Lead Vocals", "Acoustic Guitar"],
+      influences: ["Janis Joplin", "Suzi Quatro", "Tina Turner"],
+      subGenres: ["Hard Rock", "Blues Rock", "Lady Rock"],
+    },
+    awards: [
+      {
+        year: "1995",
+        title: "Pelopor Lady Rocker Indonesia",
+        organization: "Anugerah Musik Nasional",
+        category: "Honorary Award",
+      },
+    ],
+    collaborations: ["Ian Antono", "God Bless", "Arema Rock Community"],
     historyTimeline: [
       {
         year: "1978",
         event:
           "Merilis album solo debut 'Biarkan Aku Lari' ciptaan Ian Antono yang meledak di pasaran.",
+        category: "release",
       },
       {
         year: "1981",
         event:
           "Mewakili musisi rock wanita Indonesia dalam festival panggung musik internasional.",
+        category: "concert",
       },
       {
         year: "1995",
         event:
           "Menerima penghargaan kehormatan sebagai Pelopor Lady Rocker Indonesia.",
+        category: "award",
       },
       {
         year: "2022",
         event:
           "Merayakan 50 tahun berkarya di kancah musik rock dengan peluncuran buku biografi.",
+        category: "legacy",
       },
     ],
     catalog: [
@@ -182,21 +265,44 @@ export const musiciansRegistry: MusicianData[] = [
     album: "MAIA & FRIENDS",
     biography:
       "Dilahirkan di Malang dengan nama Dita Anggraeni, Mey Chan melesat ke puncak industri musik nasional lewat karakter vokalnya yang kuat, tinggi, dan berkarakter khas. Terkenal luas melalui kolaborasi fenomenalnya di duo papan atas, ia membuktikan versatilitasnya sebagai musisi yang tidak hanya fasih menjelajahi harmoni pop komersial, namun juga eksploratif dalam ranah musik elektronik modern, menjadikannya salah satu solois wanita paling berpengaruh yang lahir dari rahim kultural Malang.",
+    headlineSummary: "Solois Pop & Vokalis Duo Populer Berkarakter Vokal Melengking Khas",
+    signatureQuote: {
+      text: "Musik selalu bergerak. Eksplorasi dari pop komersial ke musik elektronik adalah cara saya merayakan kebebasan berkarya.",
+      source: "Dita Meychan Interview",
+      year: "2018",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Lead Vocals", "Keyboard / Synthesizer"],
+      influences: ["Katy Perry", "Daft Punk", "Utada Hikaru"],
+      subGenres: ["Pop Rock", "Electronic Pop", "Dance Pop"],
+    },
+    awards: [
+      {
+        year: "2009",
+        title: "Duo Pop Terbaik",
+        organization: "Anugerah Musik Indonesia",
+        category: "Pop Music",
+      },
+    ],
+    collaborations: ["Duo Maia", "Cinta Laura", "Eka Gustiwana"],
     historyTimeline: [
       {
         year: "2008",
         event:
           "Bergabung dalam proyek duo pop legendaris nasional, merilis hits global yang mendominasi tangga lagu Indonesia.",
+        category: "career",
       },
       {
         year: "2018",
         event:
           "Memulai re-branding karir menggunakan nama asli Dita Meychan dan merilis single solo eksperimental 'Setia'.",
+        category: "release",
       },
       {
         year: "2026",
         event:
           "Diabadikan dalam pameran Music Gallery Vision klaster Media Arts Festival Mbois atas kontribusi besarnya di pop modern.",
+        category: "legacy",
       },
     ],
     catalog: [
@@ -251,26 +357,56 @@ export const musiciansRegistry: MusicianData[] = [
     album: "MARKISA",
     biography:
       "Salmantyo Ashrizky Priadi, dikenal profesional sebagai Sal Priadi, lahir di Malang pada 30 April 1992. Beliau adalah solois, penulis lagu puitis, dan aktor yang memimpin gelombang baru musik pop alternatif kontemporer Indonesia. Lirik-lirik aransemen lagunya menggabungkan dramaturgi teater, romansa magis, dan ritme eksperimental yang memperkaya wacana kota Malang sebagai UNESCO Creative City of Media Arts.",
+    headlineSummary: "Pujangga Pop Kontemporer & Aktor Teatrikal Pelopor Gelombang Baru",
+    signatureQuote: {
+      text: "Saya menulis lagu seperti menulis surat cinta yang panjang. Setiap bait harus punya ruang untuk membayangkan keajaiban kecil.",
+      source: "Sal Priadi - Berhati Journal",
+      year: "2020",
+    },
+    musicalProfile: {
+      primaryInstruments: ["Vocalist", "Acoustic Guitar", "Poetic Storyteller"],
+      influences: ["Sore", "Candra Darusman", "Frank Sinatra"],
+      subGenres: ["Art Pop", "Indie Folk", "Poetic Ballad"],
+    },
+    awards: [
+      {
+        year: "2018",
+        title: "Nominasi Artis Solo Pria Pop Terbaik",
+        organization: "AMI Awards",
+        category: "Pop Male Soloist",
+      },
+      {
+        year: "2021",
+        title: "Nominasi Aktor Pendukung Terbaik",
+        organization: "Festival Film Indonesia (FFI)",
+        category: "Cinematic Acting",
+      },
+    ],
+    collaborations: ["Nadin Amizah", "Rara Sekar", "Lomba Sihir", "Dere"],
     historyTimeline: [
       {
         year: "2018",
         event:
           "Merilis single 'Kultusan' dan 'Ikat Aku di Tulang Belikatmu' yang meraih nominasi pertamanya di Anugerah Musik Indonesia (AMI Awards) 2018 untuk kategori Artis Solo Pria Pop Terbaik.",
+        category: "award",
       },
       {
         year: "2020",
         event:
           "Merilis album perdana 'Berhati' yang memperlihatkan identitas musikal Sal sebagai penulis lagu yang menggabungkan pop kontemporer, folk, R&B, dan art pop.",
+        category: "release",
       },
       {
         year: "2021",
         event:
           "Merilis EP 'MARKISA' dengan eksplorasi musik yang teatrikal dan megah, serta memulai debut akting layar lebar sebagai Tokek dalam film 'Seperti Dendam, Rindu Harus Dibayar Tuntas' yang mengantarkannya pada nominasi Festival Film Indonesia (FFI).",
+        category: "career",
       },
       {
         year: "2024",
         event:
           "Meluncurkan karya hits fenomenal 'Gala Bunga Matahari' dan 'Dari planet lain' yang mendapat sambutan luar biasa di berbagai platform media sosial karena liriknya yang menyentuh tentang kehilangan, kerinduan, dan harapan.",
+        category: "release",
       },
     ],
     catalog: [

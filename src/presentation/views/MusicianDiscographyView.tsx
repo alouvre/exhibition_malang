@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
 import { StyleSheet } from "../utils/stylesheet";
-import { SPACING, DESIGN_TOKENS } from "../styles/theme";
+import { DESIGN_TOKENS } from "../styles/theme";
 import { Header, HeaderNavItem } from "../components/Header";
 import { Icon } from "../../infrastructure/services/IconService";
 import {
@@ -180,9 +180,9 @@ export const MusicianDiscographyView: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40 pointer-events-none z-10" />
           </div>
 
-          {/* Floating Glass Tracklist Overlay Card (Top-Left Corner Positioning) (z-20 / z-30) */}
-          <div className="relative z-20 w-full h-full flex flex-col justify-start items-start pt-2 sm:pt-3 pl-2 sm:pl-4 pr-4 pb-4 md:pl-6 md:pt-3 pointer-events-none">
-            <div className="mr-auto ml-0 sm:ml-2 mt-1 sm:mt-2 max-w-xs sm:max-w-sm w-full pointer-events-auto flex flex-col gap-3.5 bg-black/65 backdrop-blur-xl border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-black/90">
+          {/* Floating Glass Tracklist Overlay Card (Bottom-Left Corner Positioning) (z-20 / z-30) */}
+          <div className="relative z-20 w-full h-full flex flex-col justify-end items-start p-4 md:p-6 pointer-events-none">
+            <div className="mr-auto ml-0 mb-2 sm:mb-4 max-w-xs sm:max-w-sm w-full pointer-events-auto flex flex-col gap-0.5 bg-black/60 backdrop-blur-xl border border-white/10 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-black/90">
               {/* Card Header: Title & YouTube CTA */}
               <div className="flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/15">
                 <div className="flex flex-col gap-0.5 min-w-0">
@@ -211,7 +211,7 @@ export const MusicianDiscographyView: React.FC = () => {
               </div>
 
               {/* Scrollable Tracklist Table */}
-              <div className="max-h-[46vh] sm:max-h-[50vh] overflow-y-auto custom-scrollbar flex flex-col divide-y divide-white/10 pr-1">
+              <div className="max-h-[35vh] sm:max-h-[42vh] overflow-y-auto custom-scrollbar flex flex-col divide-y divide-white/10 pr-1">
                 {musician.catalog.map((track, idx) => {
                   const isSelected = activeTrack?.number === track.number;
                   return (
