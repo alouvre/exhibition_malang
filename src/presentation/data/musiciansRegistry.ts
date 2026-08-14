@@ -38,6 +38,12 @@ export interface MusicalProfile {
   subGenres?: string[];
 }
 
+export interface CollaborationItem {
+  name: string;
+  projectTitle?: string; // Judul lagu, album, atau peran kolaborasi
+  role?: string;         // Misal: "Duet Song", "Producer", "Featuring"
+}
+
 export interface MusicianData {
   id: string;
   slug: string;
@@ -57,7 +63,7 @@ export interface MusicianData {
   signatureQuote?: MusicianQuote;
   musicalProfile?: MusicalProfile;
   awards?: AwardItem[];
-  collaborations?: string[];
+  collaborations?: (string | CollaborationItem)[];
 }
 
 export const musiciansRegistry: MusicianData[] = [
@@ -106,11 +112,11 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "God Bless",
-      "Gong 2000",
-      "Iwan Fals",
-      "Nicky Astria",
-      "Ikang Sulaiman",
+      { name: "God Bless", projectTitle: "Semut Hitam & Cermin", role: "Guitar Virtuoso & Composer" },
+      { name: "Gong 2000", projectTitle: "Bara Timur & Konser Senayan", role: "Founder & Lead Guitar" },
+      { name: "Iwan Fals", projectTitle: "Album 1910 & Mata Indah Bola Pingpong", role: "Producer & Arranger" },
+      { name: "Nicky Astria", projectTitle: "Jarum Neraka & Tangan-Tangan Setan", role: "Songwriter & Producer" },
+      { name: "Ikang Sulaiman", projectTitle: "Preman & Menjangkau Matahari", role: "Composer & Guitarist" },
     ],
     historyTimeline: [
       {
@@ -211,12 +217,12 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Ahmad Albar",
-      "God Bless",
-      "Ian Antono",
-      "Gito Rollies dan The Rollies",
-      "Mus Mulyadi",
-      "Ari Koesmiran",
+      { name: "Ahmad Albar", projectTitle: "Panggung Konser Rock 70-an", role: "Guest Vocalist & Duet" },
+      { name: "God Bless", projectTitle: "Tour Concert 1978", role: "Co-Performance" },
+      { name: "Ian Antono", projectTitle: "Album Biarkan Aku Lari", role: "Songwriter & Arranger" },
+      { name: "Gito Rollies dan The Rollies", projectTitle: "Rock Fest Kolaborasi", role: "Featured Artist" },
+      { name: "Mus Mulyadi", projectTitle: "Lintas Genre Showcase", role: "Guest Vocalist" },
+      { name: "Ari Koesmiran", projectTitle: "Pentas Lady Rocker", role: "Stage Collaborator" },
     ],
     historyTimeline: [
       {
@@ -309,7 +315,11 @@ export const musiciansRegistry: MusicianData[] = [
         category: "Pop Music",
       },
     ],
-    collaborations: ["Duo Maia", "Cinta Laura", "Eka Gustiwana"],
+    collaborations: [
+      { name: "Duo Maia", projectTitle: "Ingat Kamu & EGP", role: "Lead Vocalist & Duo Partner" },
+      { name: "Cinta Laura", projectTitle: "Pengkhianat Cinta", role: "Featuring Vocalist" },
+      { name: "Eka Gustiwana", projectTitle: "Modern Electronic Single", role: "Vocal Collaborator" },
+    ],
     historyTimeline: [
       {
         year: "2008",
@@ -407,11 +417,11 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Nadin Amizah",
-      "Rara Sekar",
-      "Lomba Sihir",
-      "Dere",
-      "Rendy Pandugo",
+      { name: "Nadin Amizah", projectTitle: "Amin Paling Serius", role: "Duet Song" },
+      { name: "Rara Sekar", projectTitle: "Jangan Pertanyakan Lagi", role: "Duet Single" },
+      { name: "Lomba Sihir", projectTitle: "Berbunga", role: "Featuring Vocalist" },
+      { name: "Dere", projectTitle: "Berhati Journal", role: "Co-Writer & Guest Vocal" },
+      { name: "Rendy Pandugo", projectTitle: "Paper Boats", role: "Collaboration Single" },
     ],
     historyTimeline: [
       {
@@ -527,10 +537,10 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Sal Priadi",
-      "Komunitas Musik Folk Malang",
-      "Tani Maju",
-      "Dinas Kebudayaan Kota Malang",
+      { name: "Sal Priadi", projectTitle: "KULTUR Stage Malang", role: "Live Guest Performance" },
+      { name: "Komunitas Musik Folk Malang", projectTitle: "Malang Folk Movement", role: "Core Collective" },
+      { name: "Tani Maju", projectTitle: "Showcase Etnik Malang", role: "Co-Headliner" },
+      { name: "Dinas Kebudayaan Kota Malang", projectTitle: "Festival Mbois XI", role: "Cultural Ambassador" },
     ],
     historyTimeline: [
       {
@@ -629,12 +639,12 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Anang Hermansyah",
-      "Erwin Gutawa",
-      "Melly Goeslaw",
-      "Siti Nurhaliza",
-      "Ruth Sahanaya",
-      "Titi DJ",
+      { name: "Anang Hermansyah", projectTitle: "Cinta & Cinta Lintas Usia", role: "Duet Album" },
+      { name: "Erwin Gutawa", projectTitle: "Konser Tunggal KD & Orchestral Pop", role: "Music Director & Arranger" },
+      { name: "Melly Goeslaw", projectTitle: "Menghitung Hari & Cobalah Untuk Setia", role: "Songwriter" },
+      { name: "Siti Nurhaliza", projectTitle: "Album CTKD", role: "Duet Album" },
+      { name: "Ruth Sahanaya", projectTitle: "Grup 3 Diva", role: "Vocal Trio Member" },
+      { name: "Titi DJ", projectTitle: "Grup 3 Diva", role: "Vocal Trio Member" },
     ],
     historyTimeline: [
       {
@@ -728,10 +738,10 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "5 Wanita",
-      "Raffi Ahmad",
-      "Didi Kempot",
-      "Erwin Gutawa",
+      { name: "5 Wanita", projectTitle: "Grup Vokal 5 Wanita", role: "Core Member" },
+      { name: "Raffi Ahmad", projectTitle: "50 Tahun Lagi", role: "Duet Vocalist" },
+      { name: "Didi Kempot", projectTitle: "Kapusan Janji", role: "Duet Single" },
+      { name: "Erwin Gutawa", projectTitle: "Tembang Kenangan Orchestra", role: "Featured Vocalist" },
     ],
     historyTimeline: [
       {
@@ -831,9 +841,9 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Arema Pop Collective",
-      "Dhani Ahmad (Mastering)",
-      "Trinity Optima Production",
+      { name: "Arema Pop Collective", projectTitle: "Kompilasi Pop Malang", role: "Featured Band" },
+      { name: "Dhani Ahmad (Mastering)", projectTitle: "Album Aku Bisa", role: "Audio Mastering Engineer" },
+      { name: "Trinity Optima Production", projectTitle: "Major Label Distribution", role: "Record Label Partner" },
     ],
     historyTimeline: [
       {
@@ -933,11 +943,11 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "God Bless",
-      "Abadi Soesman Express",
-      "Gito Rollies",
-      "Iwan Fals",
-      "SWAMI",
+      { name: "God Bless", projectTitle: "Album Semut Hitam & Cermin", role: "Virtuoso Keyboardist" },
+      { name: "Abadi Soesman Express", projectTitle: "Classic Rock Project", role: "Band Leader" },
+      { name: "Gito Rollies", projectTitle: "Album Solo Gito", role: "Keyboard & Producer" },
+      { name: "Iwan Fals", projectTitle: "Album SWAMI & Kantata Takwa", role: "Organ & Synthesizer" },
+      { name: "SWAMI", projectTitle: "Bento & Bongkar", role: "Keyboardist" },
     ],
     historyTimeline: [
       {
@@ -1036,10 +1046,10 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Iwan Fals (Penulis Pak Tua)",
-      "Log Zhelebour",
-      "Toto Tewel",
-      "Tatang Elpamas",
+      { name: "Iwan Fals (Penulis Pak Tua)", projectTitle: "Single Pak Tua", role: "Songwriter & Lyricist" },
+      { name: "Log Zhelebour", projectTitle: "Festival Rock Se-Indonesia", role: "Producer & Executive" },
+      { name: "Toto Tewel", projectTitle: "Elpamas Hard Rock", role: "Lead Guitarist" },
+      { name: "Tatang Elpamas", projectTitle: "Album Tato & Bos", role: "Lead Vocalist" },
     ],
     historyTimeline: [
       {
@@ -1137,12 +1147,12 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Elpamas",
-      "SWAMI",
-      "Kantata Takwa",
-      "Sirkus Barock",
-      "Iwan Fals",
-      "Sawung Jabo",
+      { name: "Elpamas", projectTitle: "Lagu Pak Tua & Tato", role: "Lead Guitarist" },
+      { name: "SWAMI", projectTitle: "Lagu Bento & Bongkar", role: "Guitar Virtuoso" },
+      { name: "Kantata Takwa", projectTitle: "Consert Tour 1990", role: "Lead Guitarist" },
+      { name: "Sirkus Barock", projectTitle: "Live Performance", role: "Guitarist" },
+      { name: "Iwan Fals", projectTitle: "Mata Dewa Tour", role: "Lead Guitarist" },
+      { name: "Sawung Jabo", projectTitle: "Sirkus Barock Movement", role: "Collaborator" },
     ],
     historyTimeline: [
       {
@@ -1236,9 +1246,9 @@ export const musiciansRegistry: MusicianData[] = [
       },
     ],
     collaborations: [
-      "Orkes Keroncong Lokananta",
-      "Radio Republik Indonesia (RRI) Malang Orchestra",
-      "Irama Record",
+      { name: "Orkes Keroncong Lokananta", projectTitle: "Album Bunga Rose", role: "Lead Vocalist" },
+      { name: "Radio Republik Indonesia (RRI) Malang Orchestra", projectTitle: "Siaran Langsung RRI", role: "Featured Soloist" },
+      { name: "Irama Record", projectTitle: "Piringan Hitam 1965", role: "Recording Artist" },
     ],
     historyTimeline: [
       {

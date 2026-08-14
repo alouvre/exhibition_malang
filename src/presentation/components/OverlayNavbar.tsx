@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { FontService } from "../../infrastructure/services/FontService";
 
 export interface NavLinkItem {
@@ -34,8 +35,8 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
 ];
 
 /**
- * OverlayNavbar - Reusable Floating Bottom Capsule Navbar
- * Text-driven high-fashion minimalism. NO ICONS, NO EMAIL, FLOATING BOTTOM.
+ * OverlayNavbar - Reusable Floating Bottom Capsule Navbar (iOS Segmented Control & Dynamic Island Aesthetic)
+ * Text-driven high-fashion minimalism with active state indicator and smooth motion transition.
  * Logo clicks scroll to #hero-section, DETAILS scrolls to #footer-section.
  */
 export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
@@ -49,30 +50,40 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   className = "",
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [localActiveId, setLocalActiveId] = useState<string>(
+    activeLinkId || navLinks[0]?.id || ""
+  );
+
   const fontService = FontService.getInstance();
   const fontBadge = fontService.getFontClass("BADGE_TAG");
 
+  const currentActiveId = activeLinkId || localActiveId;
+
+  // Sync external activeLinkId if provided
+  useEffect(() => {
+    if (activeLinkId) {
+      setLocalActiveId(activeLinkId);
+    }
+  }, [activeLinkId]);
+
+  // Scroll visibility check
   useEffect(() => {
     const handleScroll = () => {
       const heroElement = document.getElementById("hero-section");
       if (heroElement) {
         const heroBottom = heroElement.getBoundingClientRect().bottom;
-        // Triggers hide earlier (heroBottom < 180) when scrolling back up towards Hero
         setIsVisible(heroBottom < 180);
       } else {
-        // Fallback if hero-section id is not found: show after scrolling 350px
         setIsVisible(window.scrollY > 350);
       }
     };
 
-    // Attach scroll listeners to window and overflow scroll containers
     const heroElement = document.getElementById("hero-section");
     const scrollContainer = heroElement?.closest(".overflow-y-auto") || window;
 
     scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Initial position check on mount
     handleScroll();
 
     return () => {
@@ -80,6 +91,43 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // IntersectionObserver for automatic section highlighting on scroll
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => {
+        if (link.href && link.href.startsWith("#")) {
+          return document.getElementById(link.href.replace("#", ""));
+        }
+        return null;
+      })
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-30% 0px -40% 0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const matchingLink = navLinks.find(
+            (link) => link.href === `#${entry.target.id}`
+          );
+          if (matchingLink) {
+            setLocalActiveId(matchingLink.id);
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, [navLinks]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (onLogoClick) {
@@ -94,6 +142,8 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   };
 
   const handleLinkClick = (e: React.MouseEvent, link: NavLinkItem) => {
+    setLocalActiveId(link.id);
+
     if (link.onClick) {
       link.onClick();
     } else if (onNavClick) {
@@ -111,60 +161,76 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   return (
     <nav
       aria-label="Bottom Navigation Overlay"
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-xl bg-zinc-900/90 backdrop-blur-md border border-white/10 rounded-full shadow-2xl shadow-black/50 px-3 py-2 sm:px-5 sm:py-2.5 flex items-center justify-between gap-4 sm:gap-6 transition-all select-none ${
+      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-xl inline-flex items-center gap-1.5 p-1.5 rounded-full bg-black/50 dark:bg-black/65 backdrop-blur-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-300 select-none ${
         isVisible
-          ? "opacity-100 translate-y-0 scale-100 pointer-events-auto duration-500 ease-out"
-          : "opacity-0 translate-y-6 scale-95 pointer-events-none duration-100 ease-out"
+          ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+          : "opacity-0 translate-y-6 scale-95 pointer-events-none"
       } ${className}`}
     >
       {/* 1. Left Brand Badge (Clickable Logo Badge -> Scrolls to #hero-section) */}
-      <div className="flex items-center">
+      <div className="flex items-center pl-1">
         <button
           type="button"
           onClick={handleLogoClick}
           aria-label="Scroll to top (Hero Section)"
-          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white font-bold text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
+          className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white font-bold text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
         >
           {brandText}
         </button>
       </div>
 
       {/* Subtle vertical divider */}
-      <div className="h-4 w-px bg-white/15" />
+      <div className="h-4 w-px bg-white/15 mx-0.5" />
 
-      {/* 2. Center/Right Navigation Links (Pure Text Menu Items) */}
-      <div className="flex items-center gap-4 sm:gap-6">
+      {/* 2. iOS Segmented Control Pill Navigation Items */}
+      <div className="flex items-center gap-1">
         {navLinks.map((link) => {
-          const isActive = activeLinkId === link.id;
+          const isActive = currentActiveId === link.id;
           return (
-            <a
+            <button
               key={link.id}
-              href={link.href || "#"}
+              type="button"
               onClick={(e) => handleLinkClick(e, link)}
-              className={`text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-200 ${fontBadge} ${
+              className={`relative px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-200 cursor-pointer select-none ${fontBadge} ${
                 isActive
-                  ? "text-white border-b-2 border-[#FF1F00] pb-0.5"
-                  : "text-white/60 hover:text-white"
+                  ? "text-stone-950 font-bold"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
               }`}
             >
-              {link.label}
-            </a>
+              {isActive && (
+                <motion.div
+                  layoutId="activeTabPill"
+                  className="absolute inset-0 bg-white rounded-full shadow-sm"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                {link.label}
+                {isActive && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] shadow-[0_0_6px_rgba(255,31,0,0.8)]" />
+                )}
+              </span>
+            </button>
           );
         })}
       </div>
 
       {/* 3. Optional Right Action Pill Button (Only rendered if actionLabel is provided) */}
       {actionLabel && (
-        <button
-          type="button"
-          onClick={onActionClick}
-          className={`bg-white hover:bg-stone-200 text-black font-bold rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 shadow-md hover:scale-105 active:scale-95 cursor-pointer ml-2 ${fontBadge}`}
-        >
-          {actionLabel}
-        </button>
+        <>
+          <div className="h-4 w-px bg-white/15 mx-0.5" />
+          <button
+            type="button"
+            onClick={onActionClick}
+            className={`bg-white hover:bg-stone-200 text-black font-bold rounded-full px-3.5 py-1.5 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 shadow-md hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
+          >
+            {actionLabel}
+          </button>
+        </>
       )}
     </nav>
   );
 };
 
 export default OverlayNavbar;
+

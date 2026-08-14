@@ -9,11 +9,12 @@ import { Icon } from "../../infrastructure/services/IconService";
 import {
   musiciansRegistry,
   MusicianData as MusicianDetailData,
+  CollaborationItem,
   HistoryEvent,
   TrackCatalogItem,
 } from "../data/musiciansRegistry";
 
-export type { HistoryEvent, TrackCatalogItem, MusicianDetailData };
+export type { HistoryEvent, TrackCatalogItem, MusicianDetailData, CollaborationItem };
 
 interface MusicianDetailViewProps {
   slug?: string;
@@ -56,6 +57,9 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   const [selectedLightboxImage, setSelectedLightboxImage] = useState<
     string | null
   >(null);
+  const [activeCollabIndex, setActiveCollabIndex] = useState<number | null>(
+    null
+  );
 
   const musician = musiciansRegistry.find(
     (item) => item.slug === targetSlug || item.id === targetSlug,
@@ -377,18 +381,81 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     transition={{ duration: 0.4 }}
                     className="pt-5 border-t border-black/10"
                   >
-                    <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 font-mono">
-                      KEY COLLABORATIONS
+                    <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 font-mono flex items-center justify-between">
+                      <span>KEY COLLABORATIONS</span>
+                      <span className="text-[10px] font-normal text-stone-400 normal-case hidden sm:inline">
+                        (hover or tap to preview)
+                      </span>
                     </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {musician.collaborations.map((collab, idx) => (
-                        <span
-                          key={idx}
-                          className="px-3 py-1 rounded-full text-xs font-medium bg-black/5 text-stone-800 border border-black/10 backdrop-blur-sm"
-                        >
-                          {collab}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-2 overflow-visible">
+                      {musician.collaborations.map((collab, idx) => {
+                        const item: CollaborationItem =
+                          typeof collab === "string"
+                            ? { name: collab }
+                            : collab;
+                        const hasPreview = Boolean(
+                          item.projectTitle || item.role
+                        );
+                        const isHovered = activeCollabIndex === idx;
+
+                        return (
+                          <div key={idx} className="relative inline-block">
+                            <button
+                              type="button"
+                              onMouseEnter={() => setActiveCollabIndex(idx)}
+                              onMouseLeave={() => setActiveCollabIndex(null)}
+                              onClick={() =>
+                                setActiveCollabIndex(isHovered ? null : idx)
+                              }
+                              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer select-none flex items-center gap-1.5 border ${
+                                isHovered
+                                  ? "bg-slate-950 text-white border-slate-900 shadow-md scale-105"
+                                  : "bg-black/5 hover:bg-black/10 text-stone-800 border-black/10 hover:border-black/20 backdrop-blur-sm"
+                              }`}
+                            >
+                              <span>{item.name}</span>
+                              {hasPreview && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] shadow-[0_0_6px_rgba(255,31,0,0.8)]" />
+                              )}
+                            </button>
+
+                            {/* Interactive Floating Tooltip Badge */}
+                            <AnimatePresence>
+                              {isHovered && hasPreview && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                                  exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                                  transition={{ duration: 0.2, ease: "easeOut" }}
+                                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-40 w-max max-w-[240px] pointer-events-none"
+                                >
+                                  <div className="bg-slate-950/95 backdrop-blur-xl text-white border border-white/20 shadow-2xl rounded-xl p-3 flex flex-col gap-1 text-left relative">
+                                    {/* Triangle pointer pin */}
+                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-slate-950/95 border-b border-r border-white/20 rotate-45" />
+
+                                    <div className="flex items-center justify-between gap-2">
+                                      <span className="text-[9px] font-mono font-bold tracking-widest text-[#FF1F00] uppercase">
+                                        COLLABORATION
+                                      </span>
+                                      {item.role && (
+                                        <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/15 text-slate-200 font-mono">
+                                          {item.role}
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {item.projectTitle && (
+                                      <p className="text-xs font-bold text-slate-100 font-sans leading-snug">
+                                        "{item.projectTitle}"
+                                      </p>
+                                    )}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 )}
@@ -406,25 +473,31 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     ACHIEVEMENTS & AWARDS
                   </h4>
                   <div className="space-y-2.5">
-                    {musician.awards.map((award, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3 rounded-xl bg-black/5 border border-black/10 flex items-start gap-3 shadow-2xs"
-                      >
-                        <div className="px-2 py-1 rounded bg-black/10 text-[10px] font-mono font-bold text-stone-800 shrink-0">
-                          {award.year}
+                    {[...musician.awards]
+                      .sort((a, b) => {
+                        const yearA = parseInt(a.year, 10) || 0;
+                        const yearB = parseInt(b.year, 10) || 0;
+                        return yearA - yearB;
+                      })
+                      .map((award, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3 rounded-xl bg-black/5 border border-black/10 flex items-start gap-3 shadow-2xs"
+                        >
+                          <div className="px-2 py-1 rounded bg-black/10 text-[10px] font-mono font-bold text-stone-800 shrink-0">
+                            {award.year}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h5 className="text-xs font-bold text-stone-900 truncate">
+                              {award.title}
+                            </h5>
+                            <p className="text-[11px] text-stone-600 truncate">
+                              {award.organization}{" "}
+                              {award.category ? `• ${award.category}` : ""}
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <h5 className="text-xs font-bold text-stone-900 truncate">
-                            {award.title}
-                          </h5>
-                          <p className="text-[11px] text-stone-600 truncate">
-                            {award.organization}{" "}
-                            {award.category ? `• ${award.category}` : ""}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </motion.div>
               )}
