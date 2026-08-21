@@ -201,7 +201,11 @@ export const MusicianDiscographyView: React.FC = () => {
                   {/* Sub-header: Musician Name • Active Track Title (Always Track Title) */}
                   <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans truncate">
                     {musician.name.toUpperCase()} •{" "}
-                    {(activeTrack?.title || musician.album || "TRACK").toUpperCase()}
+                    {(
+                      activeTrack?.title ||
+                      musician.album ||
+                      "TRACK"
+                    ).toUpperCase()}
                   </span>
 
                   {/* Dynamic Main Title: "NOW PLAYING" when collapsed, "THE CATALOG" when expanded */}
@@ -238,7 +242,9 @@ export const MusicianDiscographyView: React.FC = () => {
                     onClick={() => setIsCollapsed((prev) => !prev)}
                     className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white transition-all cursor-pointer flex items-center justify-center border border-white/10 shrink-0"
                     title={isCollapsed ? "Expand Catalog" : "Minimize Catalog"}
-                    aria-label={isCollapsed ? "Expand Catalog" : "Minimize Catalog"}
+                    aria-label={
+                      isCollapsed ? "Expand Catalog" : "Minimize Catalog"
+                    }
                   >
                     <Icon
                       name="chevron-down"
@@ -300,7 +306,7 @@ export const MusicianDiscographyView: React.FC = () => {
                                 {track.title}
                               </span>
                               <span className="text-[9px] sm:text-[10px] font-medium text-stone-400 font-sans uppercase truncate">
-                                ALBUM: {track.album}
+                                {track.album}
                               </span>
                             </div>
                             <span
