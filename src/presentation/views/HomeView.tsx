@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
 import { Icon } from "../../infrastructure/services/IconService";
 import { StyleSheet } from "../utils/stylesheet";
@@ -19,16 +19,18 @@ interface TimelineEra {
 interface HomeViewProps {
   onToggleSidebar?: () => void;
   onSelectMusician?: (musician: MusicianIcon) => void;
+  onHeroVisibilityChange?: (isVisible: boolean) => void;
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
   onToggleSidebar,
   onSelectMusician,
+  onHeroVisibilityChange,
 }) => {
+  const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const iconsSectionRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleStartJourney = () => {
     iconsSectionRef.current?.scrollIntoView({
@@ -36,67 +38,138 @@ export const HomeView: React.FC<HomeViewProps> = ({
       block: "start",
     });
   };
-  useEffect(() => {
-    // 1. Inject editorial typography fonts dynamically on mount
+
+  // 1. Reset Hash & Scroll Secara Instan saat Mount / Refresh
+  useLayoutEffect(() => {
+    // Inject editorial typography fonts dynamically on mount
     injectStylesheet(
       "gallery-fonts",
       "https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Poppins:ital,wght@0,300..900;1,300..900&family=Outfit:wght@300;400;500;600;700;800;900&family=Pinyon+Script&display=swap",
     );
 
-    // 2. Safely initialize Lucide icons
+    // Safely initialize Lucide icons
     safeInitializeIcons();
 
-    // 3. Target Anchored Scroll Detection on Initial Load
-    const initialHash = window.location.hash || location.hash;
-    if (initialHash) {
-      const targetId = initialHash.replace("#", "");
-      const element = document.getElementById(targetId);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
-      }
+    // Matikan perilaku auto-scroll bawaan browser saat refresh
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
-  }, [location]);
 
-  // 4. Scrollspy with URL Hash Syncing via IntersectionObserver
+    // Bersihkan hash sekunder langsung dari address bar tanpa reload
+    if (window.location.hash) {
+      const cleanUrl =
+        window.location.origin +
+        window.location.pathname +
+        window.location.search;
+      window.history.replaceState(null, "", cleanUrl);
+    }
+
+    // Paksa scroll kembali ke paling atas (Hero Section) secara instan
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant" as ScrollBehavior,
+    });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+
+    // Reset state hero & coachmark
+    setIsHeroVisible(true);
+  }, []);
+
+  // 2. Hero Section Visibility Observer for Onboarding Coachmark
   useEffect(() => {
-    const sectionIds = ["hero-section", "showcase-icons", "timeline-section"];
-    const sectionElements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
+    const heroElement =
+      document.getElementById("hero-section") ||
+      document.querySelector("section");
+    if (!heroElement) return;
 
-    if (sectionElements.length === 0) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Coachmark is active only if hero section is at least 40% visible in viewport
+        const visible = entry.isIntersecting;
+        setIsHeroVisible(visible);
+        if (onHeroVisibilityChange) {
+          onHeroVisibilityChange(visible);
+        }
+      },
+      {
+        root: containerRef.current || null,
+        threshold: 0.4,
+      },
+    );
 
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      const intersectingEntries = entries.filter(
-        (entry) => entry.isIntersecting,
-      );
+    observer.observe(heroElement);
+    return () => {
+      observer.disconnect();
+      if (onHeroVisibilityChange) {
+        onHeroVisibilityChange(false);
+      }
+    };
+  }, [onHeroVisibilityChange]);
 
-      if (intersectingEntries.length > 0) {
-        // Determine the dominant section currently in the viewport
-        const dominantEntry = intersectingEntries.reduce((max, entry) =>
-          entry.intersectionRatio > max.intersectionRatio ? entry : max,
-        );
+  // 3. Sinkronkan URL Hash dengan Posisi Scroll Nyata (Scroll Spy)
+  useEffect(() => {
+    const handleScrollHashSync = () => {
+      const container = containerRef.current;
+      const scrollY = container ? container.scrollTop : window.scrollY;
+      const cleanUrl =
+        window.location.origin +
+        window.location.pathname +
+        window.location.search;
 
-        const newHash = `#${dominantEntry.target.id}`;
+      // Jika berada di area Hero (0 - 300px dari atas)
+      if (scrollY < 300) {
+        if (
+          window.location.hash !== "" &&
+          window.location.hash !== "#hero-section"
+        ) {
+          window.history.replaceState(null, "", cleanUrl);
+        }
+        return;
+      }
 
-        // Only update history hash if it has changed to prevent unnecessary replaceState calls
-        if (window.location.hash !== newHash) {
-          window.history.replaceState(window.history.state, "", newHash);
+      // Deteksi seksi yang sedang aktif saat scroll
+      const sections = [
+        { id: "showcase-icons", el: document.getElementById("showcase-icons") },
+        {
+          id: "timeline-section",
+          el: document.getElementById("timeline-section"),
+        },
+        { id: "footer-section", el: document.getElementById("footer-section") },
+      ];
+
+      for (const sec of sections) {
+        if (sec.el) {
+          const rect = sec.el.getBoundingClientRect();
+          if (
+            rect.top <= window.innerHeight * 0.4 &&
+            rect.bottom >= window.innerHeight * 0.2
+          ) {
+            const targetHash = `#${sec.id}`;
+            if (window.location.hash !== targetHash) {
+              window.history.replaceState(null, "", targetHash);
+            }
+            break;
+          }
         }
       }
     };
 
-    const observer = new IntersectionObserver(observerCallback, {
-      root: containerRef.current || null,
-      threshold: 0.4,
-    });
-
-    sectionElements.forEach((el) => observer.observe(el));
+    const container = containerRef.current;
+    window.addEventListener("scroll", handleScrollHashSync, { passive: true });
+    if (container) {
+      container.addEventListener("scroll", handleScrollHashSync, {
+        passive: true,
+      });
+    }
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", handleScrollHashSync);
+      if (container) {
+        container.removeEventListener("scroll", handleScrollHashSync);
+      }
     };
   }, []);
 
@@ -161,7 +234,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
   return (
     <div ref={containerRef} className={styles.container}>
       {/* 1. HERO SECTION: Kanvas Khusus Layout Layer Berlapis */}
-      <section id="hero-section" className={styles.heroSection.layout}>
+      <section
+        id="hero-section"
+        data-hero-visible={isHeroVisible}
+        className={styles.heroSection.layout}
+      >
         {/* Integrated Static Non-Sticky Header */}
         <Header leftActionType="menu" onLeftActionClick={handleMenuClick} />
 
@@ -337,19 +414,23 @@ export const HomeView: React.FC<HomeViewProps> = ({
       {/* 4. FOOTER SECTION: Penataan Struktur 3-Kolom Seimbang & Lapisan Watermark Terpisah */}
       <footer id="footer-section" className={styles.footerSection.layout}>
         <div className={styles.footerSection.gridContainer}>
-          {/* Kolom 1 */}
+          {/* Kolom 1: Kurasi & Pernyataan Identitas */}
           <div className={styles.footerSection.brandBlock}>
-            <h3 className={styles.footerSection.brandTitle}>FM11</h3>
+            <div className="flex items-center gap-2">
+              {/* <span className="w-2 h-2 bg-[#FF1F00] rounded-full" /> */}
+              <h3 className={styles.footerSection.brandTitle}>
+                FM11 • MALANG MENYALA
+              </h3>
+            </div>
             <p className={styles.footerSection.brandText}>
-              FESTIVAL MBOIS EDISI KE-11 (FM11) 'MALANG MENYALA' ADALAH PLATFORM
-              KOLABORASI EKONOMI KREATIF TERBESAR DI JAWA TIMUR. MERAYAKAN SATU
-              ABAD STADION GAJAYANA, SATU TAHUN STATUS KOTA MALANG SEBAGAI
-              UNESCO CREATIVE CITY OF MEDIA ARTS, SERTA BULAN KEMERDEKAAN
-              REPUBLIK INDONESIA.
+              FESTIVAL MBOIS EDISI KE-11 ADALAH PLATFORM KOLABORASI EKONOMI
+              KREATIF TERBESAR DI JAWA TIMUR. MERAYAKAN SATU ABAD STADION
+              GAJAYANA, STATUS KOTA MALANG SEBAGAI UNESCO CREATIVE CITY OF MEDIA
+              ARTS, SERTA KEMERDEKAAN REPUBLIK INDONESIA.
             </p>
           </div>
 
-          {/* Kolom 2 */}
+          {/* Kolom 2: Metadata Pameran & Status Langsung */}
           <div className={styles.footerSection.detailsBlock}>
             <span className={styles.footerSection.subtitle}>
               FESTIVAL DETAILS
@@ -358,7 +439,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <div className={styles.footerSection.tableRow}>
                 <span className={styles.footerSection.tableLabel}>STATUS</span>
                 <span className={styles.footerSection.tableValueActive}>
-                  H-30 COUNTDOWN
+                  <span className="w-1.5 h-1.5 mr-1 rounded-full bg-[#FF1F00] animate-pulse inline-block" />
+                  LIVE NOW • DAY 1 OF 3
                 </span>
               </div>
               <div className={styles.footerSection.tableRow}>
@@ -366,7 +448,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   LOCATION
                 </span>
                 <span className={styles.footerSection.tableValue}>
-                  STADION GAJAYANA MALANG
+                  STADION GAJAYANA, MALANG
                 </span>
               </div>
               <div className={styles.footerSection.tableRow}>
@@ -377,14 +459,42 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   21 - 23 AGUSTUS 2026
                 </span>
               </div>
+              <div className={styles.footerSection.tableRow}>
+                {/* <span className={styles.footerSection.tableLabel}>
+                  ADMISSION
+                </span> */}
+                {/* <span className={styles.footerSection.tableValue}>
+                  FREE ENTRY • PUBLIC SHOWCASE
+                </span> */}
+              </div>
             </div>
           </div>
 
-          {/* Kolom 3: Ruang Kosong Penyeimbang Grid Sekaligus Jangkar Watermark */}
-          <div className="hidden lg:block relative h-full w-full" />
+          {/* Kolom 3: Arsip & Navigasi Cepat (Pengganti Blok Kosong) */}
+          {/* <div className="flex flex-col justify-between h-full gap-6">
+            <div className="flex flex-col gap-3">
+              <span className={styles.footerSection.subtitle}>
+                CURATORIAL ARCHIVE
+              </span>
+              <p className="text-[11px] font-mono text-stone-500 uppercase leading-relaxed tracking-wider">
+                DIKURASI OLEH TIM ARSIP MUSIK MALANG RAYA UNTUK MERAWAT WARISAN
+                BUNYI DAN SEJARAH MUSIK LOKAL.
+              </p>
+            </div>
+
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="self-start group inline-flex items-center gap-2 text-[10px] font-mono font-bold tracking-widest text-stone-900 uppercase hover:text-[#FF1F00] transition-colors cursor-pointer border-b border-black/20 pb-0.5"
+            >
+              <span>KEMBALI KE ATAS</span>
+              <span className="transform group-hover:-translate-y-0.5 transition-transform">
+                ↑
+              </span>
+            </button>
+          </div> */}
         </div>
 
-        {/* Faded Watermark */}
+        {/* Faded Watermark dengan Masking Halus */}
         <div className={styles.footerSection.watermark}>MBOIS 2026</div>
       </footer>
     </div>
@@ -501,7 +611,7 @@ const styles = StyleSheet.create({
     brandText:
       "text-[10px] md:text-xs text-stone-500 leading-relaxed uppercase tracking-wide font-medium " +
       FontService.getInstance().getFontClass("BODY_TEXT"),
-    detailsBlock: "flex flex-col gap-4 w-full",
+    detailsBlock: "flex flex-col gap-4 w-full ml-100",
     subtitle:
       "text-[10px] font-bold tracking-widest " +
       COLORS.primaryText +

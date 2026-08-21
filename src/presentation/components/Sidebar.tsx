@@ -62,7 +62,9 @@ export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
     >
       {headerTitle && (
         <div className="px-3.5 pt-3 pb-2 border-b border-black/[0.05]">
-          <span className={`text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase ${fontBadge}`}>
+          <span
+            className={`text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase ${fontBadge}`}
+          >
             {headerTitle}
           </span>
         </div>
@@ -270,19 +272,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
             // handleToggleFullscreen();
           },
         },
-        {
-          id: "reset-player",
-          label: "System Reset Guide",
-          icon: "rotate-ccw",
-          onClick: () => {
-            // window.dispatchEvent(
-            //   new CustomEvent("show-toast", {
-            //     detail: "OPERATOR ACTION: Visual Archive Player Reset",
-            //   }),
-            // );
-            setIsGuideOpen(false);
-          },
-        },
+        // {
+        //   id: "reset-player",
+        //   label: "System Reset Guide",
+        //   icon: "rotate-ccw",
+        //   onClick: () => {
+        //     window.dispatchEvent(
+        //       new CustomEvent("show-toast", {
+        //         detail: "OPERATOR ACTION: Visual Archive Player Reset",
+        //       }),
+        //     );
+        //     setIsGuideOpen(false);
+        //   },
+        // },
         {
           id: "tech-contact",
           label: "Technical Support",

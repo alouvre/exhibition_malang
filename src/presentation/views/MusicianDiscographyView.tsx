@@ -188,12 +188,12 @@ export const MusicianDiscographyView: React.FC = () => {
           </div>
 
           {/* Layer 2: Floating UI Overlay (Spans Full Viewport Container - Absolute Inset-0 with Safe-Area Padding) */}
-          <div className="absolute inset-0 z-20 w-full h-full flex flex-col justify-end items-start p-4 sm:p-6 pb-6 sm:pb-8 pointer-events-none">
+          <div className="absolute inset-0 z-20 w-full h-full flex flex-col justify-end items-start p-3 sm:p-6 pb-4 sm:pb-8 pointer-events-none">
             {/* Floating Glass Tracklist Overlay Card (Collapsible & Safe-Area Aligned) */}
             <motion.div
               layout
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              className="mr-auto ml-0 mb-2 sm:mb-4 max-w-xs sm:max-w-sm w-full pointer-events-auto flex flex-col bg-black/70 backdrop-blur-xl border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-black/90 transition-all duration-300"
+              className="mr-auto ml-0 mb-2 sm:mb-4 w-full max-w-[calc(100vw-24px)] sm:max-w-sm pointer-events-auto flex flex-col bg-black/70 backdrop-blur-xl border border-white/15 rounded-3xl p-3.5 sm:p-5 shadow-2xl shadow-black/90 transition-all duration-300"
             >
               {/* Card Header: Title, YouTube CTA & Minimize Toggle */}
               <div className="flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/15">
@@ -211,19 +211,19 @@ export const MusicianDiscographyView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
-                  {/* YouTube Icon Only Button */}
+                  {/* YouTube Icon Only Button (44x44px minimum touch target) */}
                   {hasValidMedia && activeTrack?.youtubeId && (
                     <a
                       href={`https://www.youtube.com/watch?v=${activeTrack.youtubeId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-[#FF1F00] hover:bg-[#D61A00] text-white flex items-center justify-center transition-all shadow-md shadow-[#FF1F00]/30 hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                      className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#FF1F00] hover:bg-[#D61A00] text-white flex items-center justify-center transition-all shadow-md shadow-[#FF1F00]/30 hover:scale-105 active:scale-95 cursor-pointer shrink-0"
                       title="Tonton di YouTube"
                       aria-label="Tonton di YouTube"
                     >
                       {/* Ikon YouTube SVG */}
                       <svg
-                        className="w-4 h-4 fill-current"
+                        className="w-4.5 h-4.5 fill-current"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -232,17 +232,17 @@ export const MusicianDiscographyView: React.FC = () => {
                     </a>
                   )}
 
-                  {/* Minimize / Expand Toggle Button */}
+                  {/* Minimize / Expand Toggle Button (44x44px minimum touch target) */}
                   <button
                     type="button"
                     onClick={() => setIsCollapsed((prev) => !prev)}
-                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white transition-all cursor-pointer flex items-center justify-center border border-white/10"
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white transition-all cursor-pointer flex items-center justify-center border border-white/10 shrink-0"
                     title={isCollapsed ? "Expand Catalog" : "Minimize Catalog"}
                     aria-label={isCollapsed ? "Expand Catalog" : "Minimize Catalog"}
                   >
                     <Icon
                       name="chevron-down"
-                      className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                      className={`w-4 h-4 transition-transform duration-300 ${
                         isCollapsed ? "rotate-180" : ""
                       }`}
                     />

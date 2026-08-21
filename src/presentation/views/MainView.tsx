@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Sidebar } from "../components/Sidebar";
 import { OnboardingCoachmark } from "../components/OnboardingCoachmark";
+import { MobileFallbackScreen } from "../components/MobileFallbackScreen";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { HomeView } from "./HomeView";
 import { AboutView } from "./AboutView";
@@ -18,6 +19,8 @@ export const MainView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
+  const [isBypassed, setIsBypassed] = useState<boolean>(false);
+  const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
 
   // 0. ONBOARDING COACHMARK TOUR STATE (Triggers automatically on every first-load / refresh session)
   const [isTourOpen, setIsTourOpen] = useState<boolean>(true);
@@ -110,9 +113,15 @@ export const MainView: React.FC = () => {
 
   return (
     <main className={styles.mainWrapper}>
+      {/* Mobile Device Fallback Guard Screen */}
+      {isMobile && !isBypassed && (
+        <MobileFallbackScreen onBypass={() => setIsBypassed(true)} />
+      )}
+
       {/* 3-Step Contextual Onboarding Coachmark Tour */}
       <OnboardingCoachmark
         isOpen={isTourOpen && !isMobile}
+        isVisible={isHeroVisible}
         currentStep={tourStep}
         totalSteps={3}
         onNextStep={handleNextTourStep}
@@ -144,6 +153,7 @@ export const MainView: React.FC = () => {
             element={
               <HomeView
                 onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                onHeroVisibilityChange={setIsHeroVisible}
               />
             }
           />

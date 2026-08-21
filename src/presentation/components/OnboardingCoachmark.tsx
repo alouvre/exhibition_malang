@@ -14,6 +14,7 @@ export interface CoachmarkStep {
 
 export interface OnboardingCoachmarkProps {
   isOpen: boolean;
+  isVisible?: boolean;
   currentStep: number;
   totalSteps?: number;
   onNextStep: () => void;
@@ -83,6 +84,7 @@ const smoothEase = {
  */
 export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
   isOpen,
+  isVisible = true,
   currentStep,
   totalSteps = 3,
   onNextStep,
@@ -102,7 +104,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     STEPS_CONFIG.find((s) => s.stepIndex === currentStep) || STEPS_CONFIG[0];
 
   const updateTargetRect = useCallback(() => {
-    if (!isOpen || !currentStepConfig) return false;
+    if (!isOpen || !isVisible || !currentStepConfig) return false;
 
     const element = document.getElementById(currentStepConfig.targetId);
     if (element) {
@@ -120,11 +122,11 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
       }
     }
     return false;
-  }, [isOpen, currentStepConfig]);
+  }, [isOpen, isVisible, currentStepConfig]);
 
   // Recalculate spotlight position with micro-delay on mount & sidebar transitions
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || !isVisible) {
       setIsReady(false);
       return;
     }
@@ -163,11 +165,11 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
       window.removeEventListener("resize", handleResizeOrScroll);
       window.removeEventListener("scroll", handleResizeOrScroll, true);
     };
-  }, [isOpen, currentStep, updateTargetRect]);
+  }, [isOpen, isVisible, currentStep, updateTargetRect]);
 
   // Real-time ResizeObserver for target element and body layout changes
   useEffect(() => {
-    if (!isOpen || !currentStepConfig) return;
+    if (!isOpen || !isVisible || !currentStepConfig) return;
 
     const targetEl = document.getElementById(currentStepConfig.targetId);
     if (!targetEl) return;
@@ -182,7 +184,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     }
 
     return () => observer.disconnect();
-  }, [isOpen, currentStepConfig, updateTargetRect]);
+  }, [isOpen, isVisible, currentStepConfig, updateTargetRect]);
 
   // Accessibility: Handle Escape key to skip tour
   useEffect(() => {
@@ -233,7 +235,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && isVisible && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isReady && targetRect ? 1 : 0 }}

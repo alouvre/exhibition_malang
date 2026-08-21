@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={`w-8 h-8 ${isDarkOrTransparent ? "hover:bg-white/10 text-white" : "hover:bg-black/5 text-stone-800"} ${RADIUS.full} transition-all flex items-center justify-center cursor-pointer mr-24`}
+          className={`w-8 h-8 ${isDarkOrTransparent ? "hover:bg-white/10 text-white" : "hover:bg-black/5 text-stone-800"} ${RADIUS.full} transition-all flex items-center justify-center cursor-pointer`}
           aria-label="Open Navigation Menu"
         >
           <i
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <button
           onClick={handleAction}
-          className={`w-auto h-8 text-xs font-bold tracking-widest transition-colors cursor-pointer uppercase flex items-center gap-2 group ${fontBadge} ${
+          className={`w-auto h-8 text-[11px] sm:text-xs font-bold tracking-widest transition-colors cursor-pointer uppercase flex items-center gap-1.5 sm:gap-2 group shrink-0 z-20 ${fontBadge} ${
             isDarkOrTransparent
               ? "text-white hover:text-[#FF1F00]"
               : "text-stone-800 hover:text-[#FF1F00]"
@@ -109,11 +109,16 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <Icon
             name="arrow-up-left"
-            className={`w-4 h-4 tracking-[0.2em] block group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 ${
+            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 tracking-[0.2em] block group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 ${
               isDarkOrTransparent ? "text-white/80" : "text-stone-600"
             }`}
           />
-          {leftActionLabel || "Return to Showcase"}
+          {leftActionLabel || (
+            <>
+              <span className="inline sm:hidden">RETURN</span>
+              <span className="hidden sm:inline">RETURN TO SHOWCASE</span>
+            </>
+          )}
         </button>
       );
     }
@@ -167,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
       {hasCustomNav ? (
         <nav
           aria-label="Header Navigation"
-          className="absolute left-1/2 -translate-x-1/2 flex items-center gap-6 sm:gap-8 z-10 select-none"
+          className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-6 md:gap-8 z-10 select-none"
         >
           {customNavItems.map((item) => {
             const isActive = activeNavItemId === item.id;
@@ -176,7 +181,7 @@ export const Header: React.FC<HeaderProps> = ({
                 key={item.id}
                 type="button"
                 onClick={(e) => handleNavItemClick(e, item)}
-                className={`text-xs sm:text-sm tracking-wider uppercase transition-colors cursor-pointer ${fontBadge} ${
+                className={`text-[11px] sm:text-xs md:text-sm tracking-wider uppercase transition-colors cursor-pointer ${fontBadge} ${
                   isActive
                     ? `${isDarkOrTransparent ? "text-white" : "text-zinc-950"} font-bold border-b-2 border-[#FF1F00] pb-0.5`
                     : `${isDarkOrTransparent ? "text-white/60 hover:text-white" : "text-stone-400 hover:text-stone-700"} font-medium`
@@ -214,7 +219,7 @@ export const Header: React.FC<HeaderProps> = ({
 const styles = StyleSheet.create({
   header: {
     container:
-      "flex items-center justify-between px-9 py-0 pt-7 pb-4 relative",
+      "flex items-center justify-between px-4 sm:px-6 md:px-9 py-0 pt-4 sm:pt-7 pb-3 sm:pb-4 relative",
     addBtn:
       "w-8 h-8 hover:bg-black/5 " +
       RADIUS.full +

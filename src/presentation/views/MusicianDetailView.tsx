@@ -14,7 +14,12 @@ import {
   TrackCatalogItem,
 } from "../data/musiciansRegistry";
 
-export type { HistoryEvent, TrackCatalogItem, MusicianDetailData, CollaborationItem };
+export type {
+  HistoryEvent,
+  TrackCatalogItem,
+  MusicianDetailData,
+  CollaborationItem,
+};
 
 interface MusicianDetailViewProps {
   slug?: string;
@@ -58,7 +63,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     string | null
   >(null);
   const [activeCollabIndex, setActiveCollabIndex] = useState<number | null>(
-    null
+    null,
   );
 
   const musician = musiciansRegistry.find(
@@ -158,11 +163,11 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
             <h1
               className={styles.heroSection.title}
               style={{
-                fontSize: "clamp(3rem, 6vw + 1rem, 7rem)",
+                fontSize: "clamp(2.25rem, 8vw, 7rem)",
                 fontWeight: 900,
                 fontStyle: "normal",
                 letterSpacing: "-0.04em",
-                lineHeight: "0.9",
+                lineHeight: "0.95",
               }}
             >
               {(() => {
@@ -185,8 +190,8 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
             {/* Headline Summary */}
             {musician.headlineSummary && (
-              <div className="pl-16 mr-0">
-                <p className="text-base sm:text-lg font-serif text-slate-700 leading-snug tracking-tight italic pl-10 -mt-2 border-l-1 border-[#7d7d7d] py-0.5">
+              <div className="pl-0 sm:pl-6 lg:pl-16 mr-0">
+                <p className="text-sm sm:text-base md:text-lg font-serif text-slate-700 leading-snug tracking-tight italic pl-4 sm:pl-10 -mt-2 border-l-2 border-[#7d7d7d] py-0.5">
                   "{musician.headlineSummary}"
                 </p>
               </div>
@@ -197,7 +202,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
             {/* Musical Style, Instruments & Influences */}
             {musician.musicalProfile && (
-              <div className="ml-16 flex flex-col gap-4 p-6 bg-slate-50 border border-slate-200/80 rounded-2xl shadow-sm">
+              <div className="ml-0 sm:ml-6 lg:ml-16 flex flex-col gap-4 p-4 sm:p-6 bg-slate-50 border border-slate-200/80 rounded-2xl shadow-sm">
                 <h4 className="text-xs font-bold tracking-widest text-slate-900 uppercase font-sans flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FF1F00]" />
                   MUSICAL PROFILE & INSTRUMENTATION
@@ -249,7 +254,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
               <h4 className={styles.heroSection.timelineHeading}>
                 HISTORICAL TIMELINE
               </h4>
-              <div className="flex flex-col gap-4 py-3 border-l-2 border-slate-200 pl-4 pr-4 mt-3">
+              <div className="flex flex-col gap-4 py-3 border-l-2 border-slate-200 pl-4 pr-2 sm:pl-4 mt-3">
                 {musician.historyTimeline.map((item, idx) => (
                   <div
                     key={idx}
@@ -276,7 +281,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
             {/* Signature Quote / Editorial Motto Blockquote */}
             {musician.signatureQuote && (
-              <div className="ml-16 my-2 p-6 sm:p-8 bg-slate-950 text-white rounded-2xl relative overflow-hidden shadow-xl border border-slate-800">
+              <div className="ml-0 sm:ml-6 lg:ml-16 my-2 p-5 sm:p-8 bg-slate-950 text-white rounded-2xl relative overflow-hidden shadow-xl border border-slate-800">
                 <div className="absolute top-2 right-4 text-7xl font-serif text-white/10 select-none pointer-events-none">
                   “
                 </div>
@@ -350,7 +355,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                         EXHIBITION ARCHIVES ({musician.exhibitionImages.length})
                       </span>
                     </h4>
-                    <div className="grid grid-cols-3 gap-2.5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                       {musician.exhibitionImages.map((imgUrl, idx) => (
                         <div
                           key={idx}
@@ -384,7 +389,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 font-mono flex items-center justify-between">
                       <span>KEY COLLABORATIONS</span>
                       <span className="text-[10px] font-normal text-stone-400 normal-case hidden sm:inline">
-                        (hover or tap to preview)
+                        (tap to preview)
                       </span>
                     </h4>
                     <div className="flex flex-wrap gap-2 overflow-visible">
@@ -394,7 +399,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                             ? { name: collab }
                             : collab;
                         const hasPreview = Boolean(
-                          item.projectTitle || item.role
+                          item.projectTitle || item.role,
                         );
                         const isHovered = activeCollabIndex === idx;
 
@@ -426,8 +431,11 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                                   initial={{ opacity: 0, y: 8, scale: 0.95 }}
                                   animate={{ opacity: 1, y: 0, scale: 1 }}
                                   exit={{ opacity: 0, y: 4, scale: 0.95 }}
-                                  transition={{ duration: 0.2, ease: "easeOut" }}
-                                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-40 w-max max-w-[240px] pointer-events-none"
+                                  transition={{
+                                    duration: 0.2,
+                                    ease: "easeOut",
+                                  }}
+                                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-40 w-max max-w-[calc(100vw-48px)] sm:max-w-[240px] pointer-events-none"
                                 >
                                   <div className="bg-slate-950/95 backdrop-blur-xl text-white border border-white/20 shadow-2xl rounded-xl p-3 flex flex-col gap-1 text-left relative">
                                     {/* Triangle pointer pin */}
@@ -579,15 +587,15 @@ const styles = StyleSheet.create({
       "relative w-full max-w-full px-0 pt-0 pb-4 md:pb-8 overflow-visible flex flex-col justify-between h-auto " +
       COLORS.canvasBg,
     contentWrapper:
-      "relative w-full max-w-7xl mx-auto px-6 md:px-16 py-10 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start flex-1 h-auto",
+      "relative w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 py-6 sm:py-10 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-start flex-1 h-auto",
     leftCol: "lg:col-span-7 flex flex-col gap-8 h-auto",
     genreBadge:
       "text-[10px] sm:text-xs font-bold tracking-widest text-[#FF1F00] uppercase font-sans",
     title:
-      "text-slate-950 font-black not-italic font-display leading-none tracking-tight uppercase pl-16",
+      "text-slate-950 font-black not-italic font-display leading-none tracking-tight uppercase pl-0 sm:pl-6 lg:pl-16 break-words",
     bioText:
-      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal tracking-normal normal-case pl-16",
-    timelineBox: "flex flex-col gap-3 pl-16",
+      "text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal tracking-normal normal-case pl-0 sm:pl-6 lg:pl-16",
+    timelineBox: "flex flex-col gap-3 pl-0 sm:pl-6 lg:pl-16",
     timelineHeading:
       "text-[10px] sm:text-sm font-bold tracking-widest text-slate-800 uppercase font-sans",
     rightCol: "lg:col-span-5 w-full",

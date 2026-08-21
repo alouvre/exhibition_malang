@@ -161,19 +161,19 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   return (
     <nav
       aria-label="Bottom Navigation Overlay"
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-xl inline-flex items-center gap-1.5 p-1.5 rounded-full bg-black/50 dark:bg-black/65 backdrop-blur-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-300 select-none ${
+      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[calc(100vw-24px)] sm:max-w-xl inline-flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full bg-black/50 dark:bg-black/65 backdrop-blur-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-300 select-none ${
         isVisible
           ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
           : "opacity-0 translate-y-6 scale-95 pointer-events-none"
       } ${className}`}
     >
       {/* 1. Left Brand Badge (Clickable Logo Badge -> Scrolls to #hero-section) */}
-      <div className="flex items-center pl-1">
+      <div className="flex items-center pl-0.5 sm:pl-1">
         <button
           type="button"
           onClick={handleLogoClick}
           aria-label="Scroll to top (Hero Section)"
-          className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white font-bold text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
+          className={`w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
         >
           {brandText}
         </button>
@@ -183,7 +183,7 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
       <div className="h-4 w-px bg-white/15 mx-0.5" />
 
       {/* 2. iOS Segmented Control Pill Navigation Items */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5 sm:gap-1">
         {navLinks.map((link) => {
           const isActive = currentActiveId === link.id;
           return (
@@ -191,7 +191,7 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
               key={link.id}
               type="button"
               onClick={(e) => handleLinkClick(e, link)}
-              className={`relative px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-200 cursor-pointer select-none ${fontBadge} ${
+              className={`relative px-2.5 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] md:text-xs font-semibold tracking-wider uppercase transition-colors duration-200 cursor-pointer select-none ${fontBadge} ${
                 isActive
                   ? "text-stone-950 font-bold"
                   : "text-white/70 hover:text-white hover:bg-white/10"
