@@ -28,6 +28,28 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onHeroVisibilityChange,
 }) => {
   const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
+  const [socialModal, setSocialModal] = useState<{
+    platform: "instagram" | "tiktok";
+    title: string;
+    handle: string;
+    url: string;
+    qrUrl: string;
+  } | null>(null);
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSocialModal(null);
+      }
+    };
+    if (socialModal) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [socialModal]);
   const containerRef = useRef<HTMLDivElement>(null);
   const iconsSectionRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -417,7 +439,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Kolom 1: Kurasi & Pernyataan Identitas */}
           <div className={styles.footerSection.brandBlock}>
             <div className="flex items-center gap-2">
-              {/* <span className="w-2 h-2 bg-[#FF1F00] rounded-full" /> */}
               <h3 className={styles.footerSection.brandTitle}>
                 FM11 • MALANG MENYALA
               </h3>
@@ -428,6 +449,73 @@ export const HomeView: React.FC<HomeViewProps> = ({
               GAJAYANA, STATUS KOTA MALANG SEBAGAI UNESCO CREATIVE CITY OF MEDIA
               ARTS, SERTA KEMERDEKAAN REPUBLIK INDONESIA.
             </p>
+
+            {/* Social Media QR Trigger Buttons */}
+            <div className="flex items-center gap-3 pt-3">
+              {/* Instagram Button */}
+              <button
+                type="button"
+                onClick={() =>
+                  setSocialModal({
+                    platform: "instagram",
+                    title: "OFFICIAL INSTAGRAM",
+                    handle: "@festivalmbois",
+                    url: "https://www.instagram.com/festivalmbois/",
+                    qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.instagram.com/festivalmbois/")}`,
+                  })
+                }
+                className="group flex items-center gap-2 px-3.5 py-1.5 border border-black/10 rounded-full hover:border-[#FF1F00] hover:bg-black/[0.03] transition-all duration-300 cursor-pointer"
+                aria-label="Tampilkan QR Code Instagram"
+              >
+                <svg
+                  className="w-3.5 h-3.5 text-stone-700 group-hover:text-[#FF1F00] transition-colors"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+                <span className="text-[10px] font-mono font-bold tracking-widest text-stone-700 group-hover:text-[#FF1F00] uppercase transition-colors">
+                  INSTAGRAM
+                </span>
+              </button>
+
+              {/* TikTok Button */}
+              <button
+                type="button"
+                onClick={() =>
+                  setSocialModal({
+                    platform: "tiktok",
+                    title: "OFFICIAL TIKTOK",
+                    handle: "@festivalmbois11",
+                    url: "https://www.tiktok.com/@festivalmbois11",
+                    qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.tiktok.com/@festivalmbois11")}`,
+                  })
+                }
+                className="group flex items-center gap-2 px-3.5 py-1.5 border border-black/10 rounded-full hover:border-[#FF1F00] hover:bg-black/[0.03] transition-all duration-300 cursor-pointer"
+                aria-label="Tampilkan QR Code TikTok"
+              >
+                <svg
+                  className="w-3.5 h-3.5 text-stone-700 group-hover:text-[#FF1F00] transition-colors"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                </svg>
+                <span className="text-[10px] font-mono font-bold tracking-widest text-stone-700 group-hover:text-[#FF1F00] uppercase transition-colors">
+                  TIKTOK
+                </span>
+              </button>
+            </div>
           </div>
 
           {/* Kolom 2: Metadata Pameran & Status Langsung */}
@@ -459,14 +547,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   21 - 23 AGUSTUS 2026
                 </span>
               </div>
-              <div className={styles.footerSection.tableRow}>
-                {/* <span className={styles.footerSection.tableLabel}>
-                  ADMISSION
-                </span> */}
-                {/* <span className={styles.footerSection.tableValue}>
-                  FREE ENTRY • PUBLIC SHOWCASE
-                </span> */}
-              </div>
             </div>
           </div>
 
@@ -497,6 +577,75 @@ export const HomeView: React.FC<HomeViewProps> = ({
         {/* Faded Watermark dengan Masking Halus */}
         <div className={styles.footerSection.watermark}>MBOIS 2026</div>
       </footer>
+
+      {/* Centered QR Code Modal */}
+      {socialModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
+          onClick={() => setSocialModal(null)}
+        >
+          <div
+            className="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border border-stone-200 text-center space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setSocialModal(null)}
+              className="absolute top-4 right-4 p-1.5 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-100 transition-colors"
+              aria-label="Tutup popup"
+            >
+              <svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="space-y-1 pt-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00]" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-700">
+                  {socialModal.title}
+                </span>
+              </div>
+              <h4 className="text-base font-bold text-stone-900 tracking-tight font-mono">
+                {socialModal.handle}
+              </h4>
+            </div>
+
+            {/* QR Code Container */}
+            <div className="flex justify-center p-4 bg-stone-50 rounded-xl border border-dashed border-stone-300">
+              <img
+                src={socialModal.qrUrl}
+                alt={`QR Code ${socialModal.title}`}
+                className="w-52 h-52 object-contain rounded-lg shadow-sm"
+                loading="eager"
+              />
+            </div>
+
+            {/* Direct Link Option */}
+            <div className="pt-1">
+              <a
+                // href={socialModal.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-mono font-medium text-[#FF1F00] hover:underline"
+              >
+                <span>Pindai dengan kamera ponsel</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -601,15 +750,15 @@ const styles = StyleSheet.create({
   // CHARACTER 4: Penataan Kotak Informasi Terbagi Rapi Menggunakan Grid 3-Kolom Seimbang & Fluid Padding Top
   footerSection: {
     layout:
-      "px-6 sm:px-12 md:px-16 pt-[clamp(6rem,12vh,12rem)] pb-24 border-t border-black/10 bg-[#F6F4EE] relative overflow-hidden min-h-[350px] flex flex-col justify-between",
+      "px-6 sm:px-12 md:px-16 pt-[clamp(6rem,12vh,12rem)] border-t border-black/10 bg-[#F6F4EE] relative overflow-hidden min-h-[480px] flex flex-col justify-between",
     gridContainer:
       "w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 items-start z-10",
-    brandBlock: "flex flex-col gap-3 max-w-sm",
+    brandBlock: "flex flex-col gap-4 max-w-md",
     brandTitle:
       "text-lg font-black tracking-widest uppercase text-stone-950 leading-none " +
       FontService.getInstance().getFontClass("SECTION_HEADER"),
     brandText:
-      "text-[10px] md:text-xs text-stone-500 leading-relaxed uppercase tracking-wide font-medium " +
+      "text-[10px] md:text-xs text-stone-500 leading-relaxed uppercase tracking-widest leading-none" +
       FontService.getInstance().getFontClass("BODY_TEXT"),
     detailsBlock: "flex flex-col gap-4 w-full ml-100",
     subtitle:
@@ -623,7 +772,7 @@ const styles = StyleSheet.create({
     tableRow:
       "py-3 flex justify-between items-center gap-6 transition-colors hover:bg-black/[0.01] px-1",
     tableLabel:
-      "font-bold text-stone-400 uppercase tracking-wider " +
+      "font-medium text-stone-600 uppercase tracking-wider " +
       FontService.getInstance().getFontClass("BADGE_TAG"),
     tableValueActive:
       "font-bold " +

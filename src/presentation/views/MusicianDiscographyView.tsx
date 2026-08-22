@@ -210,7 +210,7 @@ export const MusicianDiscographyView: React.FC = () => {
 
                   {/* Dynamic Main Title: "NOW PLAYING" when collapsed, "THE CATALOG" when expanded */}
                   <h3 className="text-base sm:text-lg font-black uppercase text-white font-sans tracking-tight truncate transition-all duration-300">
-                    {isCollapsed ? "NOW PLAYING" : "THE CATALOG"}
+                    {isCollapsed ? "NOW PLAYING" : "THE TRACKLIST"}
                   </h3>
                 </div>
 

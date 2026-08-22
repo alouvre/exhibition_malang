@@ -197,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Default Right Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
         <div
-          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
+          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge} ml-20`}
         >
           {rightTextLeft}
         </div>
