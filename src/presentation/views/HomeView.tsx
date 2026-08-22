@@ -440,7 +440,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 <span className={styles.footerSection.tableLabel}>STATUS</span>
                 <span className={styles.footerSection.tableValueActive}>
                   <span className="w-1.5 h-1.5 mr-1 rounded-full bg-[#FF1F00] animate-pulse inline-block" />
-                  LIVE NOW • DAY 1 OF 3
+                  LIVE NOW • DAY 2 OF 3
                 </span>
               </div>
               <div className={styles.footerSection.tableRow}>

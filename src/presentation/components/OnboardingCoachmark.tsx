@@ -353,9 +353,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                     <span
                       key={stepNum}
                       className={`h-1 rounded-full transition-all duration-300 ${
-                        isActive
-                          ? "w-5 bg-[#FF1F00]"
-                          : "w-1.5 bg-white/30"
+                        isActive ? "w-5 bg-[#FF1F00]" : "w-1.5 bg-white/30"
                       }`}
                     />
                   );
@@ -379,7 +377,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                   onClick={isLastStep ? onFinish : onNextStep}
                   className={`bg-[#FF1F00] hover:bg-[#D41A00] text-white font-bold text-xs uppercase tracking-wider rounded-full px-3.5 py-1.5 transition-all duration-200 shadow-md shadow-[#FF1F00]/30 hover:scale-[1.05] active:scale-95 cursor-pointer flex items-center gap-1.5 ${fontBadge}`}
                 >
-                  <span>{isLastStep ? "SELESAI TUR ✨" : "LANJUT →"}</span>
+                  <span>{isLastStep ? "SELESAI TUR" : "LANJUT →"}</span>
                 </button>
               </div>
             </div>
