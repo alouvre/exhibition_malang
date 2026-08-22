@@ -155,6 +155,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [controlledSettingsOpen]);
 
+  // Ensure body scroll is strictly reset when sidebar state changes or unmounts
+  useEffect(() => {
+    if (isSidebarOpen && window.innerWidth < 768) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isSidebarOpen]);
+
   // Click outside & Escape key listeners to close popovers automatically
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -574,7 +574,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     layout:
-      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in " +
+      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in pb-28 sm:pb-32 " +
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",

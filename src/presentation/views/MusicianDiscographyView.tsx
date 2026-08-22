@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { safeInitializeIcons, injectStylesheet } from "../utils/dom";
@@ -11,6 +11,7 @@ import {
   MusicianData as MusicianDetailData,
   TrackCatalogItem,
 } from "../data/musiciansRegistry";
+import { useAudioPlayer } from "../context/AudioPlayerContext";
 
 interface LocationState {
   musician?: MusicianDetailData;
@@ -23,12 +24,6 @@ const MUSICIAN_NAV_ITEMS: HeaderNavItem[] = [
   { id: "biography", label: "BIOGRAPHY" },
   { id: "discography", label: "DISCOGRAPHY" },
 ];
-
-const resolveAssetPath = (path: string) => {
-  if (!path) return FALLBACK_IMAGE;
-  if (path.startsWith("http") || path.startsWith("/")) return path;
-  return `/${path}`;
-};
 
 /**
  * MusicianDiscographyView Component
@@ -47,22 +42,45 @@ export const MusicianDiscographyView: React.FC = () => {
     (item) => item.slug === targetSlug || item.id === targetSlug,
   );
 
-  // Active track selection state for iframe media player
-  const [activeTrack, setActiveTrack] = useState<TrackCatalogItem | null>(
-    () => {
-      if (!musician?.catalog || musician.catalog.length === 0) return null;
-      return (
-        musician.catalog.find((track) =>
-          Boolean(track.youtubeId && track.youtubeId.trim() !== ""),
-        ) ||
-        musician.catalog[0] ||
-        null
-      );
-    },
-  );
+  const { activeTrack, playTrack } = useAudioPlayer();
 
   // State to toggle catalog card collapse/expand
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    return Boolean(activeTrack && activeTrack.artistSlug === targetSlug);
+  });
+
+  // Ref to store auto-collapse timer
+  const autoCollapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cleanup timer on component unmount
+  useEffect(() => {
+    return () => {
+      if (autoCollapseTimerRef.current) {
+        clearTimeout(autoCollapseTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleTrackSelect = (track: TrackCatalogItem) => {
+    if (musician) {
+      playTrack(track, musician.name, targetSlug, musician.image);
+    }
+
+    if (autoCollapseTimerRef.current) {
+      clearTimeout(autoCollapseTimerRef.current);
+    }
+
+    autoCollapseTimerRef.current = setTimeout(() => {
+      setIsCollapsed(true);
+    }, 3000);
+  };
+
+  const handleToggleTracklist = () => {
+    if (autoCollapseTimerRef.current) {
+      clearTimeout(autoCollapseTimerRef.current);
+    }
+    setIsCollapsed((prev) => !prev);
+  };
 
   useEffect(() => {
     injectStylesheet(
@@ -71,16 +89,18 @@ export const MusicianDiscographyView: React.FC = () => {
     );
     safeInitializeIcons();
 
-    if (musician?.catalog && musician.catalog.length > 0) {
-      const defaultTrack =
-        musician.catalog.find((track) =>
-          Boolean(track.youtubeId && track.youtubeId.trim() !== ""),
-        ) ||
-        musician.catalog[0] ||
-        null;
-      setActiveTrack(defaultTrack);
-    } else {
-      setActiveTrack(null);
+    if (musician && musician.catalog && musician.catalog.length > 0) {
+      if (!activeTrack || activeTrack.artistSlug !== targetSlug) {
+        const defaultTrack =
+          musician.catalog.find((track) =>
+            Boolean(track.youtubeId && track.youtubeId.trim() !== ""),
+          ) ||
+          musician.catalog[0] ||
+          null;
+        if (defaultTrack) {
+          playTrack(defaultTrack, musician.name, targetSlug, musician.image);
+        }
+      }
     }
   }, [targetSlug, musician]);
 
@@ -162,27 +182,16 @@ export const MusicianDiscographyView: React.FC = () => {
 
         {/* BODY CONTENT: Full-Bleed Video Background & Floating Glass Tracklist Overlay */}
         <div className="relative w-full min-h-[calc(100vh-177px)] flex items-center justify-center bg-black overflow-hidden">
-          {/* Layer 1: Media Player / Video Canvas (Centered in Screen) */}
+          {/* Layer 1: Musician Background Cover Canvas (Global Persistent Player mounts on top in Hero Mode) */}
           <div className="w-full h-full max-w-full aspect-video flex items-center justify-center relative">
-            {hasValidMedia && activeTrack?.youtubeId ? (
-              <iframe
-                src={`https://www.youtube.com/embed/${activeTrack.youtubeId}?autoplay=1&mute=0&controls=1&rel=0&playsinline=1`}
-                title={activeTrack.title}
-                className="w-full h-full object-cover border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"
+            <div className="w-full h-full flex items-center justify-center bg-stone-900">
+              <img
+                // src={resolveAssetPath(musician.image)}
+                alt={musician.name}
+                onError={handleImageError}
+                className="w-full h-full object-cover opacity-40"
               />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-stone-900">
-                <img
-                  src={resolveAssetPath(musician.image)}
-                  alt={musician.name}
-                  onError={handleImageError}
-                  className="w-full h-full object-cover opacity-40"
-                />
-              </div>
-            )}
+            </div>
             {/* Dark Vignette Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none z-10" />
           </div>
@@ -239,7 +248,7 @@ export const MusicianDiscographyView: React.FC = () => {
                   {/* Minimize / Expand Toggle Button (44x44px minimum touch target) */}
                   <button
                     type="button"
-                    onClick={() => setIsCollapsed((prev) => !prev)}
+                    onClick={handleToggleTracklist}
                     className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white transition-all cursor-pointer flex items-center justify-center border border-white/10 shrink-0"
                     title={isCollapsed ? "Expand Catalog" : "Minimize Catalog"}
                     aria-label={
@@ -275,11 +284,11 @@ export const MusicianDiscographyView: React.FC = () => {
                             role="button"
                             tabIndex={0}
                             aria-selected={isSelected}
-                            onClick={() => setActiveTrack(track)}
+                            onClick={() => handleTrackSelect(track)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
-                                setActiveTrack(track);
+                                handleTrackSelect(track);
                               }
                             }}
                             className={`py-2 px-2.5 flex items-center justify-between gap-2.5 rounded-xl transition-all cursor-pointer select-none ${

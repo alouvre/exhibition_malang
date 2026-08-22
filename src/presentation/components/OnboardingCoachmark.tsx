@@ -145,9 +145,14 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
         } else {
           // Retry once if target element is rendering asynchronously
           setTimeout(() => {
-            updateTargetRect();
-            setIsReady(true);
-          }, 100);
+            const retrySuccess = updateTargetRect();
+            if (retrySuccess) {
+              setIsReady(true);
+            } else {
+              // Target element is absent in DOM (e.g. non-home view), dismiss tour gracefully
+              onSkip();
+            }
+          }, 150);
         }
       });
     }, delay);
@@ -241,7 +246,9 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
           animate={{ opacity: isReady && targetRect ? 1 : 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] select-none"
+          className={`fixed inset-0 z-[100] select-none ${
+            isReady && targetRect ? "" : "pointer-events-none"
+          }`}
         >
           {/* 1. SVG Cutout Mask Spotlight Backdrop (z-100) */}
           <svg className="fixed inset-0 w-full h-full pointer-events-none z-[100]">

@@ -4,6 +4,7 @@ import { Sidebar } from "../components/Sidebar";
 import { OnboardingCoachmark } from "../components/OnboardingCoachmark";
 import { MobileFallbackScreen } from "../components/MobileFallbackScreen";
 import { ErrorBoundary } from "../components/ErrorBoundary";
+import { AudioPlayerProvider } from "../context/AudioPlayerContext";
 import { HomeView } from "./HomeView";
 import { AboutView } from "./AboutView";
 import { MusicianDetailView } from "./MusicianDetailView";
@@ -16,18 +17,29 @@ import { RADIUS, DESIGN_TOKENS } from "../styles/theme";
 type TabName = "home" | "about";
 
 export const MainView: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
   const [isBypassed, setIsBypassed] = useState<boolean>(false);
   const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
 
-  // 0. ONBOARDING COACHMARK TOUR STATE (Triggers automatically on every first-load / refresh session)
-  const [isTourOpen, setIsTourOpen] = useState<boolean>(true);
+  // 0. ONBOARDING COACHMARK TOUR STATE (Only opens on home route)
+  const [isTourOpen, setIsTourOpen] = useState<boolean>(
+    () => location.pathname === "/"
+  );
   const [tourStep, setTourStep] = useState<number>(1);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // 5. Route switch listener: Forcibly close sidebar, close tour on non-home, & unlock scroll/pointer locks
+  useEffect(() => {
+    setIsSidebarOpen(false);
+    document.body.style.overflow = "unset";
+    if (location.pathname !== "/") {
+      setIsTourOpen(false);
+    }
+  }, [location.pathname]);
 
   const handleNextTourStep = () => {
     if (tourStep === 1) {
@@ -112,96 +124,98 @@ export const MainView: React.FC = () => {
   ];
 
   return (
-    <main className={styles.mainWrapper}>
-      {/* Mobile Device Fallback Guard Screen */}
-      {isMobile && !isBypassed && (
-        <MobileFallbackScreen onBypass={() => setIsBypassed(true)} />
-      )}
+    <AudioPlayerProvider>
+      <main className={styles.mainWrapper}>
+        {/* Mobile Device Fallback Guard Screen */}
+        {isMobile && !isBypassed && (
+          <MobileFallbackScreen onBypass={() => setIsBypassed(true)} />
+        )}
 
-      {/* 3-Step Contextual Onboarding Coachmark Tour */}
-      <OnboardingCoachmark
-        isOpen={isTourOpen && !isMobile}
-        isVisible={isHeroVisible}
-        currentStep={tourStep}
-        totalSteps={3}
-        onNextStep={handleNextTourStep}
-        onPrevStep={handlePrevTourStep}
-        onSkip={handleCloseTour}
-        onFinish={handleCloseTour}
-      />
-
-      {/* Sidebar - Desktop Only */}
-      {!isMobile && (
-        <Sidebar
-          activeTab={activeTab}
-          isSidebarOpen={isSidebarOpen}
-          onTabSelect={handleTabSelect}
-          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-          controlledGuideOpen={isTourOpen && tourStep === 2}
-          controlledSettingsOpen={isTourOpen && tourStep === 3}
+        {/* 3-Step Contextual Onboarding Coachmark Tour */}
+        <OnboardingCoachmark
+          isOpen={isTourOpen && !isMobile}
+          isVisible={isHeroVisible}
+          currentStep={tourStep}
+          totalSteps={3}
+          onNextStep={handleNextTourStep}
+          onPrevStep={handlePrevTourStep}
+          onSkip={handleCloseTour}
+          onFinish={handleCloseTour}
         />
-      )}
 
-      {/* Main viewport area */}
-      <div
-        id="custom-placeholder-view"
-        className="flex-1 h-full overflow-hidden"
-      >
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomeView
-                onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-                onHeroVisibilityChange={setIsHeroVisible}
-              />
-            }
+        {/* Sidebar - Desktop Only */}
+        {!isMobile && (
+          <Sidebar
+            activeTab={activeTab}
+            isSidebarOpen={isSidebarOpen}
+            onTabSelect={handleTabSelect}
+            onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+            controlledGuideOpen={isTourOpen && tourStep === 2}
+            controlledSettingsOpen={isTourOpen && tourStep === 3}
           />
-          <Route path="/musician/:slug" element={<MusicianDetailView />} />
-          <Route
-            path="/musician/:slug/discography"
-            element={<MusicianDiscographyView />}
-          />
-          <Route
-            path="/extended-archive"
-            element={
-              <ErrorBoundary>
-                <ExtendedArtistsView />
-              </ErrorBoundary>
-            }
-          />
-          <Route path="/about" element={<AboutView />} />
-        </Routes>
-      </div>
+        )}
 
-      {/* Bottom Navigation - Mobile Only */}
-      {isMobile && (
-        <nav id="mobile-nav-bar" className={styles.mobileNavBar}>
-          {tabs.map((tab) => {
-            const isActive = tab.name === activeTab;
-            return (
-              <button
-                key={tab.id}
-                id={tab.id}
-                onClick={() => handleTabSelect(tab.name)}
-                className={
-                  isActive
-                    ? styles.mobileNavBtnActive
-                    : styles.mobileNavBtnInactive
-                }
-              >
-                <i data-lucide={tab.icon} className="w-5 h-5"></i>
-              </button>
-            );
-          })}
-        </nav>
-      )}
+        {/* Main viewport area */}
+        <div
+          id="custom-placeholder-view"
+          className="flex-1 h-full overflow-hidden"
+        >
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomeView
+                  onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                  onHeroVisibilityChange={setIsHeroVisible}
+                />
+              }
+            />
+            <Route path="/musician/:slug" element={<MusicianDetailView />} />
+            <Route
+              path="/musician/:slug/discography"
+              element={<MusicianDiscographyView />}
+            />
+            <Route
+              path="/extended-archive"
+              element={
+                <ErrorBoundary>
+                  <ExtendedArtistsView />
+                </ErrorBoundary>
+              }
+            />
+            <Route path="/about" element={<AboutView />} />
+          </Routes>
+        </div>
 
-      {/* Toast Alert Popups */}
-      {toastMessage && (
-        <div className={styles.toastContainer}>{toastMessage}</div>
-      )}
-    </main>
+        {/* Bottom Navigation - Mobile Only */}
+        {isMobile && (
+          <nav id="mobile-nav-bar" className={styles.mobileNavBar}>
+            {tabs.map((tab) => {
+              const isActive = tab.name === activeTab;
+              return (
+                <button
+                  key={tab.id}
+                  id={tab.id}
+                  onClick={() => handleTabSelect(tab.name)}
+                  className={
+                    isActive
+                      ? styles.mobileNavBtnActive
+                      : styles.mobileNavBtnInactive
+                  }
+                >
+                  <i data-lucide={tab.icon} className="w-5 h-5"></i>
+                </button>
+              );
+            })}
+          </nav>
+        )}
+
+        {/* Toast Alert Popups */}
+        {toastMessage && (
+          <div className={styles.toastContainer}>{toastMessage}</div>
+        )}
+      </main>
+    </AudioPlayerProvider>
   );
 };
 
