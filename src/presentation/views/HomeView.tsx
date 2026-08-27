@@ -440,12 +440,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <div className={styles.footerSection.brandBlock}>
             <div className="flex items-center gap-2">
               <h3 className={styles.footerSection.brandTitle}>
-                FM11 • MALANG MENYALA
+                MUSEUM MUSIK INDONESIA
               </h3>
             </div>
             <p className={styles.footerSection.brandText}>
-              FESTIVAL MBOIS EDISI KE-11 ADALAH PLATFORM KOLABORASI EKONOMI
-              KREATIF TERBESAR DI JAWA TIMUR. MERAYAKAN SATU ABAD STADION
+              MUSEUM MUSIK INDONESIA ADALAH PLATFORM KURASI ARSIP DAN APRESIASI
+              SEJARAH MUSIK TERBESAR DI JAWA TIMUR. MERAYAKAN SATU ABAD STADION
               GAJAYANA, STATUS KOTA MALANG SEBAGAI UNESCO CREATIVE CITY OF MEDIA
               ARTS, SERTA KEMERDEKAAN REPUBLIK INDONESIA.
             </p>

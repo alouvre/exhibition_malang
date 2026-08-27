@@ -36,8 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
   leftActionType = "menu",
   onLeftActionClick,
   leftActionLabel,
-  rightTextLeft = "FM 11 MALANG MENYALA",
-  rightTextRight = "FESTIVAL MBOIS 11",
+  rightTextLeft = "MUSEUM MUSIK INDONESIA",
   showCenterText = true,
   isSticky = false,
   className,
@@ -194,21 +193,23 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
       ) : null}
 
-      {/* Default Right Text (Only rendered if no customNavItems are passed) */}
+      {/* Default Center Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
         <div
-          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge} ml-20`}
+          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
         >
           {rightTextLeft}
         </div>
       ) : null}
-      {!hasCustomNav && showCenterText && rightTextRight ? (
-        <div
-          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
-        >
-          {rightTextRight}
-        </div>
-      ) : null}
+
+      {/* Right Branding Logo */}
+      <img
+        src="/assets/LOGOMMI.webp"
+        alt="Museum Musik Indonesia Logo"
+        className="h-8 sm:h-10 w-auto object-contain transition-opacity hover:opacity-80"
+        loading="eager"
+        decoding="async"
+      />
     </header>
   );
 };

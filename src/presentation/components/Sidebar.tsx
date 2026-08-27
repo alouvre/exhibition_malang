@@ -307,7 +307,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             } else {
               // window.dispatchEvent(
               //   new CustomEvent("show-toast", {
-              //     detail: "STAFF HELP: FM11 Tech Support (+62 812-3456-7890)",
+              //     detail: "STAFF HELP: MMI Tech Support (+62 812-3456-7890)",
               //   }),
               // );
             }

@@ -68,7 +68,7 @@ export const MobileFallbackScreen: React.FC<
       {/* Footer */}
       <div className="text-center">
         <span className="text-[9px] font-mono text-stone-600 uppercase tracking-widest">
-          FESTIVAL MBOIS 11 © 2026
+          MUSEUM MUSIK INDONESIA © 2026
         </span>
       </div>
     </motion.div>

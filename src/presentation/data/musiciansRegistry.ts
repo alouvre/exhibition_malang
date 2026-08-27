@@ -378,7 +378,7 @@ export const musiciansRegistry: MusicianData[] = [
       {
         year: "2026",
         event:
-          "Diabadikan dalam pameran Music Gallery Vision klaster Media Arts Festival Mbois atas kontribusi besarnya di pop modern.",
+          "Diabadikan dalam pameran Music Gallery Vision klaster Media Arts Museum Musik Indonesia atas kontribusi besarnya di pop modern.",
         category: "legacy",
       },
     ],
@@ -600,7 +600,7 @@ export const musiciansRegistry: MusicianData[] = [
       },
       {
         name: "Dinas Kebudayaan Kota Malang",
-        projectTitle: "Festival Mbois XI",
+        projectTitle: "Museum Musik Indonesia Exhibition",
         role: "Cultural Ambassador",
       },
     ],
@@ -618,7 +618,7 @@ export const musiciansRegistry: MusicianData[] = [
       {
         year: "2026",
         event:
-          "Menjadi representasi esensial klaster UNESCO City of Media Arts dalam perhelatan akbar Festival Mbois.",
+          "Menjadi representasi esensial klaster UNESCO City of Media Arts dalam perhelatan akbar Museum Musik Indonesia.",
       },
     ],
     catalog: [

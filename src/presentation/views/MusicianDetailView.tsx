@@ -126,7 +126,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
             </h2>
             <p className="text-xs text-slate-500 font-sans max-w-md uppercase tracking-wide leading-relaxed mb-8">
               Data arsip musisi dengan identifier "{targetSlug}" tidak ditemukan
-              di dalam katalog pameran Festival Mbois 11.
+              di dalam katalog pameran Museum Musik Indonesia.
             </p>
             <button
               onClick={handleReturn}

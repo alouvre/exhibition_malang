@@ -40,7 +40,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
  * Logo clicks scroll to #hero-section, DETAILS scrolls to #footer-section.
  */
 export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
-  brandText = "FM11",
+  brandText = "MMI",
   onLogoClick,
   navLinks = DEFAULT_NAV_LINKS,
   actionLabel,
