@@ -1,70 +1,24 @@
-export type MilestoneCategory =
-  | "release"
-  | "award"
-  | "concert"
-  | "career"
-  | "legacy";
+import {
+  MilestoneCategory,
+  HistoryEvent,
+  TrackCatalogItem,
+  MusicianQuote,
+  AwardItem,
+  MusicalProfile,
+  CollaborationItem,
+  MusicianData,
+} from "@/domain/models";
 
-export interface HistoryEvent {
-  year: string;
-  event: string;
-  category?: MilestoneCategory;
-}
-
-export interface TrackCatalogItem {
-  number: string;
-  title: string;
-  album: string;
-  duration: string;
-  youtubeId?: string;
-}
-
-export interface MusicianQuote {
-  text: string;
-  source?: string;
-  year?: string;
-}
-
-export interface AwardItem {
-  year: string;
-  title: string;
-  organization: string;
-  category?: string;
-}
-
-export interface MusicalProfile {
-  primaryInstruments: string[];
-  influences?: string[];
-  subGenres?: string[];
-}
-
-export interface CollaborationItem {
-  name: string;
-  projectTitle?: string; // Judul lagu, album, atau peran kolaborasi
-  role?: string; // Misal: "Duet Song", "Producer", "Featuring"
-}
-
-export interface MusicianData {
-  id: string;
-  slug: string;
-  name: string;
-  genre: string;
-  year: string;
-  image: string;
-  album: string;
-  biography: string;
-  exhibitionImages?: string[];
-  youtubeId?: string;
-  historyTimeline: HistoryEvent[];
-  catalog: TrackCatalogItem[];
-
-  // Field Pengayaan Baru (Optional)
-  headlineSummary?: string;
-  signatureQuote?: MusicianQuote;
-  musicalProfile?: MusicalProfile;
-  awards?: AwardItem[];
-  collaborations?: (string | CollaborationItem)[];
-}
+export type {
+  MilestoneCategory,
+  HistoryEvent,
+  TrackCatalogItem,
+  MusicianQuote,
+  AwardItem,
+  MusicalProfile,
+  CollaborationItem,
+  MusicianData,
+};
 
 export const musiciansRegistry: MusicianData[] = [
   {

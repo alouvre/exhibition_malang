@@ -98,10 +98,10 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Auto-stop media playback when leaving musician pages
   useEffect(() => {
-    if (!isMusicianSection && activeTrack) {
+    if (!isMusicianSection) {
       stopTrack();
     }
-  }, [isMusicianSection, activeTrack]);
+  }, [isMusicianSection]);
 
   const hasMedia = Boolean(
     activeTrack?.youtubeId && activeTrack.youtubeId.trim() !== "",
@@ -192,7 +192,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
           {/* Actions */}
           <div className="flex items-center gap-2 pl-2 border-l border-white/15 shrink-0">
-            {/* <button
+            <button
               type="button"
               onClick={togglePlay}
               className="p-1.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer text-white"
@@ -200,7 +200,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
               title={isPlaying ? "Pause" : "Play"}
             >
               <Icon name={isPlaying ? "pause" : "play"} className="w-4 h-4" />
-            </button> */}
+            </button>
             <button
               type="button"
               onClick={() =>
@@ -212,7 +212,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
             >
               <Icon name="arrow-up-right" className="w-5 h-5" />
             </button>
-            {/* <button
+            <button
               type="button"
               onClick={stopTrack}
               className="p-1 hover:text-[#FF1F00] text-neutral-400 transition-colors cursor-pointer"
@@ -220,7 +220,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
               title="Stop playback"
             >
               <Icon name="x" className="w-5 h-5" />
-            </button> */}
+            </button>
           </div>
         </aside>
       )}

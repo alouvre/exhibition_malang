@@ -93,6 +93,8 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
         <img
           src={resolveAssetPath(musician?.image)}
           alt={musician?.name || "Musician"}
+          loading="lazy"
+          decoding="async"
           onError={handleImageError}
           className={cardImgStyle}
         />

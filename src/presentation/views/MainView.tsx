@@ -27,6 +27,11 @@ const ExtendedArtistsView = React.lazy(() =>
 const AboutView = React.lazy(() =>
   import("@/presentation/modules/about").then((m) => ({ default: m.AboutView }))
 );
+const NotFoundView = React.lazy(() =>
+  import("@/presentation/views/NotFoundView").then((m) => ({
+    default: m.NotFoundView,
+  }))
+);
 
 const RouteLoadingFallback: React.FC = () => (
   <div className="w-full min-h-screen bg-[#F6F4EE] flex items-center justify-center pointer-events-none">
@@ -185,31 +190,30 @@ export const MainView: React.FC = () => {
           className="flex-1 h-full overflow-hidden"
         >
           <React.Suspense fallback={<RouteLoadingFallback />}>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <HomeView
-                    onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-                    onHeroVisibilityChange={setIsHeroVisible}
-                  />
-                }
-              />
-              <Route path="/musician/:slug" element={<MusicianDetailView />} />
-              <Route
-                path="/musician/:slug/discography"
-                element={<MusicianDiscographyView />}
-              />
-              <Route
-                path="/extended-archive"
-                element={
-                  <ErrorBoundary>
-                    <ExtendedArtistsView />
-                  </ErrorBoundary>
-                }
-              />
-              <Route path="/about" element={<AboutView />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <HomeView
+                      onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                      onHeroVisibilityChange={setIsHeroVisible}
+                    />
+                  }
+                />
+                <Route path="/musician/:slug" element={<MusicianDetailView />} />
+                <Route
+                  path="/musician/:slug/discography"
+                  element={<MusicianDiscographyView />}
+                />
+                <Route
+                  path="/extended-archive"
+                  element={<ExtendedArtistsView />}
+                />
+                <Route path="/about" element={<AboutView />} />
+                <Route path="*" element={<NotFoundView />} />
+              </Routes>
+            </ErrorBoundary>
           </React.Suspense>
         </div>
 

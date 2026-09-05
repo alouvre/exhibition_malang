@@ -7,6 +7,7 @@ import { OverlayNavbar } from "@/presentation/components/OverlayNavbar";
 import { MusicianIcon } from "@/presentation/shared/components/MusicianCard";
 import { musiciansRegistry } from "@/presentation/data/musiciansRegistry";
 import { FontService } from "@/infrastructure/services/FontService";
+import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 import { VinylHero } from "../components/VinylHero";
 import { ShowcaseSection } from "../components/ShowcaseSection";
 
@@ -27,6 +28,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onSelectMusician,
   onHeroVisibilityChange,
 }) => {
+  useDocumentTitle("Beranda Gallery - Sound of Malang");
   const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
   const [socialModal, setSocialModal] = useState<{
     platform: "instagram" | "tiktok";

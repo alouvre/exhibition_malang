@@ -1,8 +1,10 @@
 import React from "react";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, SPACING, RADIUS, DESIGN_TOKENS } from "@/presentation/styles/theme";
+import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 
 export const AboutView: React.FC = () => {
+  useDocumentTitle("Tentang Museum Musik Indonesia");
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>

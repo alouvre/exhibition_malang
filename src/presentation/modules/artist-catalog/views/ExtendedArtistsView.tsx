@@ -8,6 +8,7 @@ import { FontService } from "@/infrastructure/services/FontService";
 import { ErrorBoundary } from "@/presentation/components/ErrorBoundary";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "@/presentation/styles/theme";
+import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 import { useMusicianFilter } from "../hooks/useMusicianFilter";
 import { FilterDeckPopover } from "../components/FilterDeckPopover";
 import { CatalogGrid } from "../components/CatalogGrid";
@@ -31,6 +32,7 @@ const getMusicianSlug = (musician?: MusicianData): string => {
  * location.state parameters, and decomposed FilterDeckPopover / CatalogGrid components.
  */
 export const ExtendedArtistsView: React.FC = () => {
+  useDocumentTitle("Katalog Arsip Musisi - Sound of Malang");
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state as { showInfoModal?: boolean } | null;

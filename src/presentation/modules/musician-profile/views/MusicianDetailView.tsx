@@ -5,6 +5,8 @@ import { safeInitializeIcons, injectStylesheet } from "@/presentation/utils/dom"
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { Header, HeaderNavItem } from "@/presentation/components/Header";
+import { NotFoundView } from "@/presentation/views/NotFoundView";
+import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 import {
   musiciansRegistry,
   MusicianData as MusicianDetailData,
@@ -59,7 +61,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state as LocationState | null;
-  const targetSlug = routeSlug || propSlug || "ian-antono";
+  const targetSlug = routeSlug || propSlug;
 
   const [selectedLightboxImage, setSelectedLightboxImage] = useState<
     string | null
@@ -71,6 +73,12 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   const musician = musiciansRegistry.find(
     (item) => item.slug === targetSlug || item.id === targetSlug,
   );
+
+  useDocumentTitle(musician ? `${musician.name} - Eksibisi Digital` : "Musisi Tidak Ditemukan");
+
+  if (!musician) {
+    return <NotFoundView />;
+  }
 
   useEffect(() => {
     injectStylesheet(
