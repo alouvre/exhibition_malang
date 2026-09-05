@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
   },
   aside: {
     container:
-      "hidden md:flex flex-col justify-between items-center py-6 w-14 h-full flex-shrink-0 z-20 transition-all duration-300 ease-in-out font-sans",
+      "hidden md:flex flex-col justify-between items-center py-6 w-16 h-full flex-shrink-0 z-20 transition-all duration-300 ease-in-out font-sans bg-[#F6F4EE] border-r border-black/50",
     open: "translate-x-0 opacity-100",
     closed: "-translate-x-full opacity-0 pointer-events-none",
   },
@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
     display: DESIGN_TOKENS.utility.flexCenter,
   },
   navContainer: {
-    layout: "flex flex-col items-center gap-4 w-full mt-4 relative",
+    layout: "flex flex-col items-center gap-4 w-full mt-48 relative",
   },
   navItem: {
     base: "w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer relative",

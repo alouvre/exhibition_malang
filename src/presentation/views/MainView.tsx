@@ -212,7 +212,14 @@ export const MainView: React.FC = () => {
                   path="/extended-archive"
                   element={<ExtendedArtistsView />}
                 />
-                <Route path="/about" element={<AboutView />} />
+                <Route
+                  path="/about"
+                  element={
+                    <AboutView
+                      onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                    />
+                  }
+                />
                 <Route path="*" element={<NotFoundView />} />
               </Routes>
             </ErrorBoundary>

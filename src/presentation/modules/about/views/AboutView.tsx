@@ -1,20 +1,30 @@
 import React from "react";
+import { Header } from "@/presentation/shared/components";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, SPACING, RADIUS, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 
-export const AboutView: React.FC = () => {
+export interface AboutViewProps {
+  onToggleSidebar?: () => void;
+}
+
+export const AboutView: React.FC<AboutViewProps> = ({ onToggleSidebar }) => {
   useDocumentTitle("Tentang Museum Musik Indonesia");
   return (
     <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <div className={styles.iconContainer}>
-          <i data-lucide="info" className={styles.icon}></i>
+      {/* Integrated Unified Header matching HomeView */}
+      <Header leftActionType="menu" onLeftActionClick={onToggleSidebar} />
+
+      <div className={styles.contentArea}>
+        <div className={styles.wrapper}>
+          <div className={styles.iconContainer}>
+            <i data-lucide="info" className={styles.icon}></i>
+          </div>
+          <h3 className={styles.title}>About Us</h3>
+          <p className={styles.description}>
+            About Us View Content Coming Soon. Learn about the history, exhibitions, and curation crew of the Gallery Music Museum.
+          </p>
         </div>
-        <h3 className={styles.title}>About Us</h3>
-        <p className={styles.description}>
-          About Us View Content Coming Soon. Learn about the history, exhibitions, and curation crew of the Gallery Music Museum.
-        </p>
       </div>
     </div>
   );
@@ -22,10 +32,10 @@ export const AboutView: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    layout: "flex flex-col items-center justify-center text-center flex-1 h-full select-none animate-fade-in",
-    padding: SPACING.padding.xl,
-    background: "glass-panel",
-    radius: RADIUS.shellContainer,
+    layout: "w-full h-full flex flex-col select-none animate-fade-in " + COLORS.canvasBg,
+  },
+  contentArea: {
+    layout: "flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-12",
   },
   wrapper: {
     layout: "flex flex-col items-center max-w-md",
