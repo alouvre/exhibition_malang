@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { safeInitializeIcons, injectStylesheet } from "@/presentation/utils/dom";
+import {
+  safeInitializeIcons,
+  injectStylesheet,
+  resolveAssetPath,
+  DEFAULT_FALLBACK_IMAGE,
+} from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { Header, HeaderNavItem } from "@/presentation/components/Header";
@@ -34,18 +39,10 @@ interface LocationState {
   from?: "home" | "extended";
 }
 
-const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
-
 const MUSICIAN_NAV_ITEMS: HeaderNavItem[] = [
   { id: "biography", label: "BIOGRAPHY" },
   { id: "discography", label: "DISCOGRAPHY" },
 ];
-
-const resolveAssetPath = (path: string) => {
-  if (!path) return FALLBACK_IMAGE;
-  if (path.startsWith("http") || path.startsWith("/")) return path;
-  return `/${path}`;
-};
 
 /**
  * MusicianDetailView Component
@@ -110,7 +107,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     const target = e.currentTarget;
     if (target.getAttribute("data-fallback-attempted") !== "true") {
       target.setAttribute("data-fallback-attempted", "true");
-      target.src = FALLBACK_IMAGE;
+      target.src = DEFAULT_FALLBACK_IMAGE;
     }
   };
 

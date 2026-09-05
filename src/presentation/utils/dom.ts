@@ -31,3 +31,20 @@ export function injectStylesheet(id: string, url: string): void {
     document.head.appendChild(link);
   }
 }
+
+export const DEFAULT_FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
+
+/**
+ * Ensures asset path starts with a leading slash for Vite static root resolution
+ */
+export const resolveAssetPath = (path?: string): string => {
+  if (!path || path.trim() === "") return DEFAULT_FALLBACK_IMAGE;
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("/")
+  ) {
+    return path;
+  }
+  return `/${path}`;
+};

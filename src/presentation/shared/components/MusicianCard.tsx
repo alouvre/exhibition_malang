@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
-import { safeInitializeIcons } from "@/presentation/utils/dom";
+import {
+  safeInitializeIcons,
+  resolveAssetPath,
+  DEFAULT_FALLBACK_IMAGE,
+} from "@/presentation/utils/dom";
 import { FontService } from "@/infrastructure/services/FontService";
+import { MusicianData } from "@/domain/models";
 
 export interface MusicianIcon {
   id?: string;
@@ -17,7 +22,7 @@ export interface MusicianCardStyles {
 }
 
 export interface MusicianCardProps {
-  musician: MusicianIcon;
+  musician: MusicianData | MusicianIcon;
   index: number;
   onClick: () => void;
   styles?: MusicianCardStyles;
@@ -29,19 +34,6 @@ const DEFAULT_CARD_STYLE =
 
 const DEFAULT_CARD_IMG_STYLE =
   "w-full h-full object-cover object-center grayscale contrast-[1.20] brightness-95 group-hover:scale-105 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out";
-
-const FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
-
-/**
- * Ensures asset path starts with a leading slash for Vite static root resolution
- */
-const resolveAssetPath = (path?: string): string => {
-  if (!path || path.trim() === "") return FALLBACK_IMAGE;
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
-  }
-  return `/${path}`;
-};
 
 export const MusicianCard: React.FC<MusicianCardProps> = ({
   musician,
@@ -71,9 +63,9 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
     if (target.getAttribute("data-fallback-attempted") !== "true") {
       target.setAttribute("data-fallback-attempted", "true");
       console.warn(
-        `[MusicianCard Image Fallback] Image failed to load for "${musician?.name}" (Attempted URL: ${target.src}). Falling back to ${FALLBACK_IMAGE}`,
+        `[MusicianCard Image Fallback] Image failed to load for "${musician?.name}" (Attempted URL: ${target.src}). Falling back to ${DEFAULT_FALLBACK_IMAGE}`,
       );
-      target.src = FALLBACK_IMAGE;
+      target.src = DEFAULT_FALLBACK_IMAGE;
     }
   };
 
