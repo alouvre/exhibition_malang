@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { Sidebar } from "../components/Sidebar";
-import { OnboardingCoachmark } from "../components/OnboardingCoachmark";
-import { MobileFallbackScreen } from "../components/MobileFallbackScreen";
-import { ErrorBoundary } from "../components/ErrorBoundary";
-import { AudioPlayerProvider } from "../context/AudioPlayerContext";
-import { HomeView } from "./HomeView";
-import { AboutView } from "./AboutView";
-import { MusicianDetailView } from "./MusicianDetailView";
-import { MusicianDiscographyView } from "./MusicianDiscographyView";
-import { ExtendedArtistsView } from "./ExtendedArtistsView";
-import { safeInitializeIcons } from "../utils/dom";
-import { StyleSheet } from "../utils/stylesheet";
-import { RADIUS, DESIGN_TOKENS } from "../styles/theme";
+import { Sidebar } from "@/presentation/components/Sidebar";
+import { OnboardingCoachmark } from "@/presentation/components/OnboardingCoachmark";
+import { MobileFallbackScreen } from "@/presentation/components/MobileFallbackScreen";
+import { ErrorBoundary } from "@/presentation/components/ErrorBoundary";
+import { AudioPlayerProvider } from "@/presentation/context/AudioPlayerContext";
+// Dynamic Route Chunk Code-Splitting via React.lazy
+const HomeView = React.lazy(() =>
+  import("@/presentation/modules/home").then((m) => ({ default: m.HomeView }))
+);
+const MusicianDetailView = React.lazy(() =>
+  import("@/presentation/modules/musician-profile").then((m) => ({
+    default: m.MusicianDetailView,
+  }))
+);
+const MusicianDiscographyView = React.lazy(() =>
+  import("@/presentation/modules/musician-profile").then((m) => ({
+    default: m.MusicianDiscographyView,
+  }))
+);
+const ExtendedArtistsView = React.lazy(() =>
+  import("@/presentation/modules/artist-catalog").then((m) => ({
+    default: m.ExtendedArtistsView,
+  }))
+);
+const AboutView = React.lazy(() =>
+  import("@/presentation/modules/about").then((m) => ({ default: m.AboutView }))
+);
+
+const RouteLoadingFallback: React.FC = () => (
+  <div className="w-full min-h-screen bg-[#F6F4EE] flex items-center justify-center pointer-events-none">
+    <div className="w-6 h-6 border-2 border-stone-300 border-t-[#FF1F00] rounded-full animate-spin" />
+  </div>
+);
+
+import { safeInitializeIcons } from "@/presentation/utils/dom";
+import { StyleSheet } from "@/presentation/utils/stylesheet";
+import { RADIUS, DESIGN_TOKENS } from "@/presentation/styles/theme";
 
 type TabName = "home" | "about";
 
@@ -160,31 +184,33 @@ export const MainView: React.FC = () => {
           id="custom-placeholder-view"
           className="flex-1 h-full overflow-hidden"
         >
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HomeView
-                  onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-                  onHeroVisibilityChange={setIsHeroVisible}
-                />
-              }
-            />
-            <Route path="/musician/:slug" element={<MusicianDetailView />} />
-            <Route
-              path="/musician/:slug/discography"
-              element={<MusicianDiscographyView />}
-            />
-            <Route
-              path="/extended-archive"
-              element={
-                <ErrorBoundary>
-                  <ExtendedArtistsView />
-                </ErrorBoundary>
-              }
-            />
-            <Route path="/about" element={<AboutView />} />
-          </Routes>
+          <React.Suspense fallback={<RouteLoadingFallback />}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HomeView
+                    onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                    onHeroVisibilityChange={setIsHeroVisible}
+                  />
+                }
+              />
+              <Route path="/musician/:slug" element={<MusicianDetailView />} />
+              <Route
+                path="/musician/:slug/discography"
+                element={<MusicianDiscographyView />}
+              />
+              <Route
+                path="/extended-archive"
+                element={
+                  <ErrorBoundary>
+                    <ExtendedArtistsView />
+                  </ErrorBoundary>
+                }
+              />
+              <Route path="/about" element={<AboutView />} />
+            </Routes>
+          </React.Suspense>
         </div>
 
         {/* Bottom Navigation - Mobile Only */}

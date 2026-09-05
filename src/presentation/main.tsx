@@ -4,11 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import './styles/main.css';
 import { MainView } from './views/MainView';
 
-document.addEventListener("DOMContentLoaded", () => {
+const mountApp = () => {
   const rootElement = document.getElementById("app");
-  if (rootElement) {
-    const root = createRoot(rootElement);
-    root.render(
+  if (rootElement && !rootElement.dataset.mounted) {
+    rootElement.dataset.mounted = "true";
+    createRoot(rootElement).render(
       <React.StrictMode>
         <BrowserRouter>
           <MainView />
@@ -16,4 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
       </React.StrictMode>
     );
   }
-});
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", mountApp);
+} else {
+  mountApp();
+}
