@@ -321,195 +321,373 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       </section>
 
-      {/* 4. FOOTER SECTION */}
-      <footer id="footer-section" className={styles.footerSection.layout}>
-        <div className={styles.footerSection.gridContainer}>
-          {/* Kolom 1: Kurasi & Pernyataan Identitas */}
-          <div className={styles.footerSection.brandBlock}>
-            <div className="flex items-center gap-2">
-              <h3 className={styles.footerSection.brandTitle}>
-                MUSEUM MUSIK INDONESIA
-              </h3>
+      {/* 4. FOOTER SECTION — BENTO CARD MEGA-FOOTER */}
+      <footer
+        id="footer-section"
+        className="relative w-full bg-[#161513] text-[#F6F4EE] pt-12 pb-18 px-4 sm:px-8 lg:px-12 border-t border-black/20 font-sans select-none"
+      >
+        {/* Layer Kontainer Bento Utama */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-5 items-stretch">
+          {/* ==============================================================
+              KARTU 1 (KIRI ATAS): IDENTITAS BRAND BESAR & GENRE PILLS
+              ============================================================== */}
+          <div className="md:col-span-6 lg:col-span-5 rounded-[28px] p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden group">
+            {/* Header Badge Logo & Tahun */}
+            <div className="flex items-center justify-between mb-12 z-10">
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 rounded-full bg-white/10 text-[#FF1F00] text-xs font-mono font-bold tracking-widest uppercase">
+                  2026®
+                </span>
+                <span className="text-[11px] font-mono text-stone-400 tracking-wider">
+                  UNESCO MEDIA ARTS
+                </span>
+              </div>
+              {/* Top Action Pill (Mirip tombol 'VOTE NOW ↗') */}
+              {/* <div className="flex justify-end">
+                <a
+                  href="#showcase-icons"
+                  className="group inline-flex items-center justify-between gap-3 px-5 py-2.5 rounded-full bg-black text-white hover:bg-white hover:text-black border border-white/10 transition-all duration-300 shadow-md cursor-pointer"
+                >
+                  <span className="text-xs font-mono font-black tracking-wider uppercase">
+                    EXPLORE
+                  </span>
+                  <div className="w-5 h-5 rounded-full bg-white text-black group-hover:bg-black group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors">
+                    ↗
+                  </div>
+                </a>
+              </div> */}
+              {/* <div className="w-8 h-8 rounded-full bg-stone-800 border border-white/10 flex items-center justify-center text-xs font-mono text-stone-300">
+                MMI
+              </div> */}
             </div>
-            <p className={styles.footerSection.brandText}>
-              MUSEUM MUSIK INDONESIA ADALAH PLATFORM KURASI ARSIP DAN APRESIASI
-              SEJARAH MUSIK TERBESAR DI JAWA TIMUR. MERAYAKAN SATU ABAD STADION
-              GAJAYANA, STATUS KOTA MALANG SEBAGAI UNESCO CREATIVE CITY OF MEDIA
-              ARTS, SERTA KEMERDEKAAN REPUBLIK INDONESIA.
-            </p>
 
-            {/* Social Media QR Trigger Buttons */}
-            <div className="flex items-center gap-3 pt-3">
-              {/* Instagram Button */}
-              <button
-                type="button"
-                onClick={() =>
-                  setSocialModal({
-                    platform: "instagram",
-                    title: "OFFICIAL INSTAGRAM ACCOUNT",
-                    handle: "@museummusikindonesia",
-                    url: "https://www.instagram.com/museummusikindonesia/",
-                    qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.instagram.com/museummusikindonesia/")}`,
-                  })
-                }
-                className="group flex items-center gap-2 px-3.5 py-1.5 border border-black/10 rounded-full hover:border-[#FF1F00] hover:bg-black/[0.03] transition-all duration-300 cursor-pointer"
-                aria-label="Tampilkan QR Code Instagram"
-              >
-                <svg
-                  className="w-3.5 h-3.5 text-stone-700 group-hover:text-[#FF1F00] transition-colors"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                </svg>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-stone-700 group-hover:text-[#FF1F00] uppercase transition-colors">
-                  INSTAGRAM
-                </span>
-              </button>
+            {/* Tipografi Brand Raksasa (Swiss Bold Style) */}
+            <div className="mb-10 z-10">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-[0.9] text-white">
+                MUSEUM
+                <br />
+                MUSIK
+                <br />
+                INDONESIA®
+              </h2>
+              <p className="mt-6 text-xs font-mono text-stone-400 leading-relaxed uppercase max-w-sm">
+                Kurasi arsip & apresiasi sejarah musik terbesar di Jawa Timur.
+                Merayakan satu abad Stadion Gajayana & Kota Musik Malang.
+              </p>
+            </div>
 
-              {/* TikTok Button */}
-              <button
-                type="button"
-                onClick={() =>
-                  setSocialModal({
-                    platform: "tiktok",
-                    title: "OFFICIAL TIKTOK",
-                    handle: "@festivalmbois11",
-                    url: "https://www.tiktok.com/@festivalmbois11",
-                    qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.tiktok.com/@festivalmbois11")}`,
-                  })
-                }
-                className="group flex items-center gap-2 px-3.5 py-1.5 border border-black/10 rounded-full hover:border-[#FF1F00] hover:bg-black/[0.03] transition-all duration-300 cursor-pointer"
-                aria-label="Tampilkan QR Code TikTok"
-              >
-                <svg
-                  className="w-3.5 h-3.5 text-stone-700 group-hover:text-[#FF1F00] transition-colors"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-                </svg>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-stone-700 group-hover:text-[#FF1F00] uppercase transition-colors">
-                  TIKTOK
+            {/* Tag Filter Pil Kategori (Genre Pill Deck) */}
+            {/* <div className="z-10 pt-4 border-t border-white/[0.08]">
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="px-3.5 py-1.5 rounded-full bg-black text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-sm">
+                  ROCK
                 </span>
-              </button>
+                <span className="px-3.5 py-1.5 rounded-full bg-white text-stone-900 text-[11px] font-mono font-bold tracking-wider uppercase shadow-sm">
+                  POP
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-stone-200 text-[11px] font-mono font-bold tracking-wider uppercase transition-colors cursor-pointer">
+                  KERONTJONG
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-black text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-sm">
+                  DANGDUT
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-stone-200 text-[11px] font-mono font-bold tracking-wider uppercase transition-colors cursor-pointer">
+                  JAZZ
+                </span>
+                <span className="px-3 py-1.5 rounded-full border border-dashed border-white/30 text-stone-400 text-[11px] font-mono tracking-wider">
+                  +20 ERA
+                </span>
+              </div>
+            </div> */}
+
+            {/* Ornamen Latar Belakang Lingkaran Halus */}
+            <div className="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-[#FF1F00]/5 blur-3xl pointer-events-none" />
+          </div>
+
+          {/* ==============================================================
+              KARTU 2 (TENGAH): MENU NAVIGASI DECK 3 KOLOM
+              ============================================================== */}
+          <div className="md:col-span-6 lg:col-span-3 rounded-[28px] p-7 sm:p-9 flex flex-col justify-between">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+              {/* Kolom Menu 1: Main Menu */}
+              <div className="space-y-4 col-span-2 sm:col-span-1">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FF1F00] block">
+                  MAIN MENU
+                </span>
+                <ul className="space-y-2 text-xs font-mono uppercase text-stone-300">
+                  <li>
+                    <a
+                      href="#hero-section"
+                      className="hover:text-white transition-colors"
+                    >
+                      HOME
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/extended-archive"
+                      className="hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      CATALOG{" "}
+                      <span className="text-[9px] text-[#FF1F00]">(12)</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#showcase-icons"
+                      className="hover:text-white transition-colors"
+                    >
+                      LEGENDS
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/about"
+                      className="hover:text-white transition-colors"
+                    >
+                      ABOUT US
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Kolom Menu 2: Events / Pameran */}
+              {/* <div className="space-y-3">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FF1F00] block">
+                  EVENTS
+                </span>
+                <ul className="space-y-2 text-xs font-mono uppercase text-stone-300">
+                  <li>
+                    <span className="text-stone-400">EXPO MBOIS</span>
+                  </li>
+                  <li>
+                    <span className="text-stone-400">MUSIC SUMMIT</span>
+                  </li>
+                  <li>
+                    <span className="text-stone-400">COMMUNITY</span>
+                  </li>
+                  <li>
+                    <span className="text-stone-400">PREMIERE</span>
+                  </li>
+                  <li>
+                    <span className="text-stone-400">CEREMONY</span>
+                  </li>
+                </ul>
+              </div> */}
+
+              {/* Kolom Menu 3: Info & Bantuan */}
+              <div className="space-y-4 col-span-2 sm:col-span-1">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FF1F00] block">
+                  HELP
+                </span>
+                <ul className="space-y-2 text-xs font-mono uppercase text-stone-300">
+                  <li>
+                    <a
+                      href="/about"
+                      className="hover:text-white transition-colors"
+                    >
+                      TERMS & CONDITION
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/privacy"
+                      className="hover:text-white transition-colors"
+                    >
+                      PRIVACY POLICY
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/about"
+                      className="hover:text-white transition-colors"
+                    >
+                      HELP CENTER
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
-          {/* Kolom 2: Metadata Pameran & Status Langsung */}
-          {/* <div className={styles.footerSection.detailsBlock}>
-            <span className={styles.footerSection.subtitle}>
-              FESTIVAL DETAILS
-            </span>
-            <div className={styles.footerSection.table}>
-              <div className={styles.footerSection.tableRow}>
-                <span className={styles.footerSection.tableLabel}>STATUS</span>
-                <span className={styles.footerSection.tableValueActive}>
-                  <span className="w-1.5 h-1.5 mr-1 rounded-full bg-[#FF1F00] animate-pulse inline-block" />
-                  LIVE NOW • DAY 2 OF 3
-                </span>
+          {/* ==============================================================
+              KARTU 3 (KANAN): CTA PILL, LIVE COUNTDOWN & SOCIAL DOCK
+              ============================================================== */}
+          <div className="md:col-span-6 lg:col-span-4 rounded-[28px] p-7 sm:p-9 flex flex-col justify-between">
+            {/* Museum Location & Hours (Swiss Minimalist Data Block) */}
+            <div className="rounded-2xl flex flex-col justify-between gap-4">
+              {/* Primary Address Block */}
+              <div className="flex flex-col gap-3 text-left">
+                <div className="flex items-center gap-3">
+                  <span className="text-[12px] sm:text-[13px] font-mono font-bold text-white tracking-tight uppercase">
+                    Gedung Kesenian Gajayana
+                  </span>
+                  <span className="text-[10px] font-mono text-stone-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">
+                    LT. 2
+                  </span>
+                </div>
+                <p className="mr-12 text-[11px] font-mono text-stone-400 leading-relaxed tracking-tight uppercase">
+                  Jl. Nusakambangan No. 19, Klojen, Kota Malang, Jawa Timur
+                  65117
+                </p>
               </div>
-              <div className={styles.footerSection.tableRow}>
-                <span className={styles.footerSection.tableLabel}>
-                  LOCATION
-                </span>
-                <span className={styles.footerSection.tableValue}>
-                  STADION GAJAYANA, MALANG
-                </span>
-              </div>
-              <div className={styles.footerSection.tableRow}>
-                <span className={styles.footerSection.tableLabel}>
-                  DURATION
-                </span>
-                <span className={styles.footerSection.tableValue}>
-                  21 - 23 AGUSTUS 2026
-                </span>
+
+              {/* Interactive Dark Preview Map */}
+              <div className="pt-3">
+                <div className="relative w-full h-40 rounded-lg overflow-hidden border border-white/10 bg-black group">
+                  <iframe
+                    title="Lokasi Museum Musik Indonesia"
+                    src="https://maps.google.com/maps?q=Museum+Musik+Indonesia+Gedung+Kesenian+Gajayana+Malang&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                    className="w-full h-full border-0 pointer-events-none filter invert-[0.9] hue-rotate-180 contrast-[1.1] grayscale-[0.25] opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                    loading="lazy"
+                  />
+
+                  {/* Minimalist Floating Click-Out Trigger */}
+                  {/* <a
+                    href="https://maps.google.com/?q=Museum+Musik+Indonesia+Gedung+Kesenian+Gajayana+Malang"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-10 flex items-end justify-between p-2.5 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition-opacity"
+                    aria-label="Buka navigasi di Google Maps"
+                  >
+                    <span className="text-[9px] font-mono tracking-widest text-stone-200 uppercase bg-black/60 px-2 py-0.5 rounded border border-white/10 backdrop-blur-sm">
+                      BUKA PETA LENGKAP
+                    </span>
+                    <span className="text-xs font-mono text-white bg-black/60 w-5 h-5 flex items-center justify-center rounded border border-white/10 backdrop-blur-sm group-hover:border-[#FF1F00] group-hover:text-[#FF1F00] transition-colors">
+                      ↗
+                    </span>
+                  </a> */}
+                </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
 
-        {/* Faded Watermark dengan Masking Halus */}
-        {/* <div className={styles.footerSection.watermark}>MBOIS 2026</div> */}
-      </footer>
-
-      {/* Centered QR Code Modal */}
-      {socialModal && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
-          onClick={() => setSocialModal(null)}
-        >
-          <div
-            className="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border border-stone-200 text-center space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
+        {/* Sub-Footer Deck: Copyright & Social Media Dock */}
+        <div className="pt-8 mt-6 pr-10 pl-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Sisi Kanan: Deretan Tombol Sosial Media Lingkaran */}
+          <div className="flex items-center gap-2">
+            {/* Instagram Trigger */}
             <button
               type="button"
-              onClick={() => setSocialModal(null)}
-              className="absolute top-4 right-4 p-1.5 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-100 transition-colors"
-              aria-label="Tutup popup"
+              onClick={() =>
+                setSocialModal({
+                  platform: "instagram",
+                  title: "OFFICIAL INSTAGRAM ACCOUNT",
+                  handle: "@museummusikindonesia",
+                  url: "https://www.instagram.com/museummusikindonesia/",
+                  qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.instagram.com/museummusikindonesia/")}`,
+                })
+              }
+              className="w-9 h-9 rounded-full bg-black/60 hover:bg-[#FF1F00] text-stone-300 hover:text-white flex items-center justify-center border border-white/10 transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+              aria-label="Instagram QR"
+              title="Instagram MMI"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
               </svg>
             </button>
 
-            {/* Header */}
-            <div className="space-y-1 pt-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00]" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-700">
-                  {socialModal.title}
-                </span>
-              </div>
-              <h4 className="text-base font-bold text-stone-900 tracking-tight font-mono">
-                {socialModal.handle}
-              </h4>
-            </div>
-
-            {/* QR Code Container */}
-            <div className="flex justify-center p-4 bg-stone-50 rounded-xl border border-dashed border-stone-300">
-              <img
-                src={socialModal.qrUrl}
-                alt={`QR Code ${socialModal.title}`}
-                className="w-52 h-52 object-contain rounded-lg shadow-sm"
-                loading="eager"
-              />
-            </div>
-
-            {/* Direct Link Option */}
-            <div className="pt-1">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-mono font-medium text-[#FF1F00] hover:underline"
+            {/* TikTok Trigger */}
+            <button
+              type="button"
+              onClick={() =>
+                setSocialModal({
+                  platform: "tiktok",
+                  title: "OFFICIAL TIKTOK",
+                  handle: "@museummusikindonesia",
+                  url: "https://www.tiktok.com/@museummusikindonesia",
+                  qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent("https://www.tiktok.com/@museummusikindonesia")}`,
+                })
+              }
+              className="w-9 h-9 rounded-full bg-black/60 hover:bg-[#FF1F00] text-stone-300 hover:text-white flex items-center justify-center border border-white/10 transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+              aria-label="TikTok QR"
+              title="TikTok MMI"
+            >
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <span>Pindai dengan kamera ponsel</span>
-              </a>
-            </div>
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+              </svg>
+            </button>
+
+            {/* Web / Globe Icon */}
+            <a
+              href="https://museummusikindonesia.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 rounded-full bg-black/60 hover:bg-[#FF1F00] text-stone-300 hover:text-white flex items-center justify-center border border-white/10 transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+              aria-label="Website Resmi MMI"
+              title="Website Resmi MMI"
+            >
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" x2="22" y1="12" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+            </a>
+
+            {/* YouTube Icon */}
+            <a
+              href="https://www.youtube.com/@museummusikindonesia7485"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 rounded-full bg-black/60 hover:bg-[#FF1F00] text-stone-300 hover:text-white flex items-center justify-center border border-white/10 transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+              aria-label="YouTube Channel MMI"
+              title="YouTube MMI"
+            >
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+                <polygon points="10 15 15 12 10 9 10 15" />
+              </svg>
+            </a>
+          </div>
+          {/* Sisi Kiri: Copyright & Identitas Lokasi Arsip */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-center sm:text-left">
+            <span className="text-[10px] font-mono text-stone-400 uppercase tracking-widest font-bold">
+              2026© MUSEUM MUSIK INDONESIA
+            </span>
+            <span className="hidden sm:inline-block text-stone-600 text-[10px]">
+              •
+            </span>
+            <span className="text-[10px] font-mono text-stone-500 uppercase tracking-wider">
+              ALL RIGHTS RESERVED.
+            </span>
           </div>
         </div>
-      )}
+      </footer>
     </div>
   );
 };
@@ -524,7 +702,7 @@ const styles = StyleSheet.create({
   },
   timelineSection: {
     layout:
-      "px-6 sm:px-12 md:px-16 py-[clamp(8rem,18vh,16rem)] border-b border-black/10 flex flex-col gap-12 bg-[#F6F4EE]",
+      "px-10 sm:px-12 md:px-20 py-[clamp(8rem,18vh,16rem)] border-b border-black/10 flex flex-col gap-12 bg-[#F6F4EE]",
     headerGroup: "flex flex-col items-start text-left pl-6 gap-2",
     subtitle:
       "text-[10px] font-bold tracking-widest text-stone-400 uppercase text-left tracking-[0.2em] " +
