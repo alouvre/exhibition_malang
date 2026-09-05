@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FontService } from "../../infrastructure/services/FontService";
+import { FontService } from "@/infrastructure/services/FontService";
 
 export interface NavLinkItem {
   id: string;

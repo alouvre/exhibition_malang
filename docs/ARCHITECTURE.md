@@ -2,140 +2,136 @@
 
 ## 1. Overview & Architectural Paradigm
 
-**Music Gallery Vision — Sound of Malang (Museum Musik Indonesia)** is built using **Clean Architecture** combined with **Feature-Driven Modular Presentation**. The design decouples domain interfaces and data providers from presentation views, organizing visual components into 4 self-contained domain modules under `src/presentation/modules/`.
+**Music Gallery Vision — Sound of Malang (Museum Musik Indonesia)** is built using **Clean Architecture** combined with **Feature-Driven Modular Presentation**. The design decouples domain interfaces and data providers from presentation views, organizing visual components into 4 self-contained domain modules under `src/presentation/modules/` and shared UI controls under `src/presentation/shared/components/`.
 
 ```mermaid
 graph TD
     A[main.tsx - Entry Point Guard] --> B[BrowserRouter]
     B --> C[MainView - Root Orchestrator]
     C --> D[AudioPlayerProvider - Singleton Context]
-    D --> E[Sidebar & Tour Coachmark]
+    D --> E[Sidebar & Tour Coachmark - shared/components]
     D --> F["React.Suspense (RouteLoadingFallback)"]
-    F --> G[Routes]
-    G --> H[Module: home]
-    G --> I[Module: musician-profile]
-    G --> J[Module: artist-catalog]
-    G --> K[Module: about]
+    F --> G[ErrorBoundary Shell Guard]
+    G --> H[Routes]
+    H --> I[Module: home]
+    H --> J[Module: musician-profile]
+    H --> K[Module: artist-catalog]
+    H --> L[Module: about]
+    H --> M[NotFoundView - 404 Fallback]
 ```
 
 ---
 
-## 2. Feature-Driven Domain Modules (`src/presentation/modules/`)
+## 2. Domain & Presentation Layer Structure
 
-The application is structured into four domain-driven modules:
+```
+src/
+├── domain/                             # Core Business Domain & Entity Schemas
+│   └── models/                         # Domain Entity Definitions
+│       ├── Musician.ts                 # MusicianData, DiscographyTrack, HistoryEvent interfaces
+│       ├── typography.model.ts          # Typography system contracts
+│       └── index.ts                    # Domain models barrel re-export
+├── infrastructure/                     # External Services & Service Locators
+│   └── services/                       # FontService & IconService
+├── presentation/
+│   ├── context/                        # Persistent AudioPlayerContext Singleton Engine
+│   ├── data/                           # Exhibition mock registries (musiciansRegistry.ts)
+│   ├── hooks/                          # Shared presentation hooks (useDocumentTitle)
+│   ├── modules/                        # Feature-Driven Domain Modules
+│   │   ├── home/                       # VinylHero & ShowcaseSection
+│   │   ├── musician-profile/           # BioContent, TracklistTable, ArchivalLightboxModal
+│   │   ├── artist-catalog/             # CatalogGrid, FilterDeckPopover, useMusicianFilter
+│   │   └── about/                      # MMI Curatorial Statement
+│   ├── shared/                         # Unified Cross-Module Shared UI
+│   │   └── components/                 # ErrorBoundary, Header, Sidebar, InfoModal, MusicianCard, etc.
+│   ├── styles/                         # Theme tokens & global Tailwind CSS
+│   ├── utils/                          # DOM utilities, stylesheet engine, resolveAssetPath
+│   └── views/                          # MainView orchestrator & NotFoundView 404
+```
 
-### 2.1 `home` (`src/presentation/modules/home/`)
+---
+
+## 3. Feature-Driven Domain Modules (`src/presentation/modules/`)
+
+### 3.1 `home` (`src/presentation/modules/home/`)
 - **Responsibility**: Exhibition landing experience, vinyl hero centerpiece, and legendary musician carousel.
 - **Key Components**:
   - `VinylHero.tsx`: Interactive vinyl turntable canvas with spinning disc animation, needle placement state, and audio play/pause synchronization.
   - `ShowcaseSection.tsx`: Horizontal Hall of Legends showcase featuring interactive musician cards with hash navigation (`#showcase-icons`).
-- **Shared Dependencies**: Consumes shared `MusicianCard` component.
 
-### 2.2 `musician-profile` (`src/presentation/modules/musician-profile/`)
+### 3.2 `musician-profile` (`src/presentation/modules/musician-profile/`)
 - **Responsibility**: Individual artist archive detail pages and discography tracklist views.
 - **Key Components & Views**:
-  - `MusicianDetailView.tsx`: Full editorial artist bio narrative, quote blocks, era metadata, and archival gallery.
+  - `MusicianDetailView.tsx`: Full editorial artist bio narrative, quote blocks, era metadata, and archival gallery with `<NotFoundView />` fallback for missing slugs.
   - `MusicianDiscographyView.tsx`: Comprehensive track list display.
   - `BioContent.tsx`: Sub-component rendering structured artist biography, influences, and historical context.
-  - `TracklistTable.tsx`: Interactive tracklist with a **3-second auto-collapse timer** on idle or track completion, preventing layout clutter.
+  - `TracklistTable.tsx`: Interactive tracklist with a **3-second auto-collapse timer** on idle or track completion.
   - `ArchivalLightboxModal.tsx`: High-resolution gallery viewer for historical photos with smooth backdrop blur.
 
-### 2.3 `artist-catalog` (`src/presentation/modules/artist-catalog/`)
+### 3.3 `artist-catalog` (`src/presentation/modules/artist-catalog/`)
 - **Responsibility**: Searchable, filterable exhibition roster containing extended musician archives (`/extended-archive`).
 - **Key Components & Hooks**:
   - `ExtendedArtistsView.tsx`: Catalog orchestrator page integrating multi-parameter filters.
   - `useMusicianFilter.ts`: Custom hook managing multi-faceted filter logic (genre category, alphabetical prefix, text query, and era sorting).
   - `FilterDeckPopover.tsx`: Pop-over filter control deck with category pills and sort toggles.
-  - `CatalogGrid.tsx`: Responsive responsive grid layout displaying filtered artist cards.
+  - `CatalogGrid.tsx`: Responsive grid layout displaying filtered artist cards.
 
-### 2.4 `about` (`src/presentation/modules/about/`)
+### 3.4 `about` (`src/presentation/modules/about/`)
 - **Responsibility**: Curatorial statement, educational context, and Museum Musik Indonesia (MMI) history.
-- **Key Components**:
-  - `AboutView.tsx`: Minimalist Swiss editorial page detailing the mission of MMI in preserving East Java musical heritage.
 
 ---
 
-## 3. Routing & Code-Splitting Strategy
+## 4. Routing, Code-Splitting & Resiliency
 
-### 3.1 Route Tree Mapping
+### 4.1 Route Tree Mapping & Resiliency Guards
 
-| Route Path | View Component | Module | Chunk Split |
+| Route Path | View Component | Module / Location | Resiliency & Fallback |
 | :--- | :--- | :--- | :--- |
-| `/` | `HomeView` | `home` | Dynamic Chunk (`React.lazy`) |
-| `/musician/:slug` | `MusicianDetailView` | `musician-profile` | Dynamic Chunk (`React.lazy`) |
-| `/musician/:slug/discography` | `MusicianDiscographyView` | `musician-profile` | Dynamic Chunk (`React.lazy`) |
-| `/extended-archive` | `ExtendedArtistsView` | `artist-catalog` | Dynamic Chunk (`React.lazy`) |
-| `/about` | `AboutView` | `about` | Dynamic Chunk (`React.lazy`) |
+| `/` | `HomeView` | `home` | Dynamic Chunk + `ErrorBoundary` |
+| `/musician/:slug` | `MusicianDetailView` | `musician-profile` | Dynamic Chunk + `ErrorBoundary` + `NotFoundView` |
+| `/musician/:slug/discography` | `MusicianDiscographyView` | `musician-profile` | Dynamic Chunk + `ErrorBoundary` |
+| `/extended-archive` | `ExtendedArtistsView` | `artist-catalog` | Dynamic Chunk + `ErrorBoundary` |
+| `/about` | `AboutView` | `about` | Dynamic Chunk + `ErrorBoundary` |
+| `*` | `NotFoundView` | `presentation/views` | Dynamic Chunk + Wildcard 404 |
 
-### 3.2 Dynamic Route Code-Splitting via `React.lazy`
+### 4.2 Code-Splitting & Fallback Boundary
 
-To keep initial bundle payload sizes minimal (`< 200 kB`), view components are loaded lazily in [`MainView.tsx`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/views/MainView.tsx):
+Dynamic view components are loaded lazily in [`MainView.tsx`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/views/MainView.tsx) and wrapped inside `<React.Suspense fallback={<RouteLoadingFallback />}>` and `<ErrorBoundary>`:
 
 ```tsx
-const HomeView = React.lazy(() =>
-  import("@/presentation/modules/home").then((m) => ({ default: m.HomeView }))
-);
-const MusicianDetailView = React.lazy(() =>
-  import("@/presentation/modules/musician-profile").then((m) => ({ default: m.MusicianDetailView }))
-);
-const ExtendedArtistsView = React.lazy(() =>
-  import("@/presentation/modules/artist-catalog").then((m) => ({ default: m.ExtendedArtistsView }))
-);
+<React.Suspense fallback={<RouteLoadingFallback />}>
+  <ErrorBoundary>
+    <Routes>
+      <Route path="/" element={<HomeView ... />} />
+      <Route path="/musician/:slug" element={<MusicianDetailView />} />
+      <Route path="/musician/:slug/discography" element={<MusicianDiscographyView />} />
+      <Route path="/extended-archive" element={<ExtendedArtistsView />} />
+      <Route path="/about" element={<AboutView />} />
+      <Route path="*" element={<NotFoundView />} />
+    </Routes>
+  </ErrorBoundary>
+</React.Suspense>
 ```
-
-### 3.3 Seamless Fallback Boundary (`RouteLoadingFallback`)
-
-The dynamic routes are wrapped in `<React.Suspense fallback={<RouteLoadingFallback />}>`. The fallback component is styled to match the `#F6F4EE` warm canvas background with a crimson accent spinner (`#FF1F00`), preventing white layout flashes during dynamic asset fetching.
 
 ---
 
-## 4. Global Singletons & Lifecycle Safety
+## 5. Global Singletons & Lifecycle Safety
 
-### 4.1 Audio Engine Singleton (`AudioPlayerContext`)
+### 5.1 Audio Engine Singleton (`AudioPlayerContext`)
 
 The persistent YouTube audio engine sits at the top level of the application shell in `MainView.tsx`, outside the `<React.Suspense>` route boundaries:
+- **Audio Continuity**: Navigation between routes (`/` -> `/musician/ian-antono` -> `/about`) does **not** unmount the YouTube `iframe`.
+- **Auto-Stop Decoupling**: Auto-stop playback effects depend strictly on route section changes (`isMusicianSection`), avoiding mutable dependency loop risks.
+- **Playback Controls**: Features full floating pill controls (Play/Pause, Discography jump, Stop playback).
 
-```tsx
-<AudioPlayerProvider>
-  <main className={styles.mainWrapper}>
-    {/* Persistent Shell Controls: Sidebar, Coachmark, Audio Engine */}
-    <React.Suspense fallback={<RouteLoadingFallback />}>
-      <Routes>...</Routes>
-    </React.Suspense>
-  </main>
-</AudioPlayerProvider>
-```
+### 5.2 Dynamic SEO & Tab Title Management (`useDocumentTitle`)
 
-- **Audio Continuity**: Navigation between routes (`/` -> `/musician/ian-antono` -> `/about`) does **not** unmount the YouTube `iframe`, guaranteeing uninterrupted playback.
-- **Dual-Mode Morphing**: The player morphs seamlessly between **Vinyl Hero Mode** (embedded in the home hero section) and **Floating Pill Mode** (sticky bottom bar active across sub-pages).
+Page titles are reactively updated on route transitions using the [`useDocumentTitle`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/hooks/useDocumentTitle.ts) hook:
+- Home: `"Beranda Gallery - Sound of Malang | Museum Musik Indonesia"`
+- Artist Detail: `"${musician.name} - Eksibisi Digital | Museum Musik Indonesia"`
+- Catalog: `"Katalog Arsip Musisi - Sound of Malang | Museum Musik Indonesia"`
+- 404: `"Halaman Tidak Ditemukan (404) | Museum Musik Indonesia"`
 
-### 4.2 DOM Mounting Lifecycle Guard (`main.tsx`)
+### 5.3 DOM Mounting Lifecycle Guard (`main.tsx`)
 
-To prevent race conditions during rapid reloads or Hot Module Replacement (HMR), [`main.tsx`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/main.tsx) inspects `document.readyState` and enforces a single-mount dataset guard:
-
-```tsx
-const mountApp = () => {
-  const rootElement = document.getElementById("app");
-  if (rootElement && !rootElement.dataset.mounted) {
-    rootElement.dataset.mounted = "true";
-    createRoot(rootElement).render(
-      <React.StrictMode>
-        <BrowserRouter>
-          <MainView />
-        </BrowserRouter>
-      </React.StrictMode>
-    );
-  }
-};
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", mountApp);
-} else {
-  mountApp();
-}
-```
-
-### 4.3 Navigation Handoff & Scroll Restoration
-
-- Detail views check `locationState?.from` to return users back to their exact origin (`/#showcase-icons` anchor or `/extended-archive` scroll offset).
-- Lucide SVG icons are safely re-initialized on route transitions via `safeInitializeIcons()`.
+Enforces single-mount execution using `document.readyState` check and `rootElement.dataset.mounted = "true"` guard in [`main.tsx`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/main.tsx).

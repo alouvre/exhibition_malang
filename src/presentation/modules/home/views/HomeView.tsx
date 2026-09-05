@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { safeInitializeIcons, injectStylesheet } from "@/presentation/utils/dom";
+import {
+  safeInitializeIcons,
+  injectStylesheet,
+} from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
-import { OverlayNavbar } from "@/presentation/components/OverlayNavbar";
+import { OverlayNavbar } from "@/presentation/shared/components";
 import { MusicianIcon } from "@/presentation/shared/components/MusicianCard";
 import { musiciansRegistry } from "@/presentation/data/musiciansRegistry";
 import { FontService } from "@/infrastructure/services/FontService";
@@ -404,7 +407,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </div>
 
           {/* Kolom 2: Metadata Pameran & Status Langsung */}
-          <div className={styles.footerSection.detailsBlock}>
+          {/* <div className={styles.footerSection.detailsBlock}>
             <span className={styles.footerSection.subtitle}>
               FESTIVAL DETAILS
             </span>
@@ -433,11 +436,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Faded Watermark dengan Masking Halus */}
-        <div className={styles.footerSection.watermark}>MBOIS 2026</div>
+        {/* <div className={styles.footerSection.watermark}>MBOIS 2026</div> */}
       </footer>
 
       {/* Centered QR Code Modal */}

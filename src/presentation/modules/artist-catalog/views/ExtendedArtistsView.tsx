@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { InfoModal } from "@/presentation/components/InfoModal";
+import { InfoModal, ErrorBoundary } from "@/presentation/shared/components";
 import { musiciansRegistry, MusicianData } from "@/presentation/data/musiciansRegistry";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { Icon } from "@/infrastructure/services/IconService";
 import { FontService } from "@/infrastructure/services/FontService";
-import { ErrorBoundary } from "@/presentation/components/ErrorBoundary";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";

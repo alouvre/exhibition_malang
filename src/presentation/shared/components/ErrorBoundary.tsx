@@ -1,5 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from "react";
-import { COLORS } from "../styles/theme";
+import { COLORS } from "@/presentation/styles/theme";
 
 interface Props {
   children?: ReactNode;

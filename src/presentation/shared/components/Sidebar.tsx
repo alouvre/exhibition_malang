@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { safeInitializeIcons } from "../utils/dom";
-import { StyleSheet } from "../utils/stylesheet";
-import { RADIUS, COLORS } from "../styles/theme";
-import { DESIGN_TOKENS } from "../styles/theme";
-import { FontService } from "../../infrastructure/services/FontService";
+import { safeInitializeIcons } from "@/presentation/utils/dom";
+import { StyleSheet } from "@/presentation/utils/stylesheet";
+import { RADIUS, COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
+import { FontService } from "@/infrastructure/services/FontService";
 
 /* ==========================================================================
    SIDEBAR DROPDOWN TYPES & REUSABLE SUB-COMPONENT (Modular Extraction)

@@ -9,7 +9,7 @@ import {
 } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
-import { Header, HeaderNavItem } from "@/presentation/components/Header";
+import { Header, HeaderNavItem } from "@/presentation/shared/components";
 import { NotFoundView } from "@/presentation/views/NotFoundView";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 import {

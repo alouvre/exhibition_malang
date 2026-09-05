@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "@/presentation/components/Header";
+import { Header } from "@/presentation/shared/components";
 import { FontService } from "@/infrastructure/services/FontService";
 import { COLORS } from "@/presentation/styles/theme";
 import { StyleSheet } from "@/presentation/utils/stylesheet";

@@ -7,7 +7,7 @@ import {
 } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { DESIGN_TOKENS } from "@/presentation/styles/theme";
-import { Header, HeaderNavItem } from "@/presentation/components/Header";
+import { Header, HeaderNavItem } from "@/presentation/shared/components";
 import {
   musiciansRegistry,
   MusicianData as MusicianDetailData,

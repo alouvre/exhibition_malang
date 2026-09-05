@@ -2,13 +2,13 @@
 
 ## 1. Overview & Data Layer Architecture
 
-Currently, **Music Gallery Vision** utilizes client-side static JSON data registries located in `src/presentation/data/musiciansRegistry.ts` (and exported through domain abstractions). 
+Currently, **Music Gallery Vision** utilizes client-side static JSON data registries defined in `src/domain/models/Musician.ts` and exported through `src/presentation/data/musiciansRegistry.ts`.
 
-This document defines the schema definitions for the current static stores and specifies the future **RESTful / GraphQL backend data model** for migrating the application to a Headless CMS or dynamic database backend (e.g., PostgreSQL / Strapi / Supabase).
+This document defines the schema definitions for core domain models and specifies the future **RESTful / GraphQL backend data model** for migrating the application to a Headless CMS or dynamic database backend (e.g., PostgreSQL / Strapi / Supabase).
 
 ---
 
-## 2. Core Entities & Schemas
+## 2. Core Entities & Schemas (`src/domain/models/Musician.ts`)
 
 ### 2.1 Entity Relationship Diagram
 
@@ -22,36 +22,27 @@ erDiagram
         string id PK
         string slug UK
         string name
-        string realName
-        string era
-        string origin
-        string birthDate
-        string deathDate
         string genre
-        string quote
-        text biography
+        string year
         string image
+        string album
+        text biography
         string_array exhibitionImages
-        string_array influences
-        string_array instruments
-        boolean featuredInShowcase
-    }
-
-    DISCOGRAPHY_ALBUM {
-        string id PK
-        string musicianId FK
-        string title
-        int releaseYear
-        string coverImage
+        string_array historyTimeline
+        string_array catalog
+        string headlineSummary
+        object signatureQuote
+        object musicalProfile
+        array awards
+        array collaborations
     }
 
     TRACK {
-        string id PK
-        string albumId FK
+        string number
         string title
+        string album
         string duration
         string youtubeId
-        int trackNumber
     }
 
     ARCHIVAL_ARTIFACT {
@@ -61,61 +52,121 @@ erDiagram
         string title
         text curationNotes
         string mediaUrl
-        string mediaType
     }
 ```
 
 ---
 
-## 3. Data Models & JSON Schemas
+## 3. Data Models & TypeScript Schemas
 
-### 3.1 `MusicianData` Schema
+### 3.1 `MusicianData` Interface
+Source location: [`src/domain/models/Musician.ts`](file:///d:/Workspace/Music_Gallery_Vision/src/domain/models/Musician.ts)
+
 ```typescript
-interface MusicianData {
+export type MilestoneCategory =
+  | "release"
+  | "award"
+  | "concert"
+  | "career"
+  | "legacy";
+
+export interface HistoryEvent {
+  year: string;
+  event: string;
+  category?: MilestoneCategory;
+}
+
+export interface TrackCatalogItem {
+  number: string;
+  title: string;
+  album: string;
+  duration: string;
+  youtubeId?: string;
+}
+
+export interface MusicianQuote {
+  text: string;
+  source?: string;
+  year?: string;
+}
+
+export interface AwardItem {
+  year: string;
+  title: string;
+  organization: string;
+  category?: string;
+}
+
+export interface MusicalProfile {
+  primaryInstruments: string[];
+  influences?: string[];
+  subGenres?: string[];
+}
+
+export interface CollaborationItem {
+  name: string;
+  projectTitle?: string;
+  role?: string;
+}
+
+export interface MusicianData {
   id: string;
   slug: string;
   name: string;
-  realName?: string;
-  year: string; // Era display (e.g., "1970S - PRESENT")
-  origin?: string; // Origin city/region (e.g., "Malang, Jawa Timur")
-  birthDate?: string;
-  deathDate?: string | null;
-  genre: string; // Category badge (e.g., "ROCK ORIGINATOR", "LADY ROCKER")
-  quote?: string;
-  biography: string;
-  image: string; // Primary avatar image path in /assets/
-  exhibitionImages: string[]; // Archival photo gallery paths
-  influences?: string[]; // Array of musical influences
-  instruments?: string[]; // Array of played instruments
-  discography: DiscographyTrack[];
-  featuredInShowcase?: boolean;
-}
-```
-
-### 3.2 `DiscographyTrack` Schema
-```typescript
-interface DiscographyTrack {
-  id: string;
-  title: string;
+  genre: string;
+  year: string;
+  image: string;
   album: string;
-  year: number;
-  duration: string;
-  youtubeId: string; // YouTube video ID for persistent audio engine
+  biography: string;
+  exhibitionImages?: string[];
+  youtubeId?: string;
+  historyTimeline: HistoryEvent[];
+  catalog: TrackCatalogItem[];
+
+  // Optional Enrichment Fields
+  headlineSummary?: string;
+  signatureQuote?: MusicianQuote;
+  musicalProfile?: MusicalProfile;
+  awards?: AwardItem[];
+  collaborations?: (string | CollaborationItem)[];
 }
 ```
 
 ---
 
-## 4. RESTful API Contract (Future Backend Specification)
+## 4. Media Resolution & Fallback Contract
+
+All asset string URLs are resolved via the centralized utility [`resolveAssetPath`](file:///d:/Workspace/Music_Gallery_Vision/src/presentation/utils/dom.ts).
+
+```typescript
+export const DEFAULT_FALLBACK_IMAGE = "/assets/vinyl_record.jpg";
+
+export const resolveAssetPath = (path?: string): string => {
+  if (!path || path.trim() === "") return DEFAULT_FALLBACK_IMAGE;
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("/")
+  ) {
+    return path;
+  }
+  return `/${path}`;
+};
+```
+*Client Contract Guarantee*: If an image path is missing, empty, or unresolvable, the application automatically falls back to `DEFAULT_FALLBACK_IMAGE` (`/assets/vinyl_record.jpg`).
+
+---
+
+## 5. RESTful API Contract (Future Backend Specification)
 
 Base URL: `https://api.museummusikindonesia.or.id/v1`
 
-### 4.1 `GET /api/v1/musicians`
+### 5.1 `GET /api/v1/musicians`
 Returns a paginated, filterable list of musicians for the exhibition catalog.
 
 - **Query Parameters**:
-  - `search` (string, optional): Search query matching `name`, `realName`, `biography`, or `genre`.
-  - `genre` (string, optional): Genre filter (e.g., `ROCK`, `POP`, `FOLK`, `KRONCONG`, `LADY ROCKER`).
+  - `search` (string, optional): Search query matching `name`, `biography`, or `genre`.
+  - `genre` (string, optional): Genre filter (`ROCK`, `POP`, `FOLK`, `KRONCONG`, `LADY ROCKER`).
   - `alphabet` (string, optional): Filter by starting letter of stage name.
   - `sort` (enum, default `newest`): `newest`, `oldest`, `a-z`, `z-a`.
   - `page` (int, default `1`): Page index.
@@ -133,20 +184,18 @@ Returns a paginated, filterable list of musicians for the exhibition catalog.
   },
   "data": [
     {
-      "id": "mus-ian-antono",
+      "id": "ian-antono",
       "slug": "ian-antono",
-      "name": "Ian Antono",
-      "realName": "Jusuf Antono Djojo",
-      "year": "1970S - PRESENT",
-      "genre": "ROCK ORIGINATOR",
-      "image": "/assets/ian_antono/Picture2.jpg",
-      "featuredInShowcase": true
+      "name": "IAN ANTONO",
+      "genre": "ROCK ORIGINATOR & GUITAR VIRTUOSO",
+      "year": "1965 - PRESENT",
+      "image": "/assets/ian_antono/Picture2.jpg"
     }
   ]
 }
 ```
 
-### 4.2 `GET /api/v1/musicians/:slug`
+### 5.2 `GET /api/v1/musicians/:slug`
 Fetches complete details, biography, influences, and archival gallery for a specific musician.
 
 - **Response Body (`200 OK`)**:
@@ -154,51 +203,40 @@ Fetches complete details, biography, influences, and archival gallery for a spec
 {
   "status": "success",
   "data": {
-    "id": "mus-ian-antono",
+    "id": "ian-antono",
     "slug": "ian-antono",
-    "name": "Ian Antono",
-    "realName": "Jusuf Antono Djojo",
-    "year": "1970S - PRESENT",
-    "origin": "Malang, Jawa Timur",
-    "birthDate": "29 Oktober 1950",
-    "genre": "ROCK ORIGINATOR",
-    "quote": "Musik rock bukan sekadar distorsi, melainkan jiwa dan kejujuran dalam berkarya.",
-    "biography": "Ian Antono lahir di Malang pada 29 Oktober 1950...",
+    "name": "IAN ANTONO",
+    "genre": "ROCK ORIGINATOR & GUITAR VIRTUOSO",
+    "year": "1965 - PRESENT",
     "image": "/assets/ian_antono/Picture2.jpg",
+    "album": "Semut Hitam (1988)",
+    "biography": "Ian Antono lahir di Malang pada 29 Oktober 1950...",
     "exhibitionImages": [
       "/assets/ian_antono/Picture1.jpg",
       "/assets/ian_antono/Picture3.jpg"
     ],
-    "influences": ["Deep Purple", "Led Zeppelin", "Jimi Hendrix"],
-    "instruments": ["Gitar Elektrik", "Gitar Akustik", "Komposer"]
+    "historyTimeline": [
+      {
+        "year": "1950",
+        "event": "Lahir di Malang, Jawa Timur.",
+        "category": "career"
+      }
+    ],
+    "catalog": [
+      {
+        "number": "01",
+        "title": "Rumah Kita",
+        "album": "Semut Hitam",
+        "duration": "4:45",
+        "youtubeId": "g4QnZfR7j_Y"
+      }
+    ]
   }
 }
 ```
 
-### 4.3 `GET /api/v1/musicians/:slug/discography`
-Fetches complete discography tracks including YouTube video IDs for playback.
-
-- **Response Body (`200 OK`)**:
-```json
-{
-  "status": "success",
-  "musicianSlug": "ian-antono",
-  "totalTracks": 3,
-  "data": [
-    {
-      "id": "tr-rumah-kita",
-      "title": "Rumah Kita",
-      "album": "Semut Hitam",
-      "year": 1988,
-      "duration": "4:45",
-      "youtubeId": "g4QnZfR7j_Y"
-    }
-  ]
-}
-```
-
-### 4.4 HTTP Status Codes
+### 5.3 HTTP Status Codes
 - `200 OK`: Request succeeded.
-- `400 Bad Request`: Invalid query parameters or body syntax.
-- `404 Not Found`: Musician slug or track ID does not exist.
-- `500 Internal Server Error`: Unexpected server processing error.
+- `400 Bad Request`: Invalid query parameters.
+- `404 Not Found`: Musician slug does not exist (triggers `<NotFoundView />`).
+- `500 Internal Server Error`: Unexpected server error.

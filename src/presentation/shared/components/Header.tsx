@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { safeInitializeIcons } from "../utils/dom";
-import { StyleSheet } from "../utils/stylesheet";
-import { RADIUS } from "../styles/theme";
-import { Icon } from "../../infrastructure/services/IconService";
-import { FontService } from "../../infrastructure/services/FontService";
+import { safeInitializeIcons } from "@/presentation/utils/dom";
+import { StyleSheet } from "@/presentation/utils/stylesheet";
+import { RADIUS } from "@/presentation/styles/theme";
+import { Icon } from "@/infrastructure/services/IconService";
+import { FontService } from "@/infrastructure/services/FontService";
 
 export interface HeaderNavItem {
   id: string;

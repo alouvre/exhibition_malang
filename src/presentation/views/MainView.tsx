@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { Sidebar } from "@/presentation/components/Sidebar";
-import { OnboardingCoachmark } from "@/presentation/components/OnboardingCoachmark";
-import { MobileFallbackScreen } from "@/presentation/components/MobileFallbackScreen";
-import { ErrorBoundary } from "@/presentation/components/ErrorBoundary";
+import {
+  Sidebar,
+  OnboardingCoachmark,
+  MobileFallbackScreen,
+  ErrorBoundary,
+} from "@/presentation/shared/components";
 import { AudioPlayerProvider } from "@/presentation/context/AudioPlayerContext";
 // Dynamic Route Chunk Code-Splitting via React.lazy
 const HomeView = React.lazy(() =>

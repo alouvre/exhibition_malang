@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FontService } from "../../infrastructure/services/FontService";
-import { Icon } from "../../infrastructure/services/IconService";
-import { COLORS } from "../styles/theme";
+import { FontService } from "@/infrastructure/services/FontService";
+import { Icon } from "@/infrastructure/services/IconService";
+import { COLORS } from "@/presentation/styles/theme";
 
 export interface InfoModalProps {
   /** Controls modal visibility */

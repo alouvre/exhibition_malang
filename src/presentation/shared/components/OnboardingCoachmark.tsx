@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FontService } from "../../infrastructure/services/FontService";
-import { Icon } from "../../infrastructure/services/IconService";
+import { FontService } from "@/infrastructure/services/FontService";
+import { Icon } from "@/infrastructure/services/IconService";
 
 export interface CoachmarkStep {
   stepIndex: number;
