@@ -19,10 +19,10 @@ import { FontService } from "../../infrastructure/services/FontService";
    ========================================================================== */
 export const COLORS = {
   // Brand & Accent Colors
-  primary: "#FF1F00",
-  primaryText: "text-[#FF1F00]",
-  primaryBg: "bg-[#FF1F00]",
-  primaryBorder: "border-[#FF1F00]",
+  primary: "#CD001F",
+  primaryText: "text-[#CD001F]",
+  primaryBg: "bg-[#CD001F]",
+  primaryBorder: "border-[#CD001F]",
 
   // Canvas & Background Colors
   canvas: "#F6F4EE",

@@ -20,6 +20,7 @@ export interface HeaderProps {
   rightTextLeft?: string;
   rightTextRight?: string;
   showCenterText?: boolean;
+  showPartnerLogos?: boolean;
   isSticky?: boolean;
   className?: string;
   /** Header color variant for light canvas or dark/transparent backgrounds */
@@ -38,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   leftActionLabel,
   rightTextLeft = "MUSEUM MUSIK INDONESIA",
   showCenterText = true,
+  showPartnerLogos = false,
   isSticky = false,
   className,
   variant = "light",
@@ -196,20 +198,56 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Default Center Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
         <div
-          className={`${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer ${fontBadge}`}
+          className={`absolute left-1/2 -translate-x-1/2 ${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer text-center select-none z-10 ${fontBadge}`}
         >
           {rightTextLeft}
         </div>
       ) : null}
 
-      {/* Right Branding Logo */}
-      <img
-        src="/assets/LOGOMMI.webp"
-        alt="Museum Musik Indonesia Logo"
-        className="h-8 sm:h-10 w-auto object-contain transition-opacity hover:opacity-80"
-        loading="eager"
-        decoding="async"
-      />
+      {/* Refined Unified Monochrome Header Dock */}
+      <div className="flex items-center gap-2.5 z-20 shrink-0">
+        <div className="rounded-full bg-stone-900/[0.03] border border-black/10 backdrop-blur-md px-3 sm:px-4 py-1.5 flex items-center gap-2.5">
+          {showPartnerLogos && (
+            <>
+              <span className="hidden lg:inline-block text-[9px] font-mono font-bold tracking-[0.18em] text-stone-500 uppercase select-none">
+                IN COLLABORATION WITH
+              </span>
+              <span
+                className="hidden lg:inline-block w-px h-3 bg-black/15 shrink-0"
+                aria-hidden="true"
+              />
+              <img
+                src="/assets/Logo-Simbol-Diktisaintek-Berdampak.png"
+                alt="Diktisaintek"
+                className="h-3.5 sm:h-4 max-w-[75px] sm:max-w-[90px] w-auto object-contain mix-blend-multiply opacity-80 hover:opacity-100 transition-opacity"
+                loading="eager"
+              />
+              <span
+                className="w-px h-3 bg-black/15 shrink-0"
+                aria-hidden="true"
+              />
+              <img
+                src="/assets/BINUS University Icon - Colored - 3441x2048 - zonalogo.com.png"
+                alt="BINUS University"
+                className="h-3.5 sm:h-4 max-w-[65px] sm:max-w-[75px] w-auto object-contain mix-blend-multiply opacity-80 hover:opacity-100 transition-opacity"
+                loading="eager"
+              />
+              <span
+                className="w-px h-3 bg-black/15 shrink-0"
+                aria-hidden="true"
+              />
+            </>
+          )}
+
+          <img
+            src="/assets/LOGOMMI.webp"
+            alt="Museum Musik Indonesia Logo"
+            className="h-5 sm:h-6 w-auto object-contain mix-blend-multiply opacity-85 hover:opacity-100 transition-opacity shrink-0"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </div>
     </header>
   );
 };

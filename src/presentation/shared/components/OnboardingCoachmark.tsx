@@ -27,16 +27,16 @@ const STEPS_CONFIG: CoachmarkStep[] = [
   {
     stepIndex: 1,
     targetId: "tour-step-1-start-journey",
-    badge: "STEP 1 OF 3 • SHOWCASE GATEWAY",
+    badge: "01 • SHOWCASE GATEWAY",
     title: "START YOUR EXHIBITION JOURNEY",
     description:
-      "Klik piringan hitam 'START JOURNEY' untuk menjelajahi etalase karya musisi dan maestro musik legenda Malang.",
+      "Klik piringan hitam 'START JOURNEY' untuk membuka etalase arsip fisik piringan hitam dan rilisan legenda musik Malang.",
     tooltipPosition: "right",
   },
   {
     stepIndex: 2,
     targetId: "tour-step-2-staff-guideline",
-    badge: "STEP 2 OF 3 • OPERATIONAL GUIDE",
+    badge: "02 • OPERATIONAL GUIDE",
     title: "STAFF PLAYBOOK & KIOSK GUIDE",
     description:
       "Panduan operasional staf pameran untuk aktivasi Mode Layar Penuh (Fullscreen), Reset Player Visual, dan Dukungan Teknikal.",
@@ -45,7 +45,7 @@ const STEPS_CONFIG: CoachmarkStep[] = [
   {
     stepIndex: 3,
     targetId: "tour-step-3-settings",
-    badge: "STEP 3 OF 3 • SYSTEM SETTINGS",
+    badge: "03 • SYSTEM SETTINGS",
     title: "FULLSCREEN & SYSTEM SETTINGS",
     description:
       "Akses menu pengaturan sistem pameran dan aktifkan Mode Layar Penuh (Fullscreen) untuk pengalaman visual yang imersif.",
@@ -63,25 +63,16 @@ interface RectBounds {
 
 const smoothSpring = {
   type: "spring" as const,
-  stiffness: 220,
-  damping: 28,
+  stiffness: 240,
+  damping: 30,
   mass: 0.8,
 };
 
 const smoothEase = {
-  duration: 0.35,
+  duration: 0.32,
   ease: [0.16, 1, 0.3, 1] as const,
 };
 
-/**
- * Contextual Coachmark Onboarding Tour Component
- *
- * Designed with Anti-Gravity Design System Standards:
- * - Precise SVG mask cutout spotlight with glowing red brand border
- * - Dark Obsidian glassmorphism tooltip card with Framer Motion spring physics
- * - Real-time window resize and scroll tracking
- * - Controlled 3-Step Guided Tour integration
- */
 export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
   isOpen,
   isVisible = true,
@@ -110,13 +101,17 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     if (element) {
       const rect = element.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        const padding = 8;
+        const padding = 10;
+        const isCircular = Math.abs(rect.width - rect.height) < 4;
+        const calculatedRx = isCircular
+          ? (rect.width + padding * 2) / 2
+          : 18;
         setTargetRect({
           x: Math.max(0, rect.left - padding),
           y: Math.max(0, rect.top - padding),
           width: rect.width + padding * 2,
           height: rect.height + padding * 2,
-          rx: 16,
+          rx: calculatedRx,
         });
         return true;
       }
@@ -124,7 +119,6 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     return false;
   }, [isOpen, isVisible, currentStepConfig]);
 
-  // Recalculate spotlight position with micro-delay on mount & sidebar transitions
   useEffect(() => {
     if (!isOpen || !isVisible) {
       setIsReady(false);
@@ -132,8 +126,6 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     }
 
     setIsReady(false);
-
-    // Sidebar expansion animation takes ~250ms for steps 2 & 3, initial mount takes ~140ms
     const delay = currentStep === 1 ? 140 : 280;
 
     let rafId: number;
@@ -143,13 +135,11 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
         if (success) {
           setIsReady(true);
         } else {
-          // Retry once if target element is rendering asynchronously
           setTimeout(() => {
             const retrySuccess = updateTargetRect();
             if (retrySuccess) {
               setIsReady(true);
             } else {
-              // Target element is absent in DOM (e.g. non-home view), dismiss tour gracefully
               onSkip();
             }
           }, 150);
@@ -170,9 +160,8 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
       window.removeEventListener("resize", handleResizeOrScroll);
       window.removeEventListener("scroll", handleResizeOrScroll, true);
     };
-  }, [isOpen, isVisible, currentStep, updateTargetRect]);
+  }, [isOpen, isVisible, currentStep, updateTargetRect, onSkip]);
 
-  // Real-time ResizeObserver for target element and body layout changes
   useEffect(() => {
     if (!isOpen || !isVisible || !currentStepConfig) return;
 
@@ -191,7 +180,6 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
     return () => observer.disconnect();
   }, [isOpen, isVisible, currentStepConfig, updateTargetRect]);
 
-  // Accessibility: Handle Escape key to skip tour
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -207,27 +195,23 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
   const isLastStep = currentStep >= totalSteps;
   const isFirstStep = currentStep === 1;
 
-  // Calculate tooltip card fixed positioning
   const calculateTooltipStyle = (): React.CSSProperties => {
     if (!targetRect) {
       return { top: "50%", left: "50%", transform: "translate(-50%, -50%)" };
     }
 
-    const margin = 20;
-    const cardWidth = Math.min(340, window.innerWidth - 32);
+    const margin = 24;
+    const cardWidth = Math.min(360, window.innerWidth - 32);
 
     let left = targetRect.x + targetRect.width + margin;
-    let top = targetRect.y;
+    let top = targetRect.y - 12;
 
-    // Check right screen boundary collision
     if (left + cardWidth > window.innerWidth - 16) {
-      // Fallback to left side if right side overflows
       left = Math.max(16, targetRect.x - cardWidth - margin);
     }
 
-    // Check bottom screen boundary collision
-    if (top + 260 > window.innerHeight) {
-      top = Math.max(16, window.innerHeight - 280);
+    if (top + 300 > window.innerHeight) {
+      top = Math.max(16, window.innerHeight - 320);
     }
 
     return {
@@ -245,12 +229,12 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: isReady && targetRect ? 1 : 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className={`fixed inset-0 z-[100] select-none ${
             isReady && targetRect ? "" : "pointer-events-none"
           }`}
         >
-          {/* 1. SVG Cutout Mask Spotlight Backdrop (z-100) */}
+          {/* 1. Backdrop Mask SVG */}
           <svg className="fixed inset-0 w-full h-full pointer-events-none z-[100]">
             <defs>
               <mask id="coachmark-spotlight-mask">
@@ -273,16 +257,16 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
               </mask>
             </defs>
 
-            {/* Dark Backdrop with Spotlight Hole */}
             <rect
               width="100%"
               height="100%"
-              fill="rgba(0, 0, 0, 0.65)"
+              fill="rgba(8, 8, 8, 0.78)"
+              className="backdrop-blur-[2px]"
               mask="url(#coachmark-spotlight-mask)"
             />
           </svg>
 
-          {/* 2. Red Glowing Accent Border around Target Spotlight */}
+          {/* 2. Reticle Spotlight Target Overlay with Red Glow & Corner Brackets */}
           {targetRect && (
             <motion.div
               initial={false}
@@ -294,64 +278,79 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                 borderRadius: `${targetRect.rx}px`,
               }}
               transition={smoothSpring}
-              className="fixed pointer-events-none z-[101] border-2 border-[#FF1F00] shadow-[0_0_24px_rgba(255,31,0,0.6)]"
-            />
+              className="fixed pointer-events-none z-[101] border border-[#FF1F00]/50 shadow-[0_0_30px_rgba(255,31,0,0.35)]"
+            >
+              {/* Radar Ping Effect */}
+              <span className="absolute -inset-1 rounded-[22px] border border-[#FF1F00]/40 animate-ping pointer-events-none opacity-40 duration-1000" />
+
+              {/* Viewfinder Technical Corners */}
+              <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-[#FF1F00]" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-[#FF1F00]" />
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-[#FF1F00]" />
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-[#FF1F00]" />
+            </motion.div>
           )}
 
-          {/* 3. High-Fashion Glassmorphism Tooltip Card */}
+          {/* 3. Swiss Glassmorphic Exhibition Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 12 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 12 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={smoothEase}
             style={calculateTooltipStyle()}
-            className="z-[102] bg-[#111111]/95 text-white backdrop-blur-2xl border border-white/20 rounded-2xl p-4 sm:p-5 shadow-2xl shadow-black/90 flex flex-col gap-3.5"
+            className="z-[102] bg-[#0E0D0C]/95 text-stone-100 backdrop-blur-2xl border border-white/10 rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col gap-4 relative overflow-hidden"
           >
-            {/* Header: Badge & Skip Button */}
-            <div className="flex items-center justify-between gap-3">
-              <span
-                className={`px-2.5 py-0.5 text-[9px] sm:text-[10px] font-bold rounded-full bg-[#FF1F00]/20 text-[#FF1F00] border border-[#FF1F00]/40 uppercase tracking-widest ${fontBadge}`}
-              >
-                {currentStepConfig.badge}
-              </span>
+            {/* Ambient Red Glow Corner Accent */}
+            <div className="absolute -top-10 -right-10 w-28 h-28 bg-[#FF1F00]/15 rounded-full blur-2xl pointer-events-none" />
+
+            {/* Top Bar: Curatorial Badge & Close Action */}
+            <div className="flex items-center justify-between gap-3 border-b border-white/5 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] animate-pulse" />
+                <span
+                  className={`text-[10px] font-mono font-bold tracking-[0.2em] text-stone-300 uppercase ${fontBadge}`}
+                >
+                  {currentStepConfig.badge}
+                </span>
+              </div>
 
               <button
                 type="button"
                 onClick={onSkip}
-                className="text-stone-400 hover:text-white text-[11px] font-bold font-sans uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center gap-1 hover:scale-105 active:scale-95 p-0.5"
+                className="text-stone-400 hover:text-white text-[10px] font-mono uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 active:scale-95"
                 aria-label="Skip Onboarding Tour"
               >
                 <span>LEWATI</span>
-                <Icon name="x" className="w-3.5 h-3.5" />
+                <Icon name="x" className="w-3 h-3 text-stone-400" />
               </button>
             </div>
 
-            {/* Title & Description with AnimatePresence Smooth Text Transition */}
+            {/* Content: Title & Curatorial Description */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
-                initial={{ opacity: 0, x: 8 }}
+                initial={{ opacity: 0, x: 6 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col gap-1.5"
+                exit={{ opacity: 0, x: -6 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col gap-2 relative z-10"
               >
                 <h3
-                  className={`text-sm sm:text-base font-bold text-white uppercase tracking-tight ${fontHeader}`}
+                  className={`text-base sm:text-lg font-black text-white tracking-tight uppercase leading-snug ${fontHeader}`}
                 >
                   {currentStepConfig.title}
                 </h3>
                 <p
-                  className={`text-xs sm:text-[13px] text-zinc-300 leading-relaxed tracking-wide font-normal ${fontBody}`}
+                  className={`text-xs text-stone-400 leading-relaxed font-normal tracking-wide ${fontBody}`}
                 >
                   {currentStepConfig.description}
                 </p>
               </motion.div>
             </AnimatePresence>
 
-            {/* Action Buttons & Step Progress Indicators */}
-            <div className="pt-2.5 border-t border-white/10 flex items-center justify-between gap-3">
-              {/* Step Dots Indicator */}
+            {/* Footer: Stepper & Navigation Buttons */}
+            <div className="pt-3 border-t border-white/5 flex items-center justify-between gap-3 relative z-10">
+              {/* Cassette Tape Track Progress */}
               <div className="flex items-center gap-1.5">
                 {Array.from({ length: totalSteps }).map((_, idx) => {
                   const stepNum = idx + 1;
@@ -360,20 +359,22 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                     <span
                       key={stepNum}
                       className={`h-1 rounded-full transition-all duration-300 ${
-                        isActive ? "w-5 bg-[#FF1F00]" : "w-1.5 bg-white/30"
+                        isActive
+                          ? "w-6 bg-[#FF1F00] shadow-[0_0_8px_rgba(255,31,0,0.8)]"
+                          : "w-2 bg-stone-700"
                       }`}
                     />
                   );
                 })}
               </div>
 
-              {/* Navigation Controls */}
+              {/* Action Buttons */}
               <div className="flex items-center gap-2">
                 {!isFirstStep && (
                   <button
                     type="button"
                     onClick={onPrevStep}
-                    className={`px-2.5 py-1 text-xs font-bold text-stone-400 hover:text-white uppercase tracking-wider transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${fontBadge}`}
+                    className={`px-3 py-1.5 text-xs font-mono font-bold text-stone-400 hover:text-white uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-200 cursor-pointer active:scale-95 ${fontBadge}`}
                   >
                     KEMBALI
                   </button>
@@ -382,9 +383,21 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                 <button
                   type="button"
                   onClick={isLastStep ? onFinish : onNextStep}
-                  className={`bg-[#FF1F00] hover:bg-[#D41A00] text-white font-bold text-xs uppercase tracking-wider rounded-full px-3.5 py-1.5 transition-all duration-200 shadow-md shadow-[#FF1F00]/30 hover:scale-[1.05] active:scale-95 cursor-pointer flex items-center gap-1.5 ${fontBadge}`}
+                  className={`relative overflow-hidden bg-[#FF1F00] hover:bg-[#E01B00] text-white font-mono font-bold text-xs uppercase tracking-widest rounded-full px-4 py-1.5 transition-all duration-200 shadow-md shadow-[#FF1F00]/25 hover:shadow-[#FF1F00]/40 hover:scale-[1.03] active:scale-95 cursor-pointer flex items-center gap-1.5 ${fontBadge}`}
                 >
-                  <span>{isLastStep ? "SELESAI TUR" : "LANJUT →"}</span>
+                  <span>{isLastStep ? "SELESAI" : "LANJUT"}</span>
+                  <svg
+                    className="w-3.5 h-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
               </div>
             </div>
