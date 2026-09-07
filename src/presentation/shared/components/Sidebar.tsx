@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
@@ -135,6 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   controlledGuideOpen,
   controlledSettingsOpen,
 }) => {
+  const navigate = useNavigate();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
@@ -235,12 +237,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       id: "settings-main",
       items: [
-        {
-          id: "profile",
-          label: "Profile",
-          icon: "user",
-          onClick: () => handleDropdownAction("Profile"),
-        },
+        // {
+        //   id: "profile",
+        //   label: "Profile",
+        //   icon: "user",
+        //   onClick: () => handleDropdownAction("Profile"),
+        // },
         {
           id: "fullscreen",
           label: "Fullscreen",
@@ -255,19 +257,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         },
       ],
     },
-    {
-      id: "settings-account",
-      items: [
-        {
-          id: "signout",
-          label: "Sign out",
-          icon: "log-out",
-          onClick: () => handleDropdownAction("Sign out"),
-          isDanger: true,
-          hasArrowRight: true,
-        },
-      ],
-    },
+    // {
+    //   id: "settings-account",
+    //   items: [
+    //     {
+    //       id: "signout",
+    //       label: "Sign out",
+    //       icon: "log-out",
+    //       onClick: () => handleDropdownAction("Sign out"),
+    //       isDanger: true,
+    //       hasArrowRight: true,
+    //     },
+    //   ],
+    // },
   ];
 
   // 2. Staff Playbook & Operational Guide Dropdown Configuration
@@ -280,36 +282,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
           label: "Fullscreen Activation Guide",
           icon: "sliders",
           onClick: () => {
-            // handleToggleFullscreen();
+            handleToggleFullscreen();
           },
         },
-        // {
-        //   id: "reset-player",
-        //   label: "System Reset Guide",
-        //   icon: "rotate-ccw",
-        //   onClick: () => {
-        //     window.dispatchEvent(
-        //       new CustomEvent("show-toast", {
-        //         detail: "OPERATOR ACTION: Visual Archive Player Reset",
-        //       }),
-        //     );
-        //     setIsGuideOpen(false);
-        //   },
-        // },
         {
           id: "tech-contact",
-          label: "Technical Support",
+          label: "Technical Support & Help",
           icon: "info",
           onClick: () => {
             if (onOpenOperationalGuide) {
               onOpenOperationalGuide();
             } else {
-              // window.dispatchEvent(
-              //   new CustomEvent("show-toast", {
-              //     detail: "STAFF HELP: MMI Tech Support (+62 812-3456-7890)",
-              //   }),
-              // );
+              navigate("/help-center");
             }
+            setIsGuideOpen(false);
+          },
+        },
+        {
+          id: "legal-privacy",
+          label: "Terms & Privacy Policy",
+          icon: "file-text",
+          onClick: () => {
+            navigate("/privacy-policy");
             setIsGuideOpen(false);
           },
         },

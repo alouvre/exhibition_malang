@@ -29,6 +29,15 @@ const ExtendedArtistsView = React.lazy(() =>
 const AboutView = React.lazy(() =>
   import("@/presentation/modules/about").then((m) => ({ default: m.AboutView }))
 );
+const TermsView = React.lazy(() =>
+  import("@/presentation/modules/legal").then((m) => ({ default: m.TermsView }))
+);
+const PrivacyView = React.lazy(() =>
+  import("@/presentation/modules/legal").then((m) => ({ default: m.PrivacyView }))
+);
+const HelpCenterView = React.lazy(() =>
+  import("@/presentation/modules/legal").then((m) => ({ default: m.HelpCenterView }))
+);
 const NotFoundView = React.lazy(() =>
   import("@/presentation/views/NotFoundView").then((m) => ({
     default: m.NotFoundView,
@@ -102,7 +111,13 @@ export const MainView: React.FC = () => {
       location.pathname === "/extended-archive"
     )
       return "home";
-    if (location.pathname === "/about") return "about";
+    if (
+      location.pathname === "/about" ||
+      location.pathname === "/terms-conditions" ||
+      location.pathname === "/privacy-policy" ||
+      location.pathname === "/help-center"
+    )
+      return "about";
     return "home";
   };
 
@@ -216,6 +231,30 @@ export const MainView: React.FC = () => {
                   path="/about"
                   element={
                     <AboutView
+                      onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                    />
+                  }
+                />
+                <Route
+                  path="/terms-conditions"
+                  element={
+                    <TermsView
+                      onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                    />
+                  }
+                />
+                <Route
+                  path="/privacy-policy"
+                  element={
+                    <PrivacyView
+                      onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+                    />
+                  }
+                />
+                <Route
+                  path="/help-center"
+                  element={
+                    <HelpCenterView
                       onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
                     />
                   }
