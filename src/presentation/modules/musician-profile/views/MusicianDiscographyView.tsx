@@ -14,6 +14,7 @@ import {
 } from "@/presentation/data/musiciansRegistry";
 import { useAudioPlayer } from "@/presentation/context/AudioPlayerContext";
 import { TracklistTable } from "../components/TracklistTable";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 interface LocationState {
   musician?: MusicianDetailData;
@@ -31,6 +32,10 @@ const MUSICIAN_NAV_ITEMS: HeaderNavItem[] = [
  * View orchestrator for discography playback canvas and decomposed TracklistTable.
  */
 export const MusicianDiscographyView: React.FC = () => {
+  const heroTitleClass = useFontRole("HERO_TITLE");
+  const badgeTagClass = useFontRole("BADGE_TAG");
+  const bodyTextClass = useFontRole("BODY_TEXT");
+
   const { slug: routeSlug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,18 +109,17 @@ export const MusicianDiscographyView: React.FC = () => {
             variant="dark"
           />
           <div className="flex-1 flex flex-col items-center justify-center p-12 text-center my-auto min-h-[500px]">
-            <span className="text-xs font-bold tracking-widest text-[#FF1F00] uppercase font-sans mb-2">
+            <span className={`text-xs font-bold tracking-widest text-[#FF1F00] uppercase mb-2 ${badgeTagClass}`}>
               404 • DISCOGRAPHY NOT FOUND
             </span>
             <h2
-              className="text-4xl sm:text-5xl font-black uppercase text-slate-950 font-display mb-4"
-              style={{ fontFamily: "'Poppins', Georgia, serif" }}
+              className={`text-4xl sm:text-5xl font-black uppercase text-slate-950 mb-4 ${heroTitleClass}`}
             >
               DISCOGRAPHY ARCHIVE NOT FOUND
             </h2>
             <button
               onClick={handleReturn}
-              className="px-6 py-3 bg-black text-[#F6F4EE] text-xs font-bold tracking-widest uppercase font-sans hover:bg-[#FF1F00] transition-colors cursor-pointer"
+              className={`px-6 py-3 bg-black text-[#F6F4EE] text-xs font-bold tracking-widest uppercase hover:bg-[#FF1F00] transition-colors cursor-pointer ${bodyTextClass}`}
             >
               RETURN TO EXHIBITION SHOWCASE →
             </button>

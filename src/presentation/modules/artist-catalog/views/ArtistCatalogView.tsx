@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { InfoModal, ErrorBoundary } from "@/presentation/shared/components";
-import { musiciansRegistry, MusicianData } from "@/presentation/data/musiciansRegistry";
+import { musiciansRegistry } from "@/presentation/data/musiciansRegistry";
+import { Musician } from "@/domain/models";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { Icon } from "@/infrastructure/services/IconService";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS, SPACING, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
-import { useMusicianFilter } from "../hooks/useMusicianFilter";
-import { FilterDeckPopover } from "../components/FilterDeckPopover";
-import { CatalogGrid } from "../components/CatalogGrid";
+import { useArtistCatalogFilter } from "../hooks/useArtistCatalogFilter";
+import { CatalogFilterDeck } from "../components/CatalogFilterDeck";
+import { ArtistCatalogGrid } from "../components/ArtistCatalogGrid";
 
 /**
  * Helper utility to resolve a URL-friendly slug for a musician.
  */
-const getMusicianSlug = (musician?: MusicianData): string => {
+const getMusicianSlug = (musician?: Musician): string => {
   if (!musician) return "";
   return (
     musician.slug ||
@@ -25,12 +26,12 @@ const getMusicianSlug = (musician?: MusicianData): string => {
 };
 
 /**
- * ExtendedArtistsView Component
+ * ArtistCatalogView Component
  *
- * Page orchestrator for full catalog registry. Bound to useMusicianFilter hook,
- * location.state parameters, and decomposed FilterDeckPopover / CatalogGrid components.
+ * Page orchestrator for full catalog registry. Bound to useArtistCatalogFilter hook,
+ * location.state parameters, and decomposed CatalogFilterDeck / ArtistCatalogGrid components.
  */
-export const ExtendedArtistsView: React.FC = () => {
+export const ArtistCatalogView: React.FC = () => {
   useDocumentTitle("Katalog Arsip Musisi - Sound of Malang");
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,7 +49,7 @@ export const ExtendedArtistsView: React.FC = () => {
     }
   }, [locationState]);
 
-  // Custom Filter & Sorting State Hook
+  // Custom Filter & Sorting State Hook with Debounced Search
   const {
     sortType,
     setSortType,
@@ -59,7 +60,7 @@ export const ExtendedArtistsView: React.FC = () => {
     filteredMusicians,
     activeFiltersCount,
     handleResetFilters,
-  } = useMusicianFilter(musiciansRegistry);
+  } = useArtistCatalogFilter(musiciansRegistry);
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -90,14 +91,29 @@ export const ExtendedArtistsView: React.FC = () => {
     };
   }, [isFilterDeckOpen]);
 
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  // Keyboard Escape listener for Filter Deck dismiss (WCAG 2.1 Compliance)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isFilterDeckOpen) {
+        setIsFilterDeckOpen(false);
+      }
+    };
+
+    if (isFilterDeckOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isFilterDeckOpen]);
+
+  const fontBadge = useFontRole("BADGE_TAG");
 
   const handleNavigateBackToShowcase = (): void => {
     navigate("/#showcase-icons");
   };
 
-  const handleSelectMusician = (musician: MusicianData): void => {
+  const handleSelectMusician = (musician: Musician): void => {
     if (!musician) return;
     const slug = getMusicianSlug(musician);
     navigate(`/musician/${slug}`, { state: { musician, from: "extended" } });
@@ -120,13 +136,13 @@ export const ExtendedArtistsView: React.FC = () => {
               >
                 <Icon
                   name="arrow-up-left"
-                  className="w-4 h-4 text-stone-600 group-hover:text-[#FF1F00] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                  className="w-4 h-4 text-stone-600 group-hover:text-[#CD001F] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
                 />
                 <span className={`text-xs ${fontBadge}`}>Return to Showcase</span>
               </button>
 
-              {/* Decomposed FilterDeckPopover Component */}
-              <FilterDeckPopover
+              {/* Decomposed CatalogFilterDeck Component */}
+              <CatalogFilterDeck
                 isFilterDeckOpen={isFilterDeckOpen}
                 triggerRef={triggerRef}
                 popoverRef={popoverRef}
@@ -137,14 +153,14 @@ export const ExtendedArtistsView: React.FC = () => {
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 activeFiltersCount={activeFiltersCount}
-                handleResetFilters={handleResetFilters}
+                onResetFilters={handleResetFilters}
                 onToggleDeck={() => setIsFilterDeckOpen((prev) => !prev)}
               />
             </div>
           </header>
 
-          {/* Decomposed CatalogGrid Component */}
-          <CatalogGrid
+          {/* Decomposed ArtistCatalogGrid Component */}
+          <ArtistCatalogGrid
             filteredMusicians={filteredMusicians}
             onSelectMusician={handleSelectMusician}
             onResetFilters={handleResetFilters}
@@ -183,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExtendedArtistsView;
+export default ArtistCatalogView;

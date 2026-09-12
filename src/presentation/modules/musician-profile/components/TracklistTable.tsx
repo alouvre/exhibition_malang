@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/infrastructure/services/IconService";
 import { MusicianData, TrackCatalogItem } from "@/presentation/data/musiciansRegistry";
 import { ActiveTrackData } from "@/presentation/context/AudioPlayerContext";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 interface TracklistTableProps {
   musician: MusicianData;
@@ -24,6 +25,10 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
   hasValidMedia,
   onPlayTrack,
 }) => {
+  const badgeTagClass = useFontRole("BADGE_TAG");
+  const cardNameClass = useFontRole("CARD_NAME");
+  const bodyTextClass = useFontRole("BODY_TEXT");
+  const sectionHeaderClass = useFontRole("SECTION_HEADER");
   // State to toggle catalog card collapse/expand
   const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
     return Boolean(activeTrack && activeTrack.artistSlug === targetSlug);
@@ -70,7 +75,7 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
       <div className="flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/15">
         <div className="flex flex-col gap-0.5 min-w-0">
           {/* Sub-header: Musician Name • Active Track Title */}
-          <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans truncate">
+          <span className={`text-[9px] sm:text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase truncate ${badgeTagClass}`}>
             {musician.name.toUpperCase()} •{" "}
             {(
               activeTrack?.title ||
@@ -80,7 +85,7 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
           </span>
 
           {/* Dynamic Main Title: "NOW PLAYING" when collapsed, "THE TRACKLIST" when expanded */}
-          <h3 className="text-base sm:text-lg font-black uppercase text-white font-sans tracking-tight truncate transition-all duration-300">
+          <h3 className={`text-base sm:text-lg font-black uppercase text-white tracking-tight truncate transition-all duration-300 ${sectionHeaderClass}`}>
             {isCollapsed ? "NOW PLAYING" : "THE TRACKLIST"}
           </h3>
         </div>
@@ -159,7 +164,7 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
                     }`}
                   >
                     <span
-                      className={`font-mono font-bold text-[10px] sm:text-xs w-5 shrink-0 transition-colors ${
+                      className={`font-bold text-[10px] sm:text-xs w-5 shrink-0 transition-colors ${badgeTagClass} ${
                         isSelected ? "text-[#FF1F00]" : "text-stone-400"
                       }`}
                     >
@@ -167,7 +172,7 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
                     </span>
                     <div className="flex-1 flex flex-col min-w-0">
                       <span
-                        className={`text-[11px] sm:text-xs font-sans tracking-wide uppercase truncate ${
+                        className={`text-[11px] sm:text-xs tracking-wide uppercase truncate ${cardNameClass} ${
                           isSelected
                             ? "font-black text-white"
                             : "font-semibold text-stone-200"
@@ -175,12 +180,12 @@ export const TracklistTable: React.FC<TracklistTableProps> = ({
                       >
                         {track.title}
                       </span>
-                      <span className="text-[9px] sm:text-[10px] font-medium text-stone-400 font-sans uppercase truncate">
+                      <span className={`text-[9px] sm:text-[10px] font-medium text-stone-400 uppercase truncate ${bodyTextClass}`}>
                         {track.album}
                       </span>
                     </div>
                     <span
-                      className={`text-[10px] sm:text-xs font-bold font-mono shrink-0 ${
+                      className={`text-[10px] sm:text-xs font-bold shrink-0 ${badgeTagClass} ${
                         isSelected ? "text-[#FF1F00]" : "text-stone-400"
                       }`}
                     >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { Icon } from "@/infrastructure/services/IconService";
 
 export interface CoachmarkStep {
@@ -30,23 +30,23 @@ const STEPS_CONFIG: CoachmarkStep[] = [
     badge: "01 • SHOWCASE GATEWAY",
     title: "START YOUR EXHIBITION JOURNEY",
     description:
-      "Klik piringan hitam 'START JOURNEY' untuk membuka etalase arsip fisik piringan hitam dan rilisan legenda musik Malang.",
+      "Klik piringan hitam untuk membuka etalase arsip fisik piringan hitam dan rilisan legenda musik Malang.",
     tooltipPosition: "right",
   },
   {
     stepIndex: 2,
     targetId: "tour-step-2-staff-guideline",
     badge: "02 • OPERATIONAL GUIDE",
-    title: "STAFF PLAYBOOK & KIOSK GUIDE",
+    title: "STAFF PLAYBOOK GUIDE",
     description:
-      "Panduan operasional staf pameran untuk aktivasi Mode Layar Penuh (Fullscreen), Reset Player Visual, dan Dukungan Teknikal.",
+      "Panduan operasional staf pameran untuk aktivasi Mode Layar Penuh (Fullscreen), dan Dukungan Teknikal.",
     tooltipPosition: "right",
   },
   {
     stepIndex: 3,
     targetId: "tour-step-3-settings",
     badge: "03 • SYSTEM SETTINGS",
-    title: "FULLSCREEN & SYSTEM SETTINGS",
+    title: "SYSTEM SETTINGS",
     description:
       "Akses menu pengaturan sistem pameran dan aktifkan Mode Layar Penuh (Fullscreen) untuk pengalaman visual yang imersif.",
     tooltipPosition: "right",
@@ -86,10 +86,9 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
   const [targetRect, setTargetRect] = useState<RectBounds | null>(null);
   const [isReady, setIsReady] = useState<boolean>(false);
 
-  const fontService = FontService.getInstance();
-  const fontHeader = fontService.getFontClass("SECTION_HEADER");
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
-  const fontBody = fontService.getFontClass("BODY_TEXT");
+  const fontHeader = useFontRole("SECTION_HEADER");
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
 
   const currentStepConfig =
     STEPS_CONFIG.find((s) => s.stepIndex === currentStep) || STEPS_CONFIG[0];
@@ -103,9 +102,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
       if (rect.width > 0 && rect.height > 0) {
         const padding = 10;
         const isCircular = Math.abs(rect.width - rect.height) < 4;
-        const calculatedRx = isCircular
-          ? (rect.width + padding * 2) / 2
-          : 18;
+        const calculatedRx = isCircular ? (rect.width + padding * 2) / 2 : 18;
         setTargetRect({
           x: Math.max(0, rect.left - padding),
           y: Math.max(0, rect.top - padding),
@@ -304,24 +301,24 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
             <div className="absolute -top-10 -right-10 w-28 h-28 bg-[#FF1F00]/15 rounded-full blur-2xl pointer-events-none" />
 
             {/* Top Bar: Curatorial Badge & Close Action */}
-            <div className="flex items-center justify-between gap-3 border-b border-white/5 pb-3">
+            <div className="flex items-center justify-between gap-3 border-b border-white/5">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] animate-pulse" />
+                {/* <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] animate-pulse" />
                 <span
-                  className={`text-[10px] font-mono font-bold tracking-[0.2em] text-stone-300 uppercase ${fontBadge}`}
+                  className={`text-[10px] font-bold tracking-[0.2em] text-stone-300 uppercase ${fontBadge}`}
                 >
                   {currentStepConfig.badge}
-                </span>
+                </span> */}
               </div>
 
               <button
                 type="button"
                 onClick={onSkip}
-                className="text-stone-400 hover:text-white text-[10px] font-mono uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 active:scale-95"
+                className={`text-stone-400 hover:text-white text-[10px] uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center gap-1.5 px-2 py-2 rounded-full bg-white hover:bg-white/10 border border-white/5 active:scale-95 ${fontBadge}`}
                 aria-label="Skip Onboarding Tour"
               >
-                <span>LEWATI</span>
-                <Icon name="x" className="w-3 h-3 text-stone-400" />
+                {/* <span>LEWATI</span> */}
+                <Icon name="x" className="w-4 h-4 text-stone-400" />
               </button>
             </div>
 
@@ -374,7 +371,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                   <button
                     type="button"
                     onClick={onPrevStep}
-                    className={`px-3 py-1.5 text-xs font-mono font-bold text-stone-400 hover:text-white uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-200 cursor-pointer active:scale-95 ${fontBadge}`}
+                    className={`px-3 py-1.5 text-xs font-sans font-bold text-stone-400 hover:text-white uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-200 cursor-pointer active:scale-95 ${fontBadge}`}
                   >
                     KEMBALI
                   </button>
@@ -383,7 +380,7 @@ export const OnboardingCoachmark: React.FC<OnboardingCoachmarkProps> = ({
                 <button
                   type="button"
                   onClick={isLastStep ? onFinish : onNextStep}
-                  className={`relative overflow-hidden bg-[#FF1F00] hover:bg-[#E01B00] text-white font-mono font-bold text-xs uppercase tracking-widest rounded-full px-4 py-1.5 transition-all duration-200 shadow-md shadow-[#FF1F00]/25 hover:shadow-[#FF1F00]/40 hover:scale-[1.03] active:scale-95 cursor-pointer flex items-center gap-1.5 ${fontBadge}`}
+                  className={`relative overflow-hidden bg-[#FF1F00] hover:bg-[#E01B00] text-white font-sans font-bold text-xs uppercase tracking-widest rounded-full px-4 py-1.5 transition-all duration-200 shadow-md shadow-[#FF1F00]/25 hover:shadow-[#FF1F00]/40 hover:scale-[1.03] active:scale-95 cursor-pointer flex items-center gap-1.5 ${fontBadge}`}
                 >
                   <span>{isLastStep ? "SELESAI" : "LANJUT"}</span>
                   <svg

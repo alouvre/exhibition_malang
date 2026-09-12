@@ -21,6 +21,7 @@ import {
 } from "@/presentation/data/musiciansRegistry";
 import { BioContent } from "../components/BioContent";
 import { ArchivalLightboxModal } from "../components/ArchivalLightboxModal";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 export type {
   HistoryEvent,
@@ -54,6 +55,11 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
   slug: propSlug,
   onBack,
 }) => {
+  const heroTitleClass = useFontRole("HERO_TITLE");
+  const sectionHeaderClass = useFontRole("SECTION_HEADER");
+  const bodyTextClass = useFontRole("BODY_TEXT");
+  const badgeTagClass = useFontRole("BADGE_TAG");
+
   const { slug: routeSlug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -126,8 +132,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
               404 • ARCHIVE NOT FOUND
             </span>
             <h2
-              className="text-4xl sm:text-5xl font-black uppercase text-slate-950 font-display mb-4"
-              style={{ fontFamily: "'Poppins', Georgia, serif" }}
+              className={`text-4xl sm:text-5xl font-black uppercase text-slate-950 mb-4 ${heroTitleClass}`}
             >
               ARTIST ARCHIVE NOT FOUND
             </h2>
@@ -173,12 +178,12 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
               {/* Genre & Active Era Badges */}
               <div className="flex flex-wrap items-center gap-2">
                 {musician.genre && (
-                  <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/10 text-stone-900 border border-black/10 font-mono">
+                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/10 text-stone-900 border border-black/10 ${badgeTagClass}`}>
                     {musician.genre}
                   </span>
                 )}
                 {musician.year && (
-                  <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-[#FF1F00]/10 text-[#FF1F00] border border-[#FF1F00]/20 font-mono">
+                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-[#FF1F00]/10 text-[#FF1F00] border border-[#FF1F00]/20 ${badgeTagClass}`}>
                     ERA: {musician.year}
                   </span>
                 )}
@@ -199,7 +204,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70 group-hover:opacity-40 transition-opacity" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white z-10">
-                  <span className="text-[10px] font-mono px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-md font-bold tracking-wider">
+                  <span className={`text-[10px] px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-md font-bold tracking-wider ${badgeTagClass}`}>
                     ARCHIVE #{musician.id.toUpperCase()}
                   </span>
                 </div>
@@ -215,7 +220,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="pt-4 border-t border-black/10 flex flex-col gap-3"
                   >
-                    <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 font-mono flex items-center justify-between">
+                    <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 flex items-center justify-between ${sectionHeaderClass}`}>
                       <span>
                         EXHIBITION ARCHIVES ({musician.exhibitionImages.length})
                       </span>
@@ -251,7 +256,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     transition={{ duration: 0.4 }}
                     className="pt-5 border-t border-black/10"
                   >
-                    <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 font-mono flex items-center justify-between">
+                    <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 flex items-center justify-between ${sectionHeaderClass}`}>
                       <span>KEY COLLABORATIONS</span>
                       <span className="text-[10px] font-normal text-stone-400 normal-case hidden sm:inline">
                         (tap to preview)
@@ -306,18 +311,18 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-slate-950/95 border-b border-r border-white/20 rotate-45" />
 
                                     <div className="flex items-center justify-between gap-2">
-                                      <span className="text-[9px] font-mono font-bold tracking-widest text-[#FF1F00] uppercase">
+                                      <span className={`text-[9px] font-bold tracking-widest text-[#FF1F00] uppercase ${badgeTagClass}`}>
                                         COLLABORATION
                                       </span>
                                       {item.role && (
-                                        <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/15 text-slate-200 font-mono">
+                                        <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/15 text-slate-200 ${badgeTagClass}`}>
                                           {item.role}
                                         </span>
                                       )}
                                     </div>
 
                                     {item.projectTitle && (
-                                      <p className="text-xs font-bold text-slate-100 font-sans leading-snug">
+                                      <p className={`text-xs font-bold text-slate-100 leading-snug ${bodyTextClass}`}>
                                         "{item.projectTitle}"
                                       </p>
                                     )}
@@ -341,7 +346,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                   transition={{ duration: 0.4 }}
                   className="pt-5 border-t border-black/10"
                 >
-                  <h4 className="text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 font-mono">
+                  <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 ${sectionHeaderClass}`}>
                     ACHIEVEMENTS & AWARDS
                   </h4>
                   <div className="space-y-2.5">
@@ -356,7 +361,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                           key={idx}
                           className="p-3 rounded-xl bg-black/5 border border-black/10 flex items-start gap-3 shadow-2xs"
                         >
-                          <div className="px-2 py-1 rounded bg-black/10 text-[10px] font-mono font-bold text-stone-800 shrink-0">
+                          <div className={`px-2 py-1 rounded bg-black/10 text-[10px] font-bold text-stone-800 shrink-0 ${badgeTagClass}`}>
                             {award.year}
                           </div>
                           <div className="min-w-0 flex-1">

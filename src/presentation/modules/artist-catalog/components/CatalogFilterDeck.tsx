@@ -1,84 +1,99 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Icon } from "@/infrastructure/services/IconService";
-import { SortType } from "../hooks/useMusicianFilter";
+import { useFontRole } from "@/infrastructure/services/FontService";
+import { SortType } from "../hooks/useArtistCatalogFilter";
 
-interface SortOption {
+export interface SortOption {
   id: SortType;
   label: string;
 }
 
-const sortYearOptions: SortOption[] = [
+export const DEFAULT_SORT_YEAR_OPTIONS: SortOption[] = [
   { id: "oldest", label: "Oldest First" },
   { id: "newest", label: "Newest First" },
 ];
 
-const sortAlphaOptions: SortOption[] = [
+export const DEFAULT_SORT_ALPHA_OPTIONS: SortOption[] = [
   { id: "a-z", label: "A to Z" },
   { id: "z-a", label: "Z to A" },
 ];
 
-const categoryOptions = [
+export interface CategoryOption {
+  id: string;
+  label: string;
+}
+
+export const DEFAULT_CATEGORY_OPTIONS: CategoryOption[] = [
   { id: "ALL", label: "ALL CATEGORIES" },
   { id: "ROCK", label: "ROCK ORIGINATOR" },
   { id: "POP", label: "POP & ELECTRONIC" },
-  { id: "FOLK", label: "FOLK & ETHNIC" },
-  { id: "KRONCONG", label: "KRONCONG & KLASIK" },
-  { id: "LADY ROCKER", label: "LADY ROCKER" },
 ];
 
-const dropdownAnimationProps = {
-  initial: { opacity: 0, y: -10, scale: 0.95 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -10, scale: 0.95 },
-  transition: { type: "spring", stiffness: 450, damping: 30 },
-};
-
-interface FilterDeckPopoverProps {
+export interface CatalogFilterDeckProps {
   isFilterDeckOpen: boolean;
+  activeFiltersCount: number;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   popoverRef: React.RefObject<HTMLDivElement | null>;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   sortType: SortType;
   setSortType: (type: SortType) => void;
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  activeFiltersCount: number;
-  handleResetFilters: () => void;
+  sortYearOptions?: SortOption[];
+  sortAlphaOptions?: SortOption[];
+  categoryOptions?: CategoryOption[];
   onToggleDeck: () => void;
+  onResetFilters: () => void;
+  dropdownAnimationProps?: Variants;
 }
 
-export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
+export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
   isFilterDeckOpen,
+  activeFiltersCount,
   triggerRef,
   popoverRef,
+  searchQuery,
+  setSearchQuery,
   sortType,
   setSortType,
   selectedCategory,
   setSelectedCategory,
-  searchQuery,
-  setSearchQuery,
-  activeFiltersCount,
-  handleResetFilters,
+  sortYearOptions = DEFAULT_SORT_YEAR_OPTIONS,
+  sortAlphaOptions = DEFAULT_SORT_ALPHA_OPTIONS,
+  categoryOptions = DEFAULT_CATEGORY_OPTIONS,
   onToggleDeck,
+  onResetFilters,
+  dropdownAnimationProps = {
+    initial: { opacity: 0, y: -10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 },
+  } as Variants,
 }) => {
+  const badgeTagClass = useFontRole("BADGE_TAG");
+  const bodyTextClass = useFontRole("BODY_TEXT");
+
   return (
     <div className="relative shrink-0 self-end sm:self-auto">
       <button
         ref={triggerRef}
         type="button"
         onClick={onToggleDeck}
-        className="relative inline-flex items-center gap-1 md:gap-1 cursor-pointer group rounded-xl bg-white/80 hover:bg-white backdrop-blur-md border border-black/10 shadow-sm hover:shadow-md transition-all duration-300 font-sans tracking-wide text-slate-800 px-4 py-2 md:px-4 md:py-2 lg:px-4 lg:py-2 text-[9px] md:text-[10px] lg:text-xs"
+        className={`relative inline-flex items-center gap-1.5 cursor-pointer group rounded-xl bg-white/80 hover:bg-white backdrop-blur-md border border-black/10 shadow-sm hover:shadow-md transition-all duration-300 tracking-wide text-slate-800 px-4 py-2 text-[9px] md:text-[10px] lg:text-xs ${badgeTagClass}`}
         aria-expanded={isFilterDeckOpen}
         aria-label="Toggle Filters & Sorting Control Deck"
       >
-        <span className="font-semibold text-slate-900">Filters</span>
-
+        <span className="font-semibold text-slate-900">Filters & Sorting</span>
+        {activeFiltersCount > 0 && (
+          <span className="px-1.5 py-0.5 rounded-full bg-[#CD001F] text-white text-[10px] font-bold">
+            {activeFiltersCount}
+          </span>
+        )}
         <Icon
           name="chevron-down"
           className={`w-3.5 h-3.5 md:w-4 md:h-4 lg:w-[18px] lg:h-[18px] text-slate-500 transition-transform duration-300 ${
-            isFilterDeckOpen ? "rotate-180 text-[#FF1F00]" : ""
+            isFilterDeckOpen ? "rotate-180 text-[#CD001F]" : ""
           }`}
         />
       </button>
@@ -105,7 +120,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari musisi atau kata kunci..."
-                className="w-full bg-transparent text-xs sm:text-sm font-sans border-none outline-none text-slate-800 placeholder-slate-400"
+                className={`w-full bg-transparent text-xs sm:text-sm border-none outline-none text-slate-800 placeholder-slate-400 ${bodyTextClass}`}
               />
               {searchQuery && (
                 <button
@@ -121,7 +136,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
 
             {/* SORT BY YEAR SECTION */}
             <div className="flex flex-col gap-2">
-              <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
                 SORT BY YEAR
               </span>
               <div className="flex flex-col gap-1">
@@ -132,7 +147,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                       key={opt.id}
                       type="button"
                       onClick={() => setSortType(opt.id)}
-                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-sans transition-all text-left cursor-pointer ${
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all text-left cursor-pointer ${bodyTextClass} ${
                         isSelected
                           ? "bg-slate-900 text-white font-medium shadow-sm"
                           : "hover:bg-slate-100 text-slate-700"
@@ -143,7 +158,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                         name={isSelected ? "check" : "circle"}
                         className={`w-4 h-4 ${
                           isSelected
-                            ? "text-[#FF1F00]"
+                            ? "text-[#CD001F]"
                             : "text-slate-300"
                         }`}
                       />
@@ -155,7 +170,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
 
             {/* SORT BY ALPHABET SECTION */}
             <div className="flex flex-col gap-2">
-              <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
                 SORT BY ALPHABET
               </span>
               <div className="flex flex-col gap-1">
@@ -166,7 +181,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                       key={opt.id}
                       type="button"
                       onClick={() => setSortType(opt.id)}
-                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-sans transition-all text-left cursor-pointer ${
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all text-left cursor-pointer ${bodyTextClass} ${
                         isSelected
                           ? "bg-slate-900 text-white font-medium shadow-sm"
                           : "hover:bg-slate-100 text-slate-700"
@@ -177,7 +192,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                         name={isSelected ? "check" : "circle"}
                         className={`w-4 h-4 ${
                           isSelected
-                            ? "text-[#FF1F00]"
+                            ? "text-[#CD001F]"
                             : "text-slate-300"
                         }`}
                       />
@@ -189,7 +204,7 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
 
             {/* FILTER BY CATEGORY (BADGE GRID) */}
             <div className="flex flex-col gap-2">
-              <span className="text-[10px] font-bold tracking-widest text-[#FF1F00] uppercase font-sans">
+              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
                 FILTER BY CATEGORY
               </span>
               <div className="flex flex-wrap gap-2">
@@ -200,9 +215,9 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
                       key={cat.id}
                       type="button"
                       onClick={() => setSelectedCategory(cat.id)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-sans font-medium transition-all cursor-pointer border ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer border ${badgeTagClass} ${
                         isSelected
-                          ? "bg-[#FF1F00] text-white border-[#FF1F00] shadow-sm font-semibold"
+                          ? "bg-[#CD001F] text-white border-[#CD001F] shadow-sm font-semibold"
                           : "bg-slate-100/80 text-slate-700 border-black/5 hover:bg-slate-200/70 hover:border-black/10"
                       }`}
                     >
@@ -218,8 +233,8 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
               <div className="pt-3 border-t border-black/10 flex items-center justify-between">
                 <button
                   type="button"
-                  onClick={handleResetFilters}
-                  className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#FF1F00] transition-colors cursor-pointer"
+                  onClick={onResetFilters}
+                  className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#CD001F] transition-colors cursor-pointer"
                 >
                   <Icon name="rotate-ccw" className="w-3.5 h-3.5" />
                   <span>Reset All Filters</span>
@@ -233,4 +248,4 @@ export const FilterDeckPopover: React.FC<FilterDeckPopoverProps> = ({
   );
 };
 
-export default FilterDeckPopover;
+export default CatalogFilterDeck;

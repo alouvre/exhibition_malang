@@ -65,3 +65,6 @@ export interface MusicianData {
   awards?: AwardItem[];
   collaborations?: (string | CollaborationItem)[];
 }
+
+export type Musician = MusicianData;
+

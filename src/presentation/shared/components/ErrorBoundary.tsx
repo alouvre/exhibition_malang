@@ -1,5 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { COLORS } from "@/presentation/styles/theme";
+import { FontService } from "@/infrastructure/services/FontService";
 
 interface Props {
   children?: ReactNode;
@@ -44,6 +45,11 @@ export class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
+      const fontService = FontService.getInstance();
+      const fontHeader = fontService.getFontClass("SECTION_HEADER");
+      const fontBody = fontService.getFontClass("BODY_TEXT");
+      const fontBadge = fontService.getFontClass("BADGE_TAG");
+
       return (
         <div
           className="w-full h-full min-h-[400px] flex flex-col items-center justify-center p-8 text-center select-none rounded-3xl border border-black/10 shadow-sm my-4"
@@ -66,17 +72,17 @@ export class ErrorBoundary extends Component<Props, State> {
             </svg>
           </div>
 
-          <h2 className="text-base sm:text-lg font-bold font-sans text-slate-900 uppercase tracking-wider mb-2">
+          <h2 className={`text-base sm:text-lg font-bold text-slate-900 uppercase tracking-wider mb-2 ${fontHeader}`}>
             System Guard Protection Active
           </h2>
 
-          <p className="text-xs sm:text-sm font-sans text-slate-600 max-w-md mb-6 leading-relaxed">
+          <p className={`text-xs sm:text-sm text-slate-600 max-w-md mb-6 leading-relaxed ${fontBody}`}>
             Terjadi masalah sementara saat memproses interaksi tampilan. Sifat
             komponen telah diamankan untuk mencegah hentian total pada aplikasi.
           </p>
 
           {this.state.error?.message && (
-            <div className="mb-6 p-3 bg-black/5 rounded-xl text-[11px] font-mono text-slate-700 max-w-lg overflow-x-auto border border-black/5">
+            <div className={`mb-6 p-3 bg-black/5 rounded-xl text-[11px] text-slate-700 max-w-lg overflow-x-auto border border-black/5 ${fontBadge}`}>
               {this.state.error.message}
             </div>
           )}
@@ -84,7 +90,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <button
             type="button"
             onClick={this.handleReset}
-            className="px-5 py-2.5 bg-slate-900 hover:bg-[#FF1F00] text-white text-xs font-sans font-medium rounded-xl transition-all duration-300 shadow-sm hover:shadow cursor-pointer"
+            className={`px-5 py-2.5 bg-slate-900 hover:bg-[#FF1F00] text-white text-xs font-medium rounded-xl transition-all duration-300 shadow-sm hover:shadow cursor-pointer ${fontBody}`}
           >
             Reset View & Continue
           </button>

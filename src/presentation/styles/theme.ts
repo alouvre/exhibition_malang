@@ -71,27 +71,41 @@ export const TYPOGRAPHY = {
   fontFamilies: {
     sans: "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     display: "'Bodoni Moda', 'Poppins', Georgia, serif",
-    cursive: "'Pinyon Script', cursive",
-    satoshi: "'Satoshi', sans-serif",
-    generalsans: "'General Sans', sans-serif",
-    jakarta: "'Plus Jakarta Sans', sans-serif",
-    syne: "'Syne', sans-serif",
+    cursive: "cursive",
+    satoshi: "'Satoshi'",
+    generalsans: "'General Sans'",
+    jakarta: "'Plus Jakarta Sans'",
+    syne: "'Syne'",
+    helvetica:
+      "'Helvetica', 'Switzer', 'Arimo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial",
+    helveticaNeue:
+      "'Helvetica Neue', 'Helvetica', 'Switzer', 'Arimo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial",
   },
-  fontClasses: {
-    sans: "font-sans",
-    display: "font-display",
-    cursive: "font-cursive",
-    satoshi: fontService.getFontFamily("satoshi"),
-    generalsans: fontService.getFontFamily("generalsans"),
-    jakarta: fontService.getFontFamily("jakarta"),
-    syne: fontService.getFontFamily("syne"),
+  get fontClasses() {
+    return {
+      sans: "font-sans",
+      display: "font-display",
+      cursive: "font-cursive",
+      satoshi: fontService.getFontFamily("satoshi"),
+      generalsans: fontService.getFontFamily("generalsans"),
+      jakarta: fontService.getFontFamily("jakarta"),
+      syne: fontService.getFontFamily("syne"),
+      helvetica: fontService.getFontFamily("helvetica"),
+      helveticaNeue: fontService.getFontFamily("helveticaNeue"),
+    };
   },
-  roles: {
-    heroTitle: fontService.getFontClass("HERO_TITLE"),
-    sectionHeader: fontService.getFontClass("SECTION_HEADER"),
-    cardName: fontService.getFontClass("CARD_NAME"),
-    bodyText: fontService.getFontClass("BODY_TEXT"),
-    badgeTag: fontService.getFontClass("BADGE_TAG"),
+  get roles() {
+    return {
+      heroTitle: fontService.getFontClass("HERO_TITLE"),
+      sectionHeader: fontService.getFontClass("SECTION_HEADER"),
+      cardName: fontService.getFontClass("CARD_NAME"),
+      bodyText: fontService.getFontClass("BODY_TEXT"),
+      badgeTag: fontService.getFontClass("BADGE_TAG"),
+      swissDisplay: fontService.getFontClass("SWISS_DISPLAY"),
+      editorialNeue: fontService.getFontClass("EDITORIAL_NEUE"),
+      SWISS_DISPLAY: fontService.getFontClass("SWISS_DISPLAY"),
+      EDITORIAL_NEUE: fontService.getFontClass("EDITORIAL_NEUE"),
+    };
   },
   weights: {
     light: "font-light", // 300

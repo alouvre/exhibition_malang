@@ -11,6 +11,7 @@ export default {
         generalsans: ['General Sans', 'sans-serif'],
         jakarta: ['Plus Jakarta Sans', 'sans-serif'],
         syne: ['Syne', 'sans-serif'],
+        helvetica: ['"Helvetica Neue"', 'Helvetica', 'Switzer', 'Arimo', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Arial', 'sans-serif'],
       },
     },
   },

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { Icon } from "@/infrastructure/services/IconService";
 import { COLORS } from "@/presentation/styles/theme";
 
@@ -57,10 +57,9 @@ export const InfoModal: React.FC<InfoModalProps> = ({
   iconName = "disc",
   className = "",
 }) => {
-  const fontService = FontService.getInstance();
-  const fontHeader = fontService.getFontClass("SECTION_HEADER");
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
-  const fontBody = fontService.getFontClass("BODY_TEXT");
+  const fontHeader = useFontRole("SECTION_HEADER");
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
 
   // Accessibility: Close modal on Escape key press
   useEffect(() => {

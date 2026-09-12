@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:ital,wght@0,300..900;1,300..900&family=Outfit:wght@300;400;500;600;700&family=Pinyon+Script&family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Syne:wght@400..800&display=swap");
-@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,800&f[]=general-sans@400,500,600,700&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,800&f[]=general-sans@400,500,600,700&f[]=switzer@400,500,600,700,800,900&display=swap");
 @import "tailwindcss";
 
 /* ==========================================================================
@@ -10,13 +10,15 @@
   --font-sans:
     "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Bodoni Moda", "Inter", Georgia, serif;
-  --font-cursive: "Pinyon Script", cursive;
 
   /* Modern Font Family Extensions */
   --font-satoshi: "Satoshi", sans-serif;
   --font-generalsans: "General Sans", sans-serif;
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-syne: "Syne", sans-serif;
+  --font-helvetica:
+    "Helvetica Neue", "Helvetica", "Switzer", "Arimo", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 
   /* Color Palette Setup */
   --color-gallery-white: #ffffff;
@@ -34,6 +36,14 @@
   );
 }
 
+/* Deterministic Font Rendering Utilities */
+.font-helvetica {
+  font-family: var(--font-helvetica);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 /* ==========================================================================
    GLOBAL LAYOUT & DEFAULT BINDINGS
    ========================================================================== */
@@ -47,11 +57,11 @@ body,
 }
 
 * {
-  font-family: var(--font-sans);
   box-sizing: border-box;
 }
 
 body {
+  font-family: var(--font-sans);
   background: var(--bg-gradient);
   background-attachment: fixed;
   min-height: 100vh;

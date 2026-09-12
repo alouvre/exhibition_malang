@@ -4,7 +4,7 @@ import { Header } from "@/presentation/shared/components";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 
 export interface TermsViewProps {
@@ -15,8 +15,8 @@ export const TermsView: React.FC<TermsViewProps> = ({ onToggleSidebar }) => {
   useDocumentTitle("Syarat & Ketentuan - Museum Musik Indonesia");
   const navigate = useNavigate();
 
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
 
   useEffect(() => {
     safeInitializeIcons();
@@ -33,7 +33,9 @@ export const TermsView: React.FC<TermsViewProps> = ({ onToggleSidebar }) => {
           aria-label="Breadcrumb"
           className="flex items-center justify-between gap-4 pb-6 border-b border-black/10 mb-8"
         >
-          <ol className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono tracking-[0.2em] uppercase">
+          <ol
+            className={`flex items-center gap-2 text-[10px] sm:text-[11px] tracking-[0.2em] uppercase ${fontBadge}`}
+          >
             <li>
               <Link
                 to="/"
@@ -63,24 +65,26 @@ export const TermsView: React.FC<TermsViewProps> = ({ onToggleSidebar }) => {
         {/* Header Title Section */}
         <div className="border-b border-black/10 pb-8 mb-10">
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#FF1F00]" />
+            {/* <span className="w-2 h-2 rounded-full bg-[#FF1F00]" /> */}
             <span
-              className={`text-xs text-stone-500 uppercase tracking-widest ${fontBadge}`}
+              className={`font-mono text-xs text-stone-500 uppercase tracking-widest ${fontBadge}`}
             >
-              LEGAL & COMPLIANCE • REVISI 2026
+              LEGAL & COMPLIANCE • Updated 9 September 2026
             </span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black uppercase text-stone-900 tracking-tight leading-none">
             TERMS & CONDITIONS
           </h1>
-          <p className="mt-4 text-xs sm:text-sm font-mono text-stone-500 uppercase tracking-wider">
+          <p className="mt-4 text-xs sm:text-sm font-sans text-stone-500 tracking-wider">
             Syarat Penggunaan & Ketentuan Pengunjung Eksibisi Digital Museum
             Musik Indonesia
           </p>
         </div>
 
         {/* Content Body */}
-        <article className="space-y-6 sm:space-y-8 text-stone-800 text-sm font-sans leading-relaxed">
+        <article
+          className={`space-y-6 sm:space-y-8 text-stone-800 text-sm leading-relaxed ${fontBody}`}
+        >
           <section className="bg-white/60 p-6 rounded-2xl border border-black/5">
             <h2 className="text-base font-bold text-stone-900 uppercase tracking-wider mb-3 flex items-center gap-2.5">
               <i

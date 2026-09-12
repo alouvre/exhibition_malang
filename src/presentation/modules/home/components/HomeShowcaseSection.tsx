@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@/infrastructure/services/IconService";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { COLORS } from "@/presentation/styles/theme";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import {
@@ -16,7 +16,7 @@ interface ShowcaseSectionProps {
   onMusicianClick: (musician: MusicianIcon) => void;
 }
 
-export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
+export const HomeShowcaseSection: React.FC<ShowcaseSectionProps> = ({
   sectionRef,
   totalMaestros,
   musicians,
@@ -26,10 +26,9 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const internalSectionRef = useRef<HTMLElement | null>(null);
 
-  const fontService = FontService.getInstance();
-  const sectionHeaderClass = fontService.getFontClass("SECTION_HEADER");
-  const badgeTagClass = fontService.getFontClass("BADGE_TAG");
-  const bodyTextClass = fontService.getFontClass("BODY_TEXT");
+  const sectionHeaderClass = useFontRole("SECTION_HEADER");
+  const badgeTagClass = useFontRole("BADGE_TAG");
+  const bodyTextClass = useFontRole("BODY_TEXT");
 
   useEffect(() => {
     const targetElement =
@@ -75,7 +74,6 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
         {/* Top Ticker: Gallery Index Metadata */}
         <div className="flex items-center justify-between gap-4 text-stone-500 text-[9px] sm:text-[10px] font-mono tracking-[0.25em] uppercase">
           <div className="flex items-center gap-2">
-            {/* <span className="w-2 h-2 rounded-full bg-[#FF1F00] animate-pulse" /> */}
             <span>EXHIBIT ROOM 01 // SELECTED MAESTROS</span>
           </div>
           <span className="hidden sm:inline-block text-stone-400">
@@ -95,7 +93,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
               }}
             >
               HALL OF <br className="hidden sm:block" />
-              <span className="text-stone-900 hover:text-[#FF1F00] transition-colors duration-500">
+              <span className="text-stone-900 hover:text-gallery-red transition-colors duration-500">
                 LEGENDS
               </span>
             </h2>
@@ -104,7 +102,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
           {/* Right Action: Editorial Counter & Explore Pill */}
           <div className="flex flex-col items-start md:items-end gap-3 self-start md:self-end">
             <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-stone-600 uppercase">
-              <span className="text-[#FF1F00] font-bold">
+              <span className="text-gallery-red font-bold">
                 [{totalMaestros}]
               </span>
               <span className={bodyTextClass}>ARCHIVED ARTISTS AVAILABLE</span>
@@ -112,18 +110,18 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
 
             <button
               onClick={onExploreExtendedArchive}
-              className="group relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-stone-900/15 hover:border-[#FF1F00] bg-stone-950 text-white hover:bg-[#FF1F00] hover:shadow-[0_8px_25px_-6px_rgba(255,31,0,0.4)] active:scale-95 transition-all duration-300 cursor-pointer select-none"
+              className="group relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-stone-900/15 hover:border-gallery-red bg-stone-950 text-white hover:bg-gallery-red hover:shadow-[0_8px_25px_-6px_rgba(255,31,0,0.4)] active:scale-95 transition-all duration-300 cursor-pointer select-none"
               aria-label="Explore Extended Archive"
             >
               <span
-                className={`text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase ${badgeTagClass}`}
+                className={`text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase ${badgeTagClass}`}
               >
                 OPEN FULL CATALOG
               </span>
               <div className="w-5 h-5 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center transition-colors">
                 <Icon
                   name="arrow-up-right"
-                  className="w-3.5 h-3.5 text-white group-hover:text-[#FF1F00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                  className="w-3.5 h-3.5 text-white group-hover:text-gallery-red group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
                 />
               </div>
             </button>
@@ -148,13 +146,13 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
             {/* Index Label Micro di atas tiap kartu */}
             <div className="flex items-center justify-between text-[8px] font-mono tracking-widest text-stone-400 uppercase mb-2 px-1">
               <span>NO. 0{index + 1}</span>
-              <span className="opacity-0 group-hover:opacity-100 text-[#FF1F00] transition-opacity">
+              <span className="opacity-0 group-hover:opacity-100 text-gallery-red transition-opacity">
                 VIEW BIO →
               </span>
             </div>
 
             {/* Kartu Musisi */}
-            <div className="rounded-xl overflow-hidden border border-stone-800/10 bg-white/40 backdrop-blur-xs hover:border-[#FF1F00]/40 hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.15)] transition-all duration-500">
+            <div className="rounded-xl overflow-hidden border border-stone-800/10 bg-white/40 backdrop-blur-xs hover:border-gallery-red/40 hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.15)] transition-all duration-500">
               <MusicianCard
                 musician={musician}
                 index={index}
@@ -177,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShowcaseSection;
+export default HomeShowcaseSection;

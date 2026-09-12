@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/infrastructure/services/IconService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 interface ArchivalLightboxModalProps {
   selectedImage: string | null;
@@ -15,6 +16,9 @@ export const ArchivalLightboxModal: React.FC<ArchivalLightboxModalProps> = ({
   onClose,
   onImageError,
 }) => {
+  const badgeTagClass = useFontRole("BADGE_TAG");
+  const sectionHeaderClass = useFontRole("SECTION_HEADER");
+
   return (
     <AnimatePresence>
       {selectedImage && (
@@ -36,10 +40,10 @@ export const ArchivalLightboxModal: React.FC<ArchivalLightboxModalProps> = ({
             {/* Lightbox Header */}
             <div className="flex items-center justify-between p-4 bg-black/80 border-b border-white/10 text-white">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-[#FF1F00] text-white rounded font-bold uppercase">
+                <span className={`text-[10px] px-2 py-0.5 bg-[#FF1F00] text-white rounded font-bold uppercase ${badgeTagClass}`}>
                   ARCHIVE EXHIBIT
                 </span>
-                <span className="text-xs font-bold font-sans tracking-wide uppercase truncate">
+                <span className={`text-xs font-bold tracking-wide uppercase truncate ${sectionHeaderClass}`}>
                   {musicianName} — EXHIBITION PHOTO
                 </span>
               </div>

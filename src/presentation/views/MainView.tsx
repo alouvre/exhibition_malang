@@ -21,9 +21,9 @@ const MusicianDiscographyView = React.lazy(() =>
     default: m.MusicianDiscographyView,
   }))
 );
-const ExtendedArtistsView = React.lazy(() =>
+const ArtistCatalogView = React.lazy(() =>
   import("@/presentation/modules/artist-catalog").then((m) => ({
-    default: m.ExtendedArtistsView,
+    default: m.ArtistCatalogView,
   }))
 );
 const AboutView = React.lazy(() =>
@@ -225,7 +225,7 @@ export const MainView: React.FC = () => {
                 />
                 <Route
                   path="/extended-archive"
-                  element={<ExtendedArtistsView />}
+                  element={<ArtistCatalogView />}
                 />
                 <Route
                   path="/about"
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
       "custom-toast inline-flex items-center justify-center text-center select-none whitespace-nowrap px-6 py-1.5 z-50 fixed top-6 left-1/2 right-1/2 transform -translate-x-1/2 shadow-md animate-bounce-short",
     background: "glass-floating-panel",
     radius: RADIUS.full,
-    text: "text-xs font-semibold text-slate-700 font-sans",
+    text: "text-xs font-semibold text-slate-700",
   },
 });
 

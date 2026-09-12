@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { RADIUS, COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 /* ==========================================================================
    SIDEBAR DROPDOWN TYPES & REUSABLE SUB-COMPONENT (Modular Extraction)
@@ -41,9 +41,8 @@ export const SidebarDropdown: React.FC<SidebarDropdownProps> = ({
   headerTitle,
   className,
 }) => {
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
-  const fontBody = fontService.getFontClass("BODY_TEXT");
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
 
   if (!isOpen) return null;
 
@@ -137,6 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   controlledSettingsOpen,
 }) => {
   const navigate = useNavigate();
+  const fontBody = useFontRole("BODY_TEXT");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
@@ -318,7 +318,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     >
       <aside
         id="desktop-sidebar"
-        className={`${styles.aside.container} ${
+        className={`${styles.aside.container} ${fontBody} ${
           isSidebarOpen ? styles.aside.open : styles.aside.closed
         }`}
       >

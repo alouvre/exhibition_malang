@@ -4,7 +4,7 @@ import { Header } from "@/presentation/shared/components";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { COLORS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 
 export interface PrivacyViewProps {
@@ -17,8 +17,8 @@ export const PrivacyView: React.FC<PrivacyViewProps> = ({
   useDocumentTitle("Kebijakan Privasi - Museum Musik Indonesia");
   const navigate = useNavigate();
 
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
 
   useEffect(() => {
     safeInitializeIcons();
@@ -35,13 +35,24 @@ export const PrivacyView: React.FC<PrivacyViewProps> = ({
           aria-label="Breadcrumb"
           className="flex items-center justify-between gap-4 pb-6 border-b border-black/10 mb-8"
         >
-          <ol className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono tracking-[0.2em] uppercase">
+          <ol
+            className={`flex items-center gap-2 text-[10px] sm:text-[11px] tracking-[0.2em] uppercase ${fontBadge}`}
+          >
             <li>
               <Link
                 to="/"
                 className="text-stone-400 hover:text-stone-900 transition-colors"
               >
                 HOME
+              </Link>
+            </li>
+            <li className="text-stone-300 select-none">/</li>
+            <li>
+              <Link
+                to="/contact"
+                className="text-stone-400 hover:text-stone-900 transition-colors"
+              >
+                Legal
               </Link>
             </li>
             <li className="text-stone-300 select-none">/</li>
@@ -65,9 +76,9 @@ export const PrivacyView: React.FC<PrivacyViewProps> = ({
         {/* Header Title Section */}
         <div className="border-b border-black/10 pb-8 mb-10">
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#FF1F00]" />
+            {/* <span className="w-2 h-2 rounded-full bg-[#FF1F00]" /> */}
             <span
-              className={`text-xs text-stone-500 uppercase tracking-widest ${fontBadge}`}
+              className={`font-mono text-xs text-stone-500 uppercase tracking-widest ${fontBadge}`}
             >
               PRIVACY POLICY • MMI DIGITAL ARCHIVE
             </span>
@@ -75,13 +86,15 @@ export const PrivacyView: React.FC<PrivacyViewProps> = ({
           <h1 className="text-3xl sm:text-5xl font-black uppercase text-stone-900 tracking-tight leading-none">
             PRIVACY POLICY
           </h1>
-          <p className="mt-4 text-xs sm:text-sm font-mono text-stone-500 uppercase tracking-wider">
+          <p className="mt-4 text-xs sm:text-sm font-mono text-stone-500 tracking-wider">
             Kebijakan Perlindungan Data & Transparansi Pengunjung Galeri
           </p>
         </div>
 
         {/* Disclosure Cards */}
-        <article className="space-y-6 sm:space-y-8 text-stone-800 text-sm font-sans leading-relaxed">
+        <article
+          className={`space-y-6 sm:space-y-8 text-stone-800 text-sm leading-relaxed ${fontBody}`}
+        >
           <section className="bg-white/60 p-6 rounded-2xl border border-black/5">
             <h2 className="text-base font-bold text-stone-900 uppercase tracking-wider mb-3 flex items-center gap-2.5">
               <i data-lucide="hard-drive" className="w-5 h-5 text-[#FF1F00]" />

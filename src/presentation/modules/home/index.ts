@@ -1,3 +1,3 @@
 export { HomeView } from "./views/HomeView";
-export { VinylHero } from "./components/VinylHero";
-export { ShowcaseSection } from "./components/ShowcaseSection";
+export { HomeVinylHero, HomeShowcaseSection, HomeFooter } from "./components";
+export type { SocialModalData } from "./components";

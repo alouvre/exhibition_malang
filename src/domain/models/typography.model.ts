@@ -8,14 +8,43 @@ export type FontFamily =
   | "generalsans"
   | "jakarta"
   | "syne"
-  | "default";
+  | "helvetica"
+  | "helveticaNeue"
+  | "bodoni"
+  | "default"
+  | (string & {});
 
 export type FontRole =
   | "HERO_TITLE"
   | "SECTION_HEADER"
   | "CARD_NAME"
   | "BODY_TEXT"
-  | "BADGE_TAG";
+  | "BADGE_TAG"
+  | "SWISS_DISPLAY"
+  | "EDITORIAL_NEUE"
+  | (string & {});
+
+export type CuratorialPresetKey =
+  | "DEFAULT"
+  | "SWISS_MINIMAL"
+  | "EDITORIAL_CLASSIC"
+  | "NEO_GROTESK"
+  | (string & {});
+
+export interface CuratorialMetaToken {
+  id: string;
+  catalogRef: string;
+  exhibitionRoom: string;
+  role: FontRole;
+  fontFamily: FontFamily;
+}
+
+export interface FontDefinition {
+  family: FontFamily;
+  utilityClass: string;
+  fontStack: string;
+  isCustomWebFont?: boolean;
+}
 
 export interface FontConfig {
   family: FontFamily;
@@ -23,4 +52,5 @@ export interface FontConfig {
   fontCSSVariable?: string;
 }
 
-export type FontRoleMapping = Record<FontRole, FontFamily>;
+export type FontRoleMapping = Record<string, FontFamily>;
+

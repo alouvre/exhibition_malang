@@ -4,7 +4,7 @@ import {
   resolveAssetPath,
   DEFAULT_FALLBACK_IMAGE,
 } from "@/presentation/utils/dom";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 import { MusicianData } from "@/domain/models";
 
 export interface MusicianIcon {
@@ -47,7 +47,8 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
 
   const cardBaseStyle = styles?.card || DEFAULT_CARD_STYLE;
   const cardImgStyle = styles?.cardImg || DEFAULT_CARD_IMG_STYLE;
-  const cardNameFontClass = FontService.getInstance().getFontClass("CARD_NAME");
+  const cardNameFontClass = useFontRole("CARD_NAME");
+  const badgeTagFontClass = useFontRole("BADGE_TAG");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -106,7 +107,7 @@ export const MusicianCard: React.FC<MusicianCardProps> = ({
           </h3>
 
           {/* Year / Era Marker: Micro Warm Stone Gray Tag */}
-          <p className="text-[10px] sm:text-[10px] font-bold tracking-widest text-white/80 uppercase font-sans mt-1">
+          <p className={`text-[10px] sm:text-[10px] font-bold tracking-widest text-white/80 uppercase mt-1 ${badgeTagFontClass}`}>
             {musician?.year || ""}
           </p>
         </div>

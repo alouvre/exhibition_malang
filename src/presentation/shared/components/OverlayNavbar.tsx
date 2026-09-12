@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 export interface NavLinkItem {
   id: string;
@@ -33,13 +33,13 @@ export interface OverlayNavbarProps {
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: "icons", label: "ICONS", href: "#showcase-icons" },
   { id: "evolution", label: "EVOLUTION", href: "#timeline-section" },
-  { id: "details", label: "DETAILS", href: "#footer-section" },
+  { id: "contact", label: "CONTACT", href: "#footer-section" },
 ];
 
 /**
  * OverlayNavbar - Reusable Floating Bottom Capsule Navbar (iOS Segmented Control & Dynamic Island Aesthetic)
  * Text-driven high-fashion minimalism with active state indicator and smooth motion transition.
- * Logo clicks scroll to #hero-section, DETAILS scrolls to #footer-section.
+ * Logo clicks scroll to #hero-section, contact scrolls to #footer-section.
  */
 export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   visible,
@@ -54,11 +54,10 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
 }) => {
   const [internalVisible, setInternalVisible] = useState<boolean>(false);
   const [localActiveId, setLocalActiveId] = useState<string>(
-    activeLinkId || navLinks[0]?.id || ""
+    activeLinkId || navLinks[0]?.id || "",
   );
 
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  const fontBadge = useFontRole("BADGE_TAG");
 
   const currentActiveId = activeLinkId || localActiveId;
   const effectiveVisible = visible !== undefined ? visible : internalVisible;
@@ -134,7 +133,7 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const matchingLink = navLinks.find(
-            (link) => link.href === `#${entry.target.id}`
+            (link) => link.href === `#${entry.target.id}`,
           );
           if (matchingLink) {
             setLocalActiveId(matchingLink.id);
@@ -192,7 +191,7 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
           type="button"
           onClick={handleLogoClick}
           aria-label="Scroll to top (Hero Section)"
-          className={`w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
+          className={`w-7.5 h-7.5 sm:w-12 sm:h-8 rounded-full   flex items-center justify-center text-white font-bold text-[10px] sm:text-xs tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${fontBadge}`}
         >
           {brandText}
         </button>
@@ -223,11 +222,8 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-10 flex items-center gap-1.5">
+              <span className="font-mono relative z-10 flex items-center gap-1.5">
                 {link.label}
-                {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] shadow-[0_0_6px_rgba(255,31,0,0.8)]" />
-                )}
               </span>
             </button>
           );
@@ -252,4 +248,3 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
 };
 
 export default OverlayNavbar;
-

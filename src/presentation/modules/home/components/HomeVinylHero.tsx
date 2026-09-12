@@ -10,7 +10,7 @@ interface VinylHeroProps {
   onStartJourney: () => void;
 }
 
-export const VinylHero: React.FC<VinylHeroProps> = ({
+export const HomeVinylHero: React.FC<VinylHeroProps> = ({
   isHeroVisible,
   onMenuClick,
   onStartJourney,
@@ -39,11 +39,11 @@ export const VinylHero: React.FC<VinylHeroProps> = ({
           <div className="absolute inset-0 rounded-full bg-black/15 blur-2xl transform scale-105 pointer-events-none -z-10" />
 
           {/* 2. Precision Turntable Tone-Arm Assembly */}
-          <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 md:-top-6 md:-right-6 w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 z-30 pointer-events-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-transform duration-700 ease-out origin-top-right group-hover:rotate-[-2.5deg]">
+          <div className="absolute -top-5 -right-5 sm:-top-5 sm:-right-5 md:top-20 md:-right-10 w-40 h-40 sm:w-52 sm:h-52 md:w-90 md:h-90 z-30 pointer-events-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.15)] transition-transform duration-700 ease-out origin-top-right group-hover:rotate-[-2.5deg]">
             {/* Base Housing with Brushed Metal Rim */}
             <div className="absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-stone-400/40 bg-gradient-to-br from-stone-800 via-stone-900 to-black shadow-lg flex items-center justify-center z-10">
               <div className="w-4 h-4 rounded-full border border-stone-500/30 bg-stone-950 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] shadow-[0_0_6px_#FF1F00]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-gallery-red shadow-[0_0_6px_gallery-red]" />
               </div>
             </div>
 
@@ -153,7 +153,7 @@ export const VinylHero: React.FC<VinylHeroProps> = ({
             aria-label="Start Journey"
           >
             {/* Ambient Pulse Rings */}
-            <span className="absolute inset-0 rounded-full bg-[#FF1F00]/20 animate-ping pointer-events-none opacity-50 duration-1000" />
+            <span className="absolute inset-0 rounded-full bg-gallery-red/20 animate-ping pointer-events-none opacity-50 duration-1000" />
             <span className="absolute -inset-1 rounded-full border border-white/20 pointer-events-none" />
 
             <span
@@ -179,25 +179,16 @@ export const VinylHero: React.FC<VinylHeroProps> = ({
                 : "opacity-0 translate-y-8"
             }`}
           >
-            {/* Curatorial Technical Index Stamp */}
-            {/* <div className="flex items-center gap-2 font-mono text-[9px] md:text-[10px] tracking-[0.25em] text-stone-400 uppercase mb-3 md:mb-4 select-none font-normal leading-none">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] animate-pulse shrink-0" />
-              <span>CATALOG REF. 1970–2026 // EAST JAVA SOUND ARCHIVE • EXHIBITION ROOM 01</span>
-            </div> */}
-
-            <div className="select-none drop-shadow-sm flex flex-col items-center md:items-start">
-              <span
-                className="font-black tracking-wide leading-[0.85]"
-                style={{ fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)" }}
-              >
-                THE
+            <div className="flex flex-col items-start select-none">
+              <span className="text-xl sm:text-2xl lg:text-4xl font-mono font-semibold tracking-widest uppercase mb-1">
+                THE SOUND OF —
               </span>
-              <span
-                className="font-black tracking-normal text-stone-950 leading-[0.85]"
-                style={{ fontSize: "clamp(3.8rem, 9vw + 1rem, 10rem)" }}
+              <h1
+                className="font-sans font-bold tracking-tighter text-stone-950 uppercase leading-[0.8] select-none"
+                style={{ fontSize: "clamp(4.5rem, 11vw, min(10.5rem, 18vh))" }}
               >
-                SOUND
-              </span>
+                MALANG
+              </h1>
             </div>
           </div>
 
@@ -209,19 +200,31 @@ export const VinylHero: React.FC<VinylHeroProps> = ({
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="select-none drop-shadow-sm flex flex-col items-center md:items-end">
-              <span
-                className="font-black tracking-wide leading-[0.85]"
-                style={{ fontSize: "clamp(3.5rem, 8.5vw + 1rem, 9.5rem)" }}
-              >
-                OF
-              </span>
-              <span
-                className="font-black tracking-tighter text-stone-950 leading-[0.85]"
-                style={{ fontSize: "clamp(3.8rem, 9vw + 1rem, 10rem)" }}
-              >
-                MALANG
-              </span>
+            <div className="hidden md:flex flex-col items-end text-right font-mono border-r border-stone-400/40 pr-4 py-2 select-none">
+              <div className="flex items-center gap-2 mb-2">
+                {/* <span className="w-1.5 h-1.5 rounded-full bg-[#CD001F] shadow-[0_0_6px_#CD001F]" /> */}
+                <span className="font-sans text-[12px] tracking-[0.25em] text-[#CD001F] font-bold uppercase">
+                  IN COLLABORATION WITH
+                </span>
+              </div>
+
+              <div className="flex flex-col items-end gap-0.5 text-[16px] uppercase leading-snug">
+                <span className="font-mono font-bold text-stone-900 tracking-wider">
+                  KEMENDIKTISAINTEK RI
+                </span>
+                <span className="font-mono font-medium text-stone-600 tracking-wide">
+                  UNIVERSITAS BINA NUSANTARA
+                </span>
+                <span className="font-mono font-medium text-stone-600 tracking-wide">
+                  MUSEUM MUSIK INDONESIA
+                </span>
+              </div>
+
+              <div className="pt-2 mt-2 border-t border-black/10 flex items-center gap-2 text-[11px] text-stone-400 tracking-[0.2em] uppercase">
+                <span>Program Inovasi Seni Nusantara</span>
+                <span>•</span>
+                <span className="text-stone-700 font-semibold">2026</span>
+              </div>
             </div>
           </div>
         </div>
@@ -246,7 +249,7 @@ const styles = StyleSheet.create({
   },
   vinylWrapper: {
     container:
-      "group relative w-56 h-56 sm:w-72 sm:h-72 md:w-[22rem] md:h-[22rem] lg:w-[26rem] lg:h-[26rem] xl:w-[29rem] xl:h-[29rem] -translate-y-3 sm:-translate-y-4 md:-translate-y-6 lg:-translate-y-8 xl:-translate-y-10 my-auto flex items-center justify-center z-10 shrink-0 pointer-events-auto",
+      "group relative w-[48vmin] h-[48vmin] sm:w-[50vmin] sm:h-[50vmin] md:w-[54vmin] md:h-[54vmin] max-w-[28rem] max-h-[28rem] lg:max-w-[34rem] lg:max-h-[34rem] xl:max-w-[38rem] xl:max-h-[38rem] -translate-y-4 sm:-translate-y-6 md:-translate-y-8 lg:-translate-y-12 my-auto flex items-center justify-center z-10 shrink-0 pointer-events-auto",
     disk: "relative w-full h-full rounded-full overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-black/20 flex items-center justify-center cursor-pointer transition-transform duration-700 hover:scale-[1.02] animate-[spin_20s_linear_infinite] hover:[animation-play-state:paused]",
     img: "w-full h-full object-cover rounded-full select-none pointer-events-none",
     centerLabel:
@@ -264,4 +267,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VinylHero;
+export default HomeVinylHero;

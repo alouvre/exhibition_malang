@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 interface MobileFallbackScreenProps {
   onBypass: () => void;
@@ -8,6 +9,9 @@ interface MobileFallbackScreenProps {
 export const MobileFallbackScreen: React.FC<
   MobileFallbackScreenProps
 > = ({}) => {
+  const fontBadge = useFontRole("BADGE_TAG");
+  const fontBody = useFontRole("BODY_TEXT");
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -52,13 +56,13 @@ export const MobileFallbackScreen: React.FC<
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] animate-pulse" />
-          <span className="text-[10px] font-mono tracking-widest uppercase text-stone-300">
+          <span className={`text-[10px] tracking-widest uppercase text-stone-300 ${fontBadge}`}>
             Tablet & Laptop Recommended
           </span>
         </div>
 
         {/* Title & Body */}
-        <p className="text-xs sm:text-sm text-stone-400 font-sans leading-relaxed mb-8">
+        <p className={`text-xs sm:text-sm text-stone-400 leading-relaxed mb-8 ${fontBody}`}>
           Untuk menikmati kurasi tata pamer, narasi arsip resolusi tinggi, serta
           pemutar video katalog secara optimal, silakan akses situs ini melalui{" "}
           <strong className="text-stone-200">Tablet atau Laptop</strong>.
@@ -67,7 +71,7 @@ export const MobileFallbackScreen: React.FC<
 
       {/* Footer */}
       <div className="text-center">
-        <span className="text-[9px] font-mono text-stone-600 uppercase tracking-widest">
+        <span className={`text-[9px] text-stone-600 uppercase tracking-widest ${fontBadge}`}>
           MUSEUM MUSIK INDONESIA © 2026
         </span>
       </div>

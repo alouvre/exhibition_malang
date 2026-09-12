@@ -1,62 +1,52 @@
 import React from "react";
 import { Header } from "@/presentation/shared/components";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
-import { COLORS, SPACING, RADIUS, DESIGN_TOKENS } from "@/presentation/styles/theme";
+import { COLORS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
+import {
+  AboutHeroSection,
+  MissionVisionSection,
+  TimelineHistorySection,
+  CuratorialTeamSection,
+  ColophonSection,
+} from "../components";
 
 export interface AboutViewProps {
   onToggleSidebar?: () => void;
 }
 
 export const AboutView: React.FC<AboutViewProps> = ({ onToggleSidebar }) => {
-  useDocumentTitle("Tentang Museum Musik Indonesia");
+  useDocumentTitle("Tentang Museum Musik Indonesia - Malang Exhibition");
+
   return (
     <div className={styles.container}>
       {/* Integrated Unified Header matching HomeView */}
       <Header leftActionType="menu" onLeftActionClick={onToggleSidebar} />
 
-      <div className={styles.contentArea}>
-        <div className={styles.wrapper}>
-          <div className={styles.iconContainer}>
-            <i data-lucide="info" className={styles.icon}></i>
-          </div>
-          <h3 className={styles.title}>About Us</h3>
-          <p className={styles.description}>
-            About Us View Content Coming Soon. Learn about the history, exhibitions, and curation crew of the Gallery Music Museum.
-          </p>
+      {/* Main Content Area with Semantic Landmark */}
+      <main className={styles.mainContent} id="main-content">
+        <div className={styles.contentWrapper}>
+          <AboutHeroSection />
+          <MissionVisionSection />
+          <TimelineHistorySection />
+          <CuratorialTeamSection />
+          <ColophonSection />
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    layout: "w-full h-full flex flex-col select-none animate-fade-in " + COLORS.canvasBg,
+    layout: "w-full h-full flex flex-col select-none animate-fade-in min-h-screen",
+    background: COLORS.canvasBg,
   },
-  contentArea: {
-    layout: "flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-12",
+  mainContent: {
+    layout: "flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-6 md:py-10 custom-scrollbar",
   },
-  wrapper: {
-    layout: "flex flex-col items-center max-w-md",
-    gap: SPACING.gap.md,
-  },
-  iconContainer: {
-    sizing: "w-16 h-16",
-    background: COLORS.slate[50],
-    color: "text-[#FF1F00]",
-    radius: RADIUS.full,
-    border: "shadow-sm",
-    display: DESIGN_TOKENS.utility.flexCenter,
-  },
-  icon: {
-    sizing: "w-8 h-8",
-  },
-  title: {
-    text: DESIGN_TOKENS.text.heading,
-  },
-  description: {
-    text: "text-sm text-slate-500 leading-relaxed font-sans",
+  contentWrapper: {
+    layout: "max-w-6xl mx-auto flex flex-col gap-4",
   },
 });
 

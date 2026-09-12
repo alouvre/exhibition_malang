@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
-import { MusicianData } from "@/presentation/data/musiciansRegistry";
+import { useState, useMemo, useEffect } from "react";
+import { Musician } from "@/domain/models";
 
 export type SortType = "oldest" | "newest" | "a-z" | "z-a";
 
-export interface UseMusicianFilterReturn {
+export interface UseArtistCatalogFilterReturn {
   sortType: SortType;
   setSortType: React.Dispatch<React.SetStateAction<SortType>>;
   selectedCategory: string;
@@ -12,7 +12,8 @@ export interface UseMusicianFilterReturn {
   setSelectedAlphabet: React.Dispatch<React.SetStateAction<string>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredMusicians: MusicianData[];
+  debouncedQuery: string;
+  filteredMusicians: Musician[];
   activeFiltersCount: number;
   handleResetFilters: () => void;
 }
@@ -28,33 +29,39 @@ export const getStartingYear = (yearStr?: string): number => {
 };
 
 /**
- * Custom hook for state management & multi-parameter reactive filtering.
- * Manages sort order (defaulting to "newest"), category genre filtering,
- * alphabet initial letter filtering, and text search query intersection.
+ * Custom hook for state management & multi-parameter reactive filtering in Artist Catalog.
+ * Includes a 250ms search query debounce to optimize filtering performance.
  */
-export const useMusicianFilter = (
-  musicians: MusicianData[],
-): UseMusicianFilterReturn => {
+export const useArtistCatalogFilter = (
+  musicians: Musician[],
+): UseArtistCatalogFilterReturn => {
   const [sortType, setSortType] = useState<SortType>("newest");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [selectedAlphabet, setSelectedAlphabet] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+
+  // Search Query Debounce Mechanism (250ms)
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 250);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   const filteredMusicians = useMemo(() => {
     let result = [...(musicians ?? [])];
 
-    // 1. Search Query Intersection
-    const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
+    // 1. Search Query Intersection (using debouncedQuery)
+    const normalizedQuery = (debouncedQuery ?? "").trim().toLowerCase();
     if (normalizedQuery) {
-      result = result.filter((musician: MusicianData) => {
+      result = result.filter((musician: Musician) => {
         if (!musician) return false;
         const stageNameMatches = (musician.name ?? "")
           .toLowerCase()
           .includes(normalizedQuery);
         const realNameProperty =
-          (
-            musician as MusicianData & { realName?: string }
-          ).realName?.toLowerCase() ?? "";
+          (musician as Musician & { realName?: string }).realName?.toLowerCase() ?? "";
         const realNameMatches = realNameProperty.includes(normalizedQuery);
         const biographyMatches = (musician.biography ?? "")
           .toLowerCase()
@@ -73,7 +80,7 @@ export const useMusicianFilter = (
 
     // 2. Flexible & Case-Insensitive Category/Genre Filter
     if (selectedCategory && selectedCategory !== "ALL") {
-      result = result.filter((musician: MusicianData) => {
+      result = result.filter((musician: Musician) => {
         if (!musician) return false;
         return (musician.genre ?? "")
           .toUpperCase()
@@ -83,7 +90,7 @@ export const useMusicianFilter = (
 
     // 3. Alphabet Initial Letter Filter (Case-Insensitive)
     if (selectedAlphabet && selectedAlphabet !== "ALL") {
-      result = result.filter((musician: MusicianData) => {
+      result = result.filter((musician: Musician) => {
         if (!musician) return false;
         return (musician.name ?? "")
           .trim()
@@ -108,7 +115,7 @@ export const useMusicianFilter = (
     }
 
     return result;
-  }, [musicians, searchQuery, selectedCategory, selectedAlphabet, sortType]);
+  }, [musicians, debouncedQuery, selectedCategory, selectedAlphabet, sortType]);
 
   // Active filter count calculator
   const activeFiltersCount = useMemo(() => {
@@ -136,10 +143,11 @@ export const useMusicianFilter = (
     setSelectedAlphabet,
     searchQuery,
     setSearchQuery,
+    debouncedQuery,
     filteredMusicians,
     activeFiltersCount,
     handleResetFilters,
   };
 };
 
-export default useMusicianFilter;
+export default useArtistCatalogFilter;

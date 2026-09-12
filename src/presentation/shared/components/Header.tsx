@@ -4,7 +4,7 @@ import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
 import { RADIUS } from "@/presentation/styles/theme";
 import { Icon } from "@/infrastructure/services/IconService";
-import { FontService } from "@/infrastructure/services/FontService";
+import { useFontRole } from "@/infrastructure/services/FontService";
 
 export interface HeaderNavItem {
   id: string;
@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   leftActionLabel,
   rightTextLeft = "MUSEUM MUSIK INDONESIA",
   showCenterText = true,
-  showPartnerLogos = false,
+  showPartnerLogos: _showPartnerLogos = false,
   isSticky = false,
   className,
   variant = "light",
@@ -48,8 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
   onNavItemClick,
 }) => {
   const navigate = useNavigate();
-  const fontService = FontService.getInstance();
-  const fontBadge = fontService.getFontClass("BADGE_TAG");
+  const fontBadge = useFontRole("BADGE_TAG");
 
   useEffect(() => {
     safeInitializeIcons();
@@ -198,18 +197,20 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Default Center Text (Only rendered if no customNavItems are passed) */}
       {!hasCustomNav && showCenterText && rightTextLeft ? (
         <div
-          className={`absolute left-1/2 -translate-x-1/2 ${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer text-center select-none z-10 ${fontBadge}`}
+          className={`absolute left-1/2 -translate-x-1/2 ${isDarkOrTransparent ? "text-white/80 hover:text-white" : "text-stone-800 hover:text-black"} text-xs font-bold tracking-widest transition-colors cursor-pointer text-center select-none z-10 font-sans`}
         >
           {rightTextLeft}
         </div>
       ) : null}
 
       {/* Refined Unified Monochrome Header Dock */}
-      <div className="flex items-center gap-2.5 z-20 shrink-0">
+      {/* <div className="flex items-center gap-2.5 z-20 shrink-0">
         <div className="rounded-full bg-stone-900/[0.03] border border-black/10 backdrop-blur-md px-3 sm:px-4 py-1.5 flex items-center gap-2.5">
           {showPartnerLogos && (
             <>
-              <span className="hidden lg:inline-block text-[9px] font-mono font-bold tracking-[0.18em] text-stone-500 uppercase select-none">
+              <span
+                className={`hidden lg:inline-block text-[9px] font-bold tracking-[0.18em] text-stone-500 uppercase select-none ${fontBadge}`}
+              >
                 IN COLLABORATION WITH
               </span>
               <span
@@ -247,7 +248,7 @@ export const Header: React.FC<HeaderProps> = ({
             decoding="async"
           />
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };
