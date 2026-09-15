@@ -48,7 +48,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({
   onClose,
   title,
   description,
-  primaryButtonText = "START EXPLORE",
+  primaryButtonText = "Start Explore",
   onPrimaryClick,
   secondaryButtonText,
   onSecondaryClick,
@@ -107,33 +107,8 @@ export const InfoModal: React.FC<InfoModalProps> = ({
             exit={{ opacity: 0, scale: 0.94, y: 16 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className={`relative max-w-md sm:max-w-lg w-[92vw] sm:w-full max-h-[85vh] flex flex-col ${COLORS.ivoryBg} text-zinc-900 rounded-3xl overflow-hidden shadow-2xl border border-stone-200/80 ${className}`}
+            className={`relative max-w-md sm:max-w-lg w-[190vw] sm:w-full max-h-[85vh] flex flex-col ${COLORS.ivoryBg} text-zinc-900 rounded-3xl overflow-hidden shadow-2xl border border-stone-200/80 ${className}`}
           >
-            {/* Top Header Banner with Monochrome Black-Grey-Ivory Gradient & Center Floating Glass Badge */}
-            <div
-              className={`relative h-36 sm:h-44 w-full flex-shrink-0 bg-gradient-to-tr ${bannerGradient} flex items-center justify-center p-4 sm:p-6 border-b border-stone-200/60`}
-            >
-              {/* Optional Top-Right Floating Close Button */}
-              {showCloseIcon && (
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white/90 hover:text-white backdrop-blur-md flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                  aria-label="Close Modal"
-                >
-                  <Icon name="x" className="w-4 h-4" />
-                </button>
-              )}
-
-              {/* Centered Floating Glass Icon Badge */}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/40 shadow-xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
-                <Icon
-                  name={iconName}
-                  className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-md"
-                />
-              </div>
-            </div>
-
             {/* Modal Content Body */}
             <div className="p-5 sm:p-6 flex flex-col items-start text-left gap-3.5 sm:gap-4 overflow-y-auto custom-scrollbar flex-1">
               <h3
@@ -155,7 +130,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({
                   onClick={handlePrimaryAction}
                   className={`${
                     secondaryButtonText ? "flex-1" : "w-full"
-                  } bg-zinc-900 hover:bg-black text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-full px-5 py-2 sm:py-2.5 transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer text-center flex items-center justify-center ${fontBadge}`}
+                  } bg-zinc-900 hover:bg-black text-white font-bold text-xs sm:text-sm tracking-wider rounded-full px-5 py-2 sm:py-2.5 transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer text-center flex items-center justify-center ${fontBadge}`}
                 >
                   {primaryButtonText}
                 </button>
@@ -164,7 +139,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({
                   <button
                     type="button"
                     onClick={handleSecondaryAction}
-                    className={`text-stone-500 hover:text-zinc-900 font-bold text-xs sm:text-sm uppercase tracking-wider px-3.5 py-2 transition-colors cursor-pointer ${fontBadge}`}
+                    className={`text-stone-500 hover:text-zinc-900 font-bold text-xs sm:text-sm tracking-wider px-3.5 py-2 transition-colors cursor-pointer ${fontBadge}`}
                   >
                     {secondaryButtonText}
                   </button>

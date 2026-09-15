@@ -138,7 +138,9 @@ export const ArtistCatalogView: React.FC = () => {
                   name="arrow-up-left"
                   className="w-4 h-4 text-stone-600 group-hover:text-[#CD001F] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
                 />
-                <span className={`text-xs ${fontBadge}`}>Return to Showcase</span>
+                <span className={`text-xs ${fontBadge}`}>
+                  Return to Showcase
+                </span>
               </button>
 
               {/* Decomposed CatalogFilterDeck Component */}
@@ -173,7 +175,7 @@ export const ArtistCatalogView: React.FC = () => {
           onClose={() => setIsInfoModalOpen(false)}
           title="THE ALL-ERA MAESTRO"
           badgeText="MALANG ARCHIVE"
-          description="Etalase kolektif yang merekam jejak seluruh musisi dan maestro musik kota Malang. Dari era pionir legenda hingga gelombang modern, setiap rekam jejak terarsip lengkap di sini."
+          description="Etalase kolektif yang merekam jejak seluruh musisi dan maestro musik Malang Raya. Dari era pionir legenda hingga gelombang modern, setiap rekam jejak terarsip lengkap di sini."
           primaryButtonText="START EXPLORE"
           onPrimaryClick={() => setIsInfoModalOpen(false)}
           showCloseIcon={false}
