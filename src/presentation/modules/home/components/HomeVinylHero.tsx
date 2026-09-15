@@ -179,20 +179,53 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="flex flex-col items-start select-none">
-              <span className="text-xl sm:text-2xl lg:text-4xl font-mono font-semibold tracking-widest uppercase mb-1">
-                THE SOUND OF —
-              </span>
-              <h1
-                className="font-sans font-bold tracking-tighter text-stone-950 uppercase leading-[0.8] select-none"
-                style={{ fontSize: "clamp(4.5rem, 11vw, min(10.5rem, 18vh))" }}
-              >
-                MALANG
-              </h1>
+            {/* Left Lower Headline */}
+            <div
+              className={`${styles.heroSection.typographyLeft} ${heroTitleClass} transition-all duration-1000 ease-out ${
+                isHeroVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              <div className="flex flex-col items-start select-none">
+                <span
+                  className="
+      flex items-center gap-3
+      text-[10px] sm:text-xs lg:text-sm
+      font-mono
+      font-semibold
+      tracking-[0.28em]
+      uppercase
+      text-stone-700
+      mb-2
+    "
+                >
+                  <span className="w-6 lg:w-10 h-px bg-[#CD001F]" />
+                  THE SOUND OF
+                </span>
+
+                <h1
+                  className="
+        font-sans
+        font-bold
+        tracking-[-0.07em]
+        text-stone-950
+        uppercase
+        leading-[0.78]
+        select-none
+      "
+                  style={{
+                    fontSize: "clamp(4.5rem, 11vw, min(10.5rem, 18vh))",
+                  }}
+                >
+                  MALANG
+                </h1>
+              </div>
             </div>
           </div>
 
           {/* Right Lower Headline: OF MALANG */}
+          {/* Right Lower Information: Collaboration / Exhibition Metadata */}
           <div
             className={`${styles.heroSection.typographyRight} ${heroTitleClass} transition-all duration-1000 delay-200 ease-out ${
               isHeroVisible
@@ -200,30 +233,65 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="hidden md:flex flex-col items-end text-right font-mono border-r border-stone-400/40 pr-4 py-2 select-none">
-              <div className="flex items-center gap-2 mb-2">
-                {/* <span className="w-1.5 h-1.5 rounded-full bg-[#CD001F] shadow-[0_0_6px_#CD001F]" /> */}
-                <span className="font-sans text-[12px] tracking-[0.25em] text-[#CD001F] font-bold uppercase">
+            <div
+              className="
+      hidden md:flex
+      flex-col
+      items-end
+      text-right
+      pr-5
+      border-r border-stone-900/15
+      relative
+    "
+            >
+              {/* Vertical Accent */}
+              <div className="absolute right-[-1px] top-0 h-10 w-px bg-[#CD001F]" />
+
+              {/* Section Index */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="font-mono text-[9px] tracking-[0.25em] text-stone-400">
+                  01 / 03
+                </span>
+
+                <span className="w-8 h-px bg-stone-900/20" />
+
+                <span className="font-mono text-[9px] tracking-[0.2em] text-[#CD001F] font-semibold">
                   IN COLLABORATION WITH
                 </span>
               </div>
 
-              <div className="flex flex-col items-end gap-0.5 text-[16px] uppercase leading-snug">
-                <span className="font-mono font-bold text-stone-900 tracking-wider">
-                  KEMENDIKTISAINTEK RI
-                </span>
-                <span className="font-mono font-medium text-stone-600 tracking-wide">
-                  UNIVERSITAS BINA NUSANTARA
-                </span>
-                <span className="font-mono font-medium text-stone-600 tracking-wide">
-                  MUSEUM MUSIK INDONESIA
-                </span>
+              {/* Main Information */}
+              <div className="flex flex-col items-end">
+                {/* <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-stone-400 mb-2">
+                  IN COLLABORATION WITH
+                </span> */}
+
+                <div className="flex flex-col items-end leading-tight">
+                  <span className="font-sans text-[15px] lg:text-[17px] font-bold tracking-[0.08em] text-stone-900 uppercase">
+                    KEMENDIKTISAINTEK RI
+                  </span>
+
+                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.06em] text-stone-500 uppercase">
+                    Universitas BINA NUSANTARA
+                  </span>
+
+                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.06em] text-stone-500 uppercase">
+                    Museum Musik Indonesia
+                  </span>
+                </div>
               </div>
 
-              <div className="pt-2 mt-2 border-t border-black/10 flex items-center gap-2 text-[11px] text-stone-400 tracking-[0.2em] uppercase">
-                <span>Program Inovasi Seni Nusantara</span>
-                <span>•</span>
-                <span className="text-stone-700 font-semibold">2026</span>
+              {/* Metadata */}
+              <div className="mt-5 pt-3 border-t border-stone-900/10 flex items-center gap-3">
+                <span className="font-mono text-[12px] tracking-[0.12em] text-stone-800 uppercase">
+                  PROGRAM INOVASI SENI NUSANTARA
+                </span>
+
+                <span className="w-1 h-1 rounded-full bg-[#CD001F]" />
+
+                <span className="font-mono text-[12px] font-bold tracking-[0.15em] text-stone-600">
+                  2026
+                </span>
               </div>
             </div>
           </div>
