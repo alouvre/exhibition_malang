@@ -139,6 +139,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const fontBody = useFontRole("BODY_TEXT");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const settingsRef = useRef<HTMLDivElement>(null);
   const guideRef = useRef<HTMLDivElement>(null);
@@ -187,15 +188,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }
     };
 
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
     if (isSettingsOpen || isGuideOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
       safeInitializeIcons();
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, [isSettingsOpen, isGuideOpen]);
 
@@ -214,22 +221,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setIsGuideOpen(false);
   };
 
-  const handleToggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement
-        .requestFullscreen()
-        .then(() => {})
-        .catch(() => {});
-    } else {
-      if (document.exitFullscreen) {
-        document
-          .exitFullscreen()
-          .then(() => {})
-          .catch(() => {});
+  const handleToggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        await document.exitFullscreen();
       }
+    } catch (error) {
+      console.warn("Fullscreen action failed:", error);
+    } finally {
+      setIsSettingsOpen(false);
+      setIsGuideOpen(false);
     }
-    setIsSettingsOpen(false);
-    setIsGuideOpen(false);
   };
 
   // 1. Settings Dropdown Configuration
@@ -245,7 +249,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         // },
         {
           id: "fullscreen",
-          label: "Fullscreen",
+          label: isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen",
           icon: "sliders",
           onClick: handleToggleFullscreen,
         },
@@ -438,7 +442,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* 3. User Profile Button */}
           <button className={styles.profileBtn} aria-label="Profile">
             <img
-              src="/assets/avatar.jpg"
+              src="./assets/LOGOMMI.webp"
               alt="User Profile"
               className={styles.profileImg.layout}
             />

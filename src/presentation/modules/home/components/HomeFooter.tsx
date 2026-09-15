@@ -129,8 +129,8 @@ export const HomeFooter: React.FC = () => {
                 {/* LOCATION INFO */}
                 <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
                   <div>
-                    <h3 className="text-sm sm:text-base font-sans font-medium tracking-tight text-white">
-                      Museum Musik Indonesia
+                    <h3 className="text-[9px] sm:text-base font-sans font-medium tracking-tight text-white">
+                      10.00 AM – 4.00 PM
                     </h3>
 
                     <p className="text-sm text-white/50 mt-0.5">

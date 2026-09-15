@@ -283,13 +283,13 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
 
               {/* Metadata */}
               <div className="mt-5 pt-3 border-t border-stone-900/10 flex items-center gap-3">
-                <span className="font-mono text-[12px] tracking-[0.12em] text-stone-800 uppercase">
+                <span className="font-sans font-bold text-[10px] tracking-widest text-stone-800 uppercase">
                   PROGRAM INOVASI SENI NUSANTARA
                 </span>
 
                 <span className="w-1 h-1 rounded-full bg-[#CD001F]" />
 
-                <span className="font-mono text-[12px] font-bold tracking-[0.15em] text-stone-600">
+                <span className="font-sans font-bold text-[10px] tracking-widest text-stone-600 uppercase">
                   2026
                 </span>
               </div>
