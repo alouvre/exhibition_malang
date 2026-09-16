@@ -48,7 +48,7 @@ export const HomeFooter: React.FC = () => {
                 <br />
                 INDONESIA
               </h2>
-              <p className="mt-6 text-xs font-mono text-stone-400 leading-relaxed uppercase max-w-sm">
+              <p className="mt-6 text-xs font-mono text-stone-300 leading-relaxed tracking-wide uppercase max-w-sm">
                 Jl. Soekarno Hatta Indah IV No.18, Mojolangu, Kec. Lowokwaru,
                 Kota Malang, Jawa Timur 65142
               </p>
@@ -130,11 +130,11 @@ export const HomeFooter: React.FC = () => {
                 <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
                   <div>
                     <h3 className="text-[9px] sm:text-base font-sans font-medium tracking-tight text-white">
-                      10.00 AM – 4.00 PM
+                      Art Museum
                     </h3>
 
                     <p className="text-sm text-white/50 mt-0.5">
-                      Art Museum · Malang
+                      10.00 AM – 4.00 PM
                     </p>
                   </div>
 
@@ -213,7 +213,8 @@ export const HomeFooter: React.FC = () => {
                   </li>
                   <li>
                     <Link
-                      to="/help-center"
+                      // to="/help-center"
+                      to="#"
                       className="hover:text-white transition-colors"
                     >
                       HELP CENTER
@@ -229,7 +230,8 @@ export const HomeFooter: React.FC = () => {
                 <ul className="space-y-2 text-sm font-mono uppercase text-stone-300">
                   <li>
                     <Link
-                      to="/terms-conditions"
+                      // to="/terms-conditions"
+                      to="#"
                       className="hover:text-white transition-colors"
                     >
                       TERMS & CONDITION
@@ -237,7 +239,8 @@ export const HomeFooter: React.FC = () => {
                   </li>
                   <li>
                     <Link
-                      to="/privacy-policy"
+                      // to="/privacy-policy"
+                      to="#"
                       className="hover:text-white transition-colors"
                     >
                       PRIVACY POLICY
@@ -249,10 +252,10 @@ export const HomeFooter: React.FC = () => {
           </div>
 
           {/* KARTU 3: INSTITUTIONAL & MEDIA PARTNERS */}
-          <div className="md:col-span-6 lg:col-span-3 rounded-[28px] p-7 sm:p-9 flex flex-col justify-between backdrop-blur-md">
+          <div className="md:col-span-6 lg:col-span-3 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between backdrop-blur-md">
             <div className="flex flex-col">
               {/* Header Label */}
-              <div className="mb-4">
+              <div className="mb-1">
                 <span className="text-[12px] font-sans font-bold uppercase tracking-[0.14em] text-gallery-red">
                   COLLABORATION PARTNERS
                 </span>
@@ -270,6 +273,10 @@ export const HomeFooter: React.FC = () => {
             max-w-[58%]
             w-auto
             object-contain
+            bg-white
+            px-4
+            py-2
+            rounded-full
           "
                   />
                 </div>
@@ -279,14 +286,18 @@ export const HomeFooter: React.FC = () => {
                   {/* BINUS */}
                   <div className="h-16 sm:h-[68px] flex items-center justify-center pr-3">
                     <img
-                      src="/assets/BINUS University Logo - White - 3427x2048 - zonalogo.com.png"
+                      src="/assets/BINUS University Logo - Black - 3427x2048 - zonalogo.com.png"
                       alt="BINUS University"
                       className="
-              max-h-9 sm:max-h-10
-              max-w-[82%]
+              max-h-10 sm:max-h-11
+              max-w-[90%]
               w-auto
               object-contain
               opacity-90
+              bg-white
+            px-3
+            py-1
+            rounded-full
             "
                     />
                   </div>
@@ -297,11 +308,14 @@ export const HomeFooter: React.FC = () => {
                       src="/assets/LOGOMMI.webp"
                       alt="Museum Musik Indonesia"
                       className="
-              max-h-11 sm:max-h-12
-              max-w-[88%]
+              max-h-10 sm:max-h-11
+              max-w-[90%]
               w-auto
               object-contain
               opacity-90
+              bg-white
+              px-3
+              py-[-2]
               rounded-full
             "
                     />

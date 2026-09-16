@@ -30,7 +30,7 @@ const STEPS_CONFIG: CoachmarkStep[] = [
     badge: "01 • SHOWCASE GATEWAY",
     title: "START YOUR EXHIBITION JOURNEY",
     description:
-      "Klik piringan hitam untuk membuka etalase arsip fisik piringan hitam dan rilisan legenda musik Malang.",
+      "Klik piringan hitam untuk membuka etalase arsip fisik piringan hitam dan rilisan legenda musik Malang Raya.",
     tooltipPosition: "right",
   },
   {
@@ -39,7 +39,7 @@ const STEPS_CONFIG: CoachmarkStep[] = [
     badge: "02 • OPERATIONAL GUIDE",
     title: "STAFF PLAYBOOK GUIDE",
     description:
-      "Panduan operasional staf pameran untuk aktivasi Mode Layar Penuh (Fullscreen), dan Dukungan Teknikal.",
+      "Panduan operasional staf museum untuk aktivasi Mode Layar Penuh (Fullscreen), dan Dukungan Teknikal.",
     tooltipPosition: "right",
   },
   {
@@ -48,7 +48,7 @@ const STEPS_CONFIG: CoachmarkStep[] = [
     badge: "03 • SYSTEM SETTINGS",
     title: "SYSTEM SETTINGS",
     description:
-      "Akses menu pengaturan sistem pameran dan aktifkan Mode Layar Penuh (Fullscreen) untuk pengalaman visual yang imersif.",
+      "Akses menu pengaturan sistem museum dan aktifkan Mode Layar Penuh (Fullscreen) untuk pengalaman visual yang imersif.",
     tooltipPosition: "right",
   },
 ];

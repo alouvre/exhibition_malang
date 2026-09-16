@@ -519,6 +519,15 @@ const styles = StyleSheet.create({
     interactive: "bg-[#F6F4EE] cursor-pointer",
     display: DESIGN_TOKENS.utility.flexCenter,
   },
+
+  floatingGuides: {
+    container:
+      "absolute top-20 left-5 w-12 h-12 z-30 animate-fade-in-up flex flex-col gap-2",
+    techBtn:
+      "w-12 h-12 rounded-xl bg-white border border-black/10 shadow-sm flex items-center justify-center text-stone-600 hover:bg-black/5 hover:text-stone-900 transition-all cursor-pointer",
+    legalBtn:
+      "w-12 h-12 rounded-xl bg-white border border-black/10 shadow-sm flex items-center justify-center text-stone-600 hover:bg-black/5 hover:text-stone-900 transition-all cursor-pointer",
+  },
 });
 
 export default Sidebar;

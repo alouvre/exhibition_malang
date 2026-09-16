@@ -222,7 +222,7 @@ export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="font-mono relative z-10 flex items-center gap-1.5">
+              <span className="font-sans relative z-10 flex items-center gap-1.5">
                 {link.label}
               </span>
             </button>

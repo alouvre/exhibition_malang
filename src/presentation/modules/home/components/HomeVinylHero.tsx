@@ -255,7 +255,7 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
 
                 <span className="w-8 h-px bg-stone-900/20" />
 
-                <span className="font-mono text-[9px] tracking-[0.2em] text-[#CD001F] font-semibold">
+                <span className="font-mono text-[9px] tracking-[0.2em] text-gallery-red font-semibold">
                   IN COLLABORATION WITH
                 </span>
               </div>
@@ -267,15 +267,15 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
                 </span> */}
 
                 <div className="flex flex-col items-end leading-tight">
-                  <span className="font-sans text-[15px] lg:text-[17px] font-bold tracking-[0.08em] text-stone-900 uppercase">
+                  <span className="font-sans text-[15px] lg:text-[17px] font-bold tracking-[0.2em] text-stone-900 uppercase">
                     KEMENDIKTISAINTEK RI
                   </span>
 
-                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.06em] text-stone-500 uppercase">
+                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.2em] text-stone-500 uppercase">
                     Universitas BINA NUSANTARA
                   </span>
 
-                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.06em] text-stone-500 uppercase">
+                  <span className="font-sans text-[12px] lg:text-[13px] font-medium tracking-[0.2em] text-stone-500 uppercase">
                     Museum Musik Indonesia
                   </span>
                 </div>
@@ -283,13 +283,13 @@ export const HomeVinylHero: React.FC<VinylHeroProps> = ({
 
               {/* Metadata */}
               <div className="mt-5 pt-3 border-t border-stone-900/10 flex items-center gap-3">
-                <span className="font-sans font-bold text-[10px] tracking-widest text-stone-800 uppercase">
+                <span className="font-sans font-bold text-[10px] tracking-[0.3em] text-stone-800 uppercase">
                   PROGRAM INOVASI SENI NUSANTARA
                 </span>
 
                 <span className="w-1 h-1 rounded-full bg-[#CD001F]" />
 
-                <span className="font-sans font-bold text-[10px] tracking-widest text-stone-600 uppercase">
+                <span className="font-sans font-bold text-[10px] tracking-[0.3em] text-stone-600 uppercase">
                   2026
                 </span>
               </div>
