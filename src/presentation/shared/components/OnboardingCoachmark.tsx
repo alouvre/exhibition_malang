@@ -47,8 +47,7 @@ const STEPS_CONFIG: CoachmarkStep[] = [
     targetId: "tour-step-3-settings",
     badge: "03 • SYSTEM SETTINGS",
     title: "SYSTEM SETTINGS",
-    description:
-      "Akses menu pengaturan sistem museum dan aktifkan Mode Layar Penuh (Fullscreen) untuk pengalaman visual yang imersif.",
+    description: "Akses menu pengaturan sistem museum dan operasional lainnya.",
     tooltipPosition: "right",
   },
 ];

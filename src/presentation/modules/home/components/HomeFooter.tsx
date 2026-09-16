@@ -129,13 +129,13 @@ export const HomeFooter: React.FC = () => {
                 {/* LOCATION INFO */}
                 <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
                   <div>
-                    <h3 className="text-[9px] sm:text-base font-sans font-medium tracking-tight text-white">
+                    {/* <h3 className="text-[9px] sm:text-base font-sans font-medium tracking-tight text-white">
                       Art Museum
-                    </h3>
+                    </h3> */}
 
-                    <p className="text-sm text-white/50 mt-0.5">
+                    {/* <p className="text-sm text-white/50 mt-0.5">
                       10.00 AM – 4.00 PM
-                    </p>
+                    </p> */}
                   </div>
 
                   {/* OPEN MAP */}
@@ -255,71 +255,35 @@ export const HomeFooter: React.FC = () => {
           <div className="md:col-span-6 lg:col-span-3 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between backdrop-blur-md">
             <div className="flex flex-col">
               {/* Header Label */}
-              <div className="mb-1">
+              <div className="mb-4">
                 <span className="text-[12px] font-sans font-bold uppercase tracking-[0.14em] text-gallery-red">
                   COLLABORATION PARTNERS
                 </span>
               </div>
 
-              {/* Partners */}
-              <div className="flex flex-col">
-                {/* PRIMARY INSTITUTIONAL PARTNER */}
-                <div className="h-14 sm:h-16 flex items-center justify-center">
+              {/* KARTU 3: INSTITUTIONAL & MEDIA PARTNERS */}
+              <div className="flex flex-col items-start gap-7">
+                {/* 1. KEMENDIKTISAINTEK (Gunakan versi Horizontal agar rapi) */}
+                <img
+                  src="/assets/Primary_Horizontal-Logo.png"
+                  alt="Kemendiktisaintek RI"
+                  className="h-10 sm:h-11 w-auto object-contain opacity-90 drop-shadow-md hover:drop-shadow-lg hover:opacity-100 hover:translate-x-1 transition-all duration-300"
+                />
+
+                {/* 2. BINUS UNIVERSITY */}
+                <img
+                  src="/assets/BINUS University Logo - White - 3427x2048 - zonalogo.com.png"
+                  alt="BINUS University"
+                  className="-pl-20 h-8 sm:h-16 w-auto object-contain opacity-75 drop-shadow-md hover:drop-shadow-lg hover:opacity-100 hover:translate-x-1 transition-all duration-300"
+                />
+
+                {/* 3. MUSEUM MUSIK INDONESIA */}
+                <div className="-pl-20 h-8 sm:h-16 w-auto opacity-75 hover:opacity-100 hover:translate-x-1 transition-all duration-300">
                   <img
-                    src="/assets/Primary_Horizontal-Logo.png"
-                    alt="Kemendiktisaintek RI"
-                    className="
-            max-h-10 sm:max-h-11
-            max-w-[58%]
-            w-auto
-            object-contain
-            bg-white
-            px-4
-            py-2
-            rounded-full
-          "
+                    src="/assets/LogoMMI-transparant.png"
+                    alt="Museum Musik Indonesia"
+                    className="h-7 sm:h-16 w-auto object-contain drop-shadow-md hover:drop-shadow-lg transition-all duration-300"
                   />
-                </div>
-
-                {/* COLLABORATION PARTNERS */}
-                <div className="grid grid-cols-2">
-                  {/* BINUS */}
-                  <div className="h-16 sm:h-[68px] flex items-center justify-center pr-3">
-                    <img
-                      src="/assets/BINUS University Logo - Black - 3427x2048 - zonalogo.com.png"
-                      alt="BINUS University"
-                      className="
-              max-h-10 sm:max-h-11
-              max-w-[90%]
-              w-auto
-              object-contain
-              opacity-90
-              bg-white
-            px-3
-            py-1
-            rounded-full
-            "
-                    />
-                  </div>
-
-                  {/* MUSEUM MUSIK INDONESIA */}
-                  <div className="h-16 sm:h-[68px] flex items-center justify-center pl-3">
-                    <img
-                      src="/assets/LOGOMMI.webp"
-                      alt="Museum Musik Indonesia"
-                      className="
-              max-h-10 sm:max-h-11
-              max-w-[90%]
-              w-auto
-              object-contain
-              opacity-90
-              bg-white
-              px-3
-              py-[-2]
-              rounded-full
-            "
-                    />
-                  </div>
                 </div>
               </div>
             </div>
