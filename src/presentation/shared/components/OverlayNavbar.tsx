@@ -43,7 +43,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
  */
 export const OverlayNavbar: React.FC<OverlayNavbarProps> = ({
   visible,
-  brandText = "MMI",
+  brandText = "HOME",
   onLogoClick,
   navLinks = DEFAULT_NAV_LINKS,
   actionLabel,
