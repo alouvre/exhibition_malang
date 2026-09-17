@@ -107,7 +107,7 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
             initial="initial"
             animate="animate"
             exit="exit"
-            className="absolute right-0 top-full mt-3 z-50 w-80 sm:w-96 max-w-[calc(100vw-2rem)] rounded-3xl bg-white/95 backdrop-blur-xl border border-black/10 shadow-2xl shadow-black/10 p-5 sm:p-6 flex flex-col gap-5 text-slate-900"
+            className="absolute right-0 top-full mt-3 z-50 w-80 sm:w-96 max-w-[calc(100vw-2rem)] rounded-2xl bg-white/95 backdrop-blur-xl border border-black/10 shadow-2xl shadow-black/10 p-5 sm:p-6 flex flex-col gap-5 text-slate-900"
           >
             {/* Quick Search inside Pop-over */}
             <div className="relative flex items-center bg-slate-100/80 rounded-xl px-3.5 py-2.5 border border-black/5 focus-within:border-black/20 focus-within:bg-white focus-within:shadow-sm transition-all">
@@ -136,7 +136,9 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
 
             {/* SORT BY YEAR SECTION */}
             <div className="flex flex-col gap-2">
-              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
+              <span
+                className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}
+              >
                 SORT BY YEAR
               </span>
               <div className="flex flex-col gap-1">
@@ -157,9 +159,7 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
                       <Icon
                         name={isSelected ? "check" : "circle"}
                         className={`w-4 h-4 ${
-                          isSelected
-                            ? "text-[#CD001F]"
-                            : "text-slate-300"
+                          isSelected ? "text-[#CD001F]" : "text-slate-300"
                         }`}
                       />
                     </button>
@@ -170,7 +170,9 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
 
             {/* SORT BY ALPHABET SECTION */}
             <div className="flex flex-col gap-2">
-              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
+              <span
+                className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}
+              >
                 SORT BY ALPHABET
               </span>
               <div className="flex flex-col gap-1">
@@ -191,9 +193,7 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
                       <Icon
                         name={isSelected ? "check" : "circle"}
                         className={`w-4 h-4 ${
-                          isSelected
-                            ? "text-[#CD001F]"
-                            : "text-slate-300"
+                          isSelected ? "text-[#CD001F]" : "text-slate-300"
                         }`}
                       />
                     </button>
@@ -204,7 +204,9 @@ export const CatalogFilterDeck: React.FC<CatalogFilterDeckProps> = ({
 
             {/* FILTER BY CATEGORY (BADGE GRID) */}
             <div className="flex flex-col gap-2">
-              <span className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}>
+              <span
+                className={`text-[10px] font-bold tracking-widest text-[#CD001F] uppercase ${badgeTagClass}`}
+              >
                 FILTER BY CATEGORY
               </span>
               <div className="flex flex-wrap gap-2">

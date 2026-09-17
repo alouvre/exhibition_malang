@@ -11,6 +11,8 @@ export type FontFamily =
   | "helvetica"
   | "helveticaNeue"
   | "bodoni"
+  | "inter"
+  | "roboto"
   | "default"
   | (string & {});
 

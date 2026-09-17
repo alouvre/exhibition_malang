@@ -7,15 +7,12 @@ import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { Icon } from "@/infrastructure/services/IconService";
 import { useFontRole } from "@/infrastructure/services/FontService";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
-import { COLORS, SPACING, DESIGN_TOKENS } from "@/presentation/styles/theme";
+import { COLORS, DESIGN_TOKENS } from "@/presentation/styles/theme";
 import { useDocumentTitle } from "@/presentation/hooks/useDocumentTitle";
 import { useArtistCatalogFilter } from "../hooks/useArtistCatalogFilter";
 import { CatalogFilterDeck } from "../components/CatalogFilterDeck";
 import { ArtistCatalogGrid } from "../components/ArtistCatalogGrid";
 
-/**
- * Helper utility to resolve a URL-friendly slug for a musician.
- */
 const getMusicianSlug = (musician?: Musician): string => {
   if (!musician) return "";
   return (
@@ -25,22 +22,13 @@ const getMusicianSlug = (musician?: Musician): string => {
   );
 };
 
-/**
- * ArtistCatalogView Component
- *
- * Page orchestrator for full catalog registry. Bound to useArtistCatalogFilter hook,
- * location.state parameters, and decomposed CatalogFilterDeck / ArtistCatalogGrid components.
- */
 export const ArtistCatalogView: React.FC = () => {
   useDocumentTitle("Katalog Arsip Musisi - Sound of Malang");
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state as { showInfoModal?: boolean } | null;
 
-  // InfoModal Auto-Trigger State
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
-
-  // Interaction Deck State
   const [isFilterDeckOpen, setIsFilterDeckOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -49,7 +37,6 @@ export const ArtistCatalogView: React.FC = () => {
     }
   }, [locationState]);
 
-  // Custom Filter & Sorting State Hook with Debounced Search
   const {
     sortType,
     setSortType,
@@ -70,7 +57,6 @@ export const ArtistCatalogView: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // Click outside listener for Pop-over dismiss
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -91,7 +77,6 @@ export const ArtistCatalogView: React.FC = () => {
     };
   }, [isFilterDeckOpen]);
 
-  // Keyboard Escape listener for Filter Deck dismiss (WCAG 2.1 Compliance)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isFilterDeckOpen) {
@@ -121,13 +106,13 @@ export const ArtistCatalogView: React.FC = () => {
 
   return (
     <ErrorBoundary onReset={handleResetFilters}>
+      {/* ROOT CONTAINER: Menangani edge-to-edge scroll tanpa padding */}
       <div className={styles.container}>
-        {/* MAIN EDITORIAL & REGISTRY CONTENT SECTION */}
-        <section className={styles.contentSection.layout}>
-          {/* EDITORIAL CONTROL DECK HEADER */}
-          <header className={styles.contentSection.header}>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 w-full">
-              {/* Inline Return to Showcase Capsule Button */}
+        {/* HEADER WRAPPER: Full width dengan background sticky */}
+        <div className={styles.headerWrapper.layout}>
+          {/* HEADER INNER: Batasan lebar (max-w) agar isi tetap sejajar dengan grid */}
+          <header className={styles.contentBoundary.layout}>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 w-full py-4">
               <button
                 type="button"
                 onClick={handleNavigateBackToShowcase}
@@ -143,7 +128,6 @@ export const ArtistCatalogView: React.FC = () => {
                 </span>
               </button>
 
-              {/* Decomposed CatalogFilterDeck Component */}
               <CatalogFilterDeck
                 isFilterDeckOpen={isFilterDeckOpen}
                 triggerRef={triggerRef}
@@ -160,16 +144,20 @@ export const ArtistCatalogView: React.FC = () => {
               />
             </div>
           </header>
+        </div>
 
-          {/* Decomposed ArtistCatalogGrid Component */}
-          <ArtistCatalogGrid
-            filteredMusicians={filteredMusicians}
-            onSelectMusician={handleSelectMusician}
-            onResetFilters={handleResetFilters}
-          />
+        {/* MAIN GRID SECTION */}
+        <section className="flex-1 w-full">
+          {/* GRID INNER: Batasan lebar diaplikasikan di dalam, bukan di pembungkus scroll */}
+          <div className={`${styles.contentBoundary.layout} pt-6 pb-20`}>
+            <ArtistCatalogGrid
+              filteredMusicians={filteredMusicians}
+              onSelectMusician={handleSelectMusician}
+              onResetFilters={handleResetFilters}
+            />
+          </div>
         </section>
 
-        {/* DYNAMIC REUSABLE INFOMODAL */}
         <InfoModal
           isOpen={isInfoModalOpen}
           onClose={() => setIsInfoModalOpen(false)}
@@ -185,19 +173,23 @@ export const ArtistCatalogView: React.FC = () => {
   );
 };
 
+// STRUKTUR STYLES YANG DIPERBARUI
 const styles = StyleSheet.create({
   container: {
+    // Diubah menjadi h-screen dan overflow-y-auto agar scrollbar berada di paling ujung layar
     layout:
-      "flex flex-col flex-1 h-full w-full overflow-hidden select-none animate-fade-in " +
+      "flex flex-col h-screen w-full overflow-y-auto overflow-x-hidden select-none animate-fade-in " +
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",
-    padding: SPACING.padding.sm,
   },
-  contentSection: {
+  headerWrapper: {
     layout:
-      "flex flex-col flex-1 w-full max-w-7xl mx-auto px-6 md:px-16 pt-4 pb-0 overflow-visible min-h-0 relative",
-    header: "flex-shrink-0 w-full pb-4 border-b border-black/10 relative z-40",
+      "w-full flex-shrink-0 sticky top-0 z-40 border-b border-black/10 bg-[#FBFBF9]/95 backdrop-blur-md",
+  },
+  contentBoundary: {
+    // Memindahkan px-6 dan max-w ke dalam elemen inner
+    layout: "w-full max-w-7xl mx-auto px-6 md:px-12",
   },
 });
 

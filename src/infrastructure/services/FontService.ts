@@ -17,6 +17,8 @@ export const INITIAL_FONT_UTILITIES: Record<string, string> = {
   helvetica: "font-helvetica",
   helveticaNeue: "font-helvetica",
   bodoni: "font-display",
+  inter: "font-inter",
+  roboto: "font-roboto",
   default: "font-sans",
 };
 

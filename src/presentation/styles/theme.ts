@@ -80,6 +80,8 @@ export const TYPOGRAPHY = {
       "'Helvetica', 'Switzer', 'Arimo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial",
     helveticaNeue:
       "'Helvetica Neue', 'Helvetica', 'Switzer', 'Arimo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial",
+    inter: "'Inter', sans-serif",
+    roboto: "'Roboto', sans-serif",
   },
   get fontClasses() {
     return {
@@ -92,6 +94,8 @@ export const TYPOGRAPHY = {
       syne: fontService.getFontFamily("syne"),
       helvetica: fontService.getFontFamily("helvetica"),
       helveticaNeue: fontService.getFontFamily("helveticaNeue"),
+      inter: fontService.getFontFamily("inter"),
+      roboto: fontService.getFontFamily("roboto"),
     };
   },
   get roles() {
