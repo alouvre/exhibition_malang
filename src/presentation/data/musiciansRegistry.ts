@@ -228,9 +228,9 @@ export const musiciansRegistry: MusicianData[] = [
         category: "award",
       },
       {
-        year: "2022",
+        year: "2021",
         event:
-          "Merayakan 50 tahun berkarya di kancah musik rock dengan peluncuran buku biografi.",
+          "Merayakan 53 tahun berkarya di kancah musik rock dengan peluncuran film dokumenter.",
         category: "legacy",
       },
     ],
