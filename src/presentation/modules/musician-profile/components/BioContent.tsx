@@ -48,7 +48,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
       {musician.headlineSummary && (
         <div className="pl-0 sm:pl-6 lg:pl-16 mr-0">
           <p
-            className={`text-sm sm:text-base md:text-lg text-slate-700 leading-snug tracking-tight italic pl-4 sm:pl-10 -mt-2 border-l-2 border-[#7d7d7d] py-0.5 ${editorialNeueClass}`}
+            className={`text-sm sm:text-base md:text-xl text-slate-800 leading-snug tracking-tight italic pl-4 sm:pl-10 -mt-2 border-l-2 border-[#7d7d7d] py-0.5 ${editorialNeueClass}`}
           >
             "{musician.headlineSummary}"
           </p>
@@ -61,27 +61,32 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
       </p>
 
       {/* Musical Style, Instruments & Influences */}
-      {musician.musicalProfile && (
-        <div className="ml-0 sm:ml-6 lg:ml-16 flex flex-col gap-4 p-4 sm:p-6 bg-slate-50 border border-slate-200/80 rounded-2xl shadow-sm">
-          <h4
-            className={`text-xs font-bold tracking-widest text-slate-900 uppercase flex items-center gap-2 ${badgeTagClass}`}
-          >
-            <span className="w-2 h-2 rounded-full bg-[#FF1F00]" />
-            MUSICAL PROFILE & INSTRUMENTATION
-          </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+      {/* {musician.musicalProfile && (
+        <div className="ml-0 sm:ml-6 lg:ml-16 pt-5 sm:pt-6 border-t border-slate-200">
+          Section Header
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <h4
+              className={`text-[11px] font-bold tracking-[0.16em] text-slate-900 uppercase ${badgeTagClass}`}
+            >
+              Musical Profile
+            </h4>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+            Primary Instruments
             {musician.musicalProfile.primaryInstruments.length > 0 && (
-              <div className="flex flex-col gap-1.5">
+              <div>
                 <span
-                  className={`text-[10px] font-bold tracking-wider text-slate-400 uppercase ${badgeTagClass}`}
+                  className={`block mb-2.5 text-[10px] font-semibold tracking-[0.12em] text-slate-400 uppercase ${badgeTagClass}`}
                 >
                   Primary Instruments
                 </span>
-                <div className="flex flex-wrap gap-1.5">
+
+                <div className="flex flex-wrap gap-x-2 gap-y-2">
                   {musician.musicalProfile.primaryInstruments.map((inst, i) => (
                     <span
                       key={i}
-                      className={`text-xs font-semibold px-2.5 py-1 bg-white text-slate-800 border border-slate-200 rounded-lg shadow-2xs ${bodyTextClass}`}
+                      className={`inline-flex items-center px-3 py-1.5 text-xs font-medium text-slate-800 bg-white border border-slate-200 rounded-full ${bodyTextClass}`}
                     >
                       {inst}
                     </span>
@@ -89,19 +94,22 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
                 </div>
               </div>
             )}
+
+            Musical Influences
             {musician.musicalProfile.influences &&
               musician.musicalProfile.influences.length > 0 && (
-                <div className="flex flex-col gap-1.5">
+                <div>
                   <span
-                    className={`text-[10px] font-bold tracking-wider text-slate-400 uppercase ${badgeTagClass}`}
+                    className={`block mb-2.5 text-[10px] font-semibold tracking-[0.12em] text-slate-400 uppercase ${badgeTagClass}`}
                   >
                     Musical Influences
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+
+                  <div className="flex flex-wrap gap-x-2 gap-y-2">
                     {musician.musicalProfile.influences.map((inf, i) => (
                       <span
                         key={i}
-                        className={`text-xs font-medium px-2.5 py-1 bg-slate-200/70 text-slate-700 rounded-lg ${bodyTextClass}`}
+                        className={`inline-flex items-center px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 rounded-full ${bodyTextClass}`}
                       >
                         {inf}
                       </span>
@@ -111,7 +119,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
               )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Vertical History Timeline */}
       <div className={styles.heroSection.timelineBox}>
@@ -122,7 +130,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
         </h4>
         <div className="flex flex-col gap-4 py-3 border-l-2 border-slate-200 pl-4 pr-2 sm:pl-4 mt-3">
           {musician.historyTimeline.map((item, idx) => (
-            <div key={idx} className="flex flex-col gap-1 relative px-4 group">
+            <div key={idx} className="flex flex-col gap-4 relative px-4 group">
               <span className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-[#FF1F00] ring-4 ring-white" />
               <div className="flex items-center gap-2">
                 <span
@@ -132,14 +140,14 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
                 </span>
                 {item.category && (
                   <span
-                    className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 bg-slate-100 text-slate-600 rounded border border-slate-200 ${badgeTagClass}`}
+                    className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 bg-white text-slate-900 rounded border border-slate-200 ${badgeTagClass}`}
                   >
                     {item.category}
                   </span>
                 )}
               </div>
               <span
-                className={`text-xs sm:text-sm font-medium text-slate-700 leading-relaxed ${bodyTextClass}`}
+                className={`text-xs sm:text-sm md:text-md font-medium text-slate-700 leading-relaxed font-normal tracking-wide normal-case ${bodyTextClass}`}
               >
                 {item.event}
               </span>
@@ -149,7 +157,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
       </div>
 
       {/* Signature Quote / Editorial Motto Blockquote */}
-      {musician.signatureQuote && (
+      {/* {musician.signatureQuote && (
         <div className="ml-0 sm:ml-6 lg:ml-16 my-2 p-5 sm:p-8 bg-slate-950 text-white rounded-2xl relative overflow-hidden shadow-xl border border-slate-800">
           <div
             className={`absolute top-2 right-4 text-7xl text-white/10 select-none pointer-events-none ${editorialNeueClass}`}
@@ -176,7 +184,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
             )}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     title:
       "text-slate-950 font-black not-italic leading-none tracking-tight uppercase pl-0 sm:pl-6 lg:pl-16 break-words",
     bioText:
-      "text-sm sm:text-base text-slate-700 leading-relaxed font-normal tracking-normal normal-case pl-0 sm:pl-6 lg:pl-16",
+      "text-sm sm:text-base md:text-md text-slate-700 leading-relaxed font-normal tracking-wide normal-case pl-0 sm:pl-6 lg:pl-16",
     timelineBox: "flex flex-col gap-3 pl-0 sm:pl-6 lg:pl-16",
     timelineHeading:
       "text-[10px] sm:text-sm font-bold tracking-widest text-slate-800 uppercase",

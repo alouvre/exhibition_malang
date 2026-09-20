@@ -21,6 +21,7 @@ import {
 } from "@/presentation/data/musiciansRegistry";
 import { BioContent } from "../components/BioContent";
 import { ArchivalLightboxModal } from "../components/ArchivalLightboxModal";
+import { ExhibitionCursor } from "../components/ExhibitionCursor";
 import { useFontRole } from "@/infrastructure/services/FontService";
 
 export type {
@@ -77,7 +78,9 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
     (item) => item.slug === targetSlug || item.id === targetSlug,
   );
 
-  useDocumentTitle(musician ? `${musician.name} - Eksibisi Digital` : "Musisi Tidak Ditemukan");
+  useDocumentTitle(
+    musician ? `${musician.name} - Eksibisi Digital` : "Musisi Tidak Ditemukan",
+  );
 
   if (!musician) {
     return <NotFoundView />;
@@ -154,6 +157,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
   return (
     <div className={styles.container}>
+      <ExhibitionCursor />
       {/* 1. HERO SECTION: Split Screen View */}
       <section id="hero-section" className={styles.heroSection.layout}>
         {/* Integrated Static Non-Sticky Header */}
@@ -175,20 +179,6 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
           {/* Right Column: Giant Photo Canvas, Archive Badge & Exhibition Gallery */}
           <div className="lg:col-span-5 relative w-full">
             <div className="lg:sticky lg:top-28 space-y-6 transition-all duration-300">
-              {/* Genre & Active Era Badges */}
-              <div className="flex flex-wrap items-center gap-2">
-                {musician.genre && (
-                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/10 text-stone-900 border border-black/10 ${badgeTagClass}`}>
-                    {musician.genre}
-                  </span>
-                )}
-                {musician.year && (
-                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-[#FF1F00]/10 text-[#FF1F00] border border-[#FF1F00]/20 ${badgeTagClass}`}>
-                    ERA: {musician.year}
-                  </span>
-                )}
-              </div>
-
               {/* Giant Photo Canvas & Archive Badge */}
               <div
                 onClick={() =>
@@ -203,48 +193,72 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                   className="w-full aspect-[3/4] object-cover filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70 group-hover:opacity-40 transition-opacity" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white z-10">
-                  <span className={`text-[10px] px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-md font-bold tracking-wider ${badgeTagClass}`}>
-                    ARCHIVE #{musician.id.toUpperCase()}
-                  </span>
+                <div className="absolute bottom-6 left-4 right-4 flex items-start justify-between z-10">
+                  <div className="flex flex-col items-start gap-2">
+                    {musician.genre && (
+                      <span
+                        className={`px-3 py-1 text-[11px] font-bold tracking-widest uppercase bg-white/90 backdrop-blur-md text-stone-900 border border-black/10 shadow-sm ${badgeTagClass}`}
+                      >
+                        {musician.genre}
+                      </span>
+                    )}
+
+                    {musician.year && (
+                      <span
+                        className={`px-3 py-1 text-[11px] font-bold tracking-widest uppercase bg-white/90 backdrop-blur-md text-stone-900 border border-[#FF1F00]/20 shadow-sm ${badgeTagClass}`}
+                      >
+                        ERA: {musician.year}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Exhibition Gallery Grid with Scroll Reveal */}
-              {musician.exhibitionImages &&
-                musician.exhibitionImages.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="pt-4 border-t border-black/10 flex flex-col gap-3"
+              {/* Notable Achievements & Awards */}
+              {musician.awards && musician.awards.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                  className="pt-8 border-t border-black/10"
+                >
+                  <h4
+                    className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-4 ${sectionHeaderClass}`}
                   >
-                    <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 flex items-center justify-between ${sectionHeaderClass}`}>
-                      <span>
-                        EXHIBITION ARCHIVES ({musician.exhibitionImages.length})
-                      </span>
-                    </h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                      {musician.exhibitionImages.map((imgUrl, idx) => (
+                    ACHIEVEMENTS & AWARDS
+                  </h4>
+                  <div className="space-y-2.5">
+                    {[...musician.awards]
+                      .sort((a, b) => {
+                        const yearA = parseInt(a.year, 10) || 0;
+                        const yearB = parseInt(b.year, 10) || 0;
+                        return yearA - yearB;
+                      })
+                      .map((award, idx) => (
                         <div
                           key={idx}
-                          onClick={() =>
-                            setSelectedLightboxImage(resolveAssetPath(imgUrl))
-                          }
-                          className="relative aspect-square rounded-xl overflow-hidden border border-black/10 bg-black/5 group cursor-pointer shadow-xs hover:shadow-md transition-all"
+                          className="p-3 rounded-xl bg-white/80 border border-black/10 flex items-start gap-3 shadow-2xs"
                         >
-                          <img
-                            src={resolveAssetPath(imgUrl)}
-                            alt={`Exhibition archive ${idx + 1}`}
-                            onError={handleImageError}
-                            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
-                          />
+                          <div
+                            className={`px-2 py-1 rounded bg-black/80 text-[10px] font-bold text-stone-100 shrink-0 ${badgeTagClass}`}
+                          >
+                            {award.year}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h5 className="text-xs sm:text-sm font-bold text-stone-900 truncate">
+                              {award.title}
+                            </h5>
+                            <p className="text-[11px] sm:text-[13px] text-stone-600 truncate">
+                              {award.organization}{" "}
+                              {award.category ? `• ${award.category}` : ""}
+                            </p>
+                          </div>
                         </div>
                       ))}
-                    </div>
-                  </motion.div>
-                )}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Key Collaborations */}
               {musician.collaborations &&
@@ -254,9 +268,11 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4 }}
-                    className="pt-5 border-t border-black/10"
+                    className="pt-8 border-t border-black/10"
                   >
-                    <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 flex items-center justify-between ${sectionHeaderClass}`}>
+                    <h4
+                      className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-4 flex items-center justify-between ${sectionHeaderClass}`}
+                    >
                       <span>KEY COLLABORATIONS</span>
                       <span className="text-[10px] font-normal text-stone-400 normal-case hidden sm:inline">
                         (tap to preview)
@@ -282,16 +298,16 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                               onClick={() =>
                                 setActiveCollabIndex(isHovered ? null : idx)
                               }
-                              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer select-none flex items-center gap-1.5 border ${
+                              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer select-none flex items-center gap-1.5 border ${
                                 isHovered
-                                  ? "bg-slate-950 text-white border-slate-900 shadow-md scale-105"
-                                  : "bg-black/5 hover:bg-black/10 text-stone-800 border-black/10 hover:border-black/20 backdrop-blur-sm"
+                                  ? "bg-slate-100 text-white border-slate-900 shadow-md scale-105"
+                                  : "bg-white/80 hover:bg-black/10 text-stone-800 border-black/10 hover:border-black/20 backdrop-blur-sm"
                               }`}
                             >
                               <span>{item.name}</span>
-                              {hasPreview && (
+                              {/* {hasPreview && (
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF1F00] shadow-[0_0_6px_rgba(255,31,0,0.8)]" />
-                              )}
+                              )} */}
                             </button>
 
                             {/* Interactive Floating Tooltip Badge */}
@@ -302,27 +318,38 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                                   animate={{ opacity: 1, y: 0, scale: 1 }}
                                   exit={{ opacity: 0, y: 4, scale: 0.95 }}
                                   transition={{
-                                    duration: 0.2,
+                                    duration: 0.15, // Dipercepat sedikit agar terasa lebih responsif saat hover
                                     ease: "easeOut",
                                   }}
-                                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-40 w-max max-w-[calc(100vw-48px)] sm:max-w-[240px] pointer-events-none"
+                                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-40 w-max max-w-[calc(100vw-48px)] sm:max-w-[260px] pointer-events-none"
                                 >
-                                  <div className="bg-slate-950/95 backdrop-blur-xl text-white border border-white/20 shadow-2xl rounded-xl p-3 flex flex-col gap-1 text-left relative">
-                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-slate-950/95 border-b border-r border-white/20 rotate-45" />
+                                  {/* 
+        Container utama diberi 'relative' dan panah diberi '-z-10' 
+        agar panah menyatu mulus di belakang kotak tanpa garis yang memotong 
+      */}
+                                  <div className="relative bg-slate-950/95 backdrop-blur-xl text-white border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.24)] rounded-xl px-3.5 py-3 flex flex-col gap-1.5 text-left">
+                                    {/* Segitiga Panah Tooltip (Tail) */}
+                                    <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-950/95 border-b border-r border-white/10 rotate-45 -z-10" />
 
-                                    <div className="flex items-center justify-between gap-2">
-                                      <span className={`text-[9px] font-bold tracking-widest text-[#FF1F00] uppercase ${badgeTagClass}`}>
+                                    <div className="flex items-center justify-between gap-4">
+                                      <span
+                                        className={`text-[9px] font-bold tracking-widest text-[#FF1F00] uppercase ${badgeTagClass}`}
+                                      >
                                         COLLABORATION
                                       </span>
                                       {item.role && (
-                                        <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/15 text-slate-200 ${badgeTagClass}`}>
+                                        <span
+                                          className={`text-[9px] font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/5 text-white/70 ${badgeTagClass}`}
+                                        >
                                           {item.role}
                                         </span>
                                       )}
                                     </div>
 
                                     {item.projectTitle && (
-                                      <p className={`text-xs font-bold text-slate-100 leading-snug ${bodyTextClass}`}>
+                                      <p
+                                        className={`text-xs font-semibold text-slate-100 leading-relaxed ${bodyTextClass}`}
+                                      >
                                         "{item.projectTitle}"
                                       </p>
                                     )}
@@ -337,47 +364,43 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                   </motion.div>
                 )}
 
-              {/* Notable Achievements & Awards */}
-              {musician.awards && musician.awards.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4 }}
-                  className="pt-5 border-t border-black/10"
-                >
-                  <h4 className={`text-xs font-bold tracking-widest uppercase text-stone-500 mb-3 ${sectionHeaderClass}`}>
-                    ACHIEVEMENTS & AWARDS
-                  </h4>
-                  <div className="space-y-2.5">
-                    {[...musician.awards]
-                      .sort((a, b) => {
-                        const yearA = parseInt(a.year, 10) || 0;
-                        const yearB = parseInt(b.year, 10) || 0;
-                        return yearA - yearB;
-                      })
-                      .map((award, idx) => (
+              {/* Exhibition Gallery Grid with Scroll Reveal */}
+              {/* {musician.exhibitionImages &&
+                musician.exhibitionImages.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="pt-8 border-t border-black/10 flex flex-col gap-3"
+                  >
+                    <h4
+                      className={`text-xs font-bold tracking-widest uppercase text-stone-500 flex items-center justify-between ${sectionHeaderClass}`}
+                    >
+                      <span>
+                        EXHIBITION ARCHIVES ({musician.exhibitionImages.length})
+                      </span>
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {musician.exhibitionImages.map((imgUrl, idx) => (
                         <div
                           key={idx}
-                          className="p-3 rounded-xl bg-black/5 border border-black/10 flex items-start gap-3 shadow-2xs"
+                          onClick={() =>
+                            setSelectedLightboxImage(resolveAssetPath(imgUrl))
+                          }
+                          className="relative aspect-square rounded-xl overflow-hidden border border-black/10 bg-black/5 group cursor-pointer shadow-xs hover:shadow-md transition-all"
                         >
-                          <div className={`px-2 py-1 rounded bg-black/10 text-[10px] font-bold text-stone-800 shrink-0 ${badgeTagClass}`}>
-                            {award.year}
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <h5 className="text-xs font-bold text-stone-900 truncate">
-                              {award.title}
-                            </h5>
-                            <p className="text-[11px] text-stone-600 truncate">
-                              {award.organization}{" "}
-                              {award.category ? `• ${award.category}` : ""}
-                            </p>
-                          </div>
+                          <img
+                            src={resolveAssetPath(imgUrl)}
+                            alt={`Exhibition archive ${idx + 1}`}
+                            onError={handleImageError}
+                            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                          />
                         </div>
                       ))}
-                  </div>
-                </motion.div>
-              )}
+                    </div>
+                  </motion.div>
+                )} */}
             </div>
           </div>
         </div>
@@ -385,6 +408,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 
       {/* Decomposed Interactive Archival Lightbox Modal */}
       <ArchivalLightboxModal
+        images={musician.exhibitionImages?.map(resolveAssetPath)}
         selectedImage={selectedLightboxImage}
         musicianName={musician.name}
         onClose={() => setSelectedLightboxImage(null)}
@@ -397,7 +421,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     layout:
-      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in pb-28 sm:pb-32 " +
+      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in pb-28 sm:pb-32 md:cursor-none md:[&_*]:cursor-none " +
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",
@@ -407,7 +431,7 @@ const styles = StyleSheet.create({
       "relative w-full max-w-full px-0 pt-0 pb-4 md:pb-8 overflow-visible flex flex-col justify-between h-auto " +
       COLORS.canvasBg,
     contentWrapper:
-      "relative w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 py-6 sm:py-10 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-start flex-1 h-auto",
+      "relative w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 py-6 sm:py-10 md:py-18 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-start flex-1 h-auto",
   },
 });
 

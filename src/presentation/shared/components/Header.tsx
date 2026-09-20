@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { safeInitializeIcons } from "@/presentation/utils/dom";
 import { StyleSheet } from "@/presentation/utils/stylesheet";
@@ -25,6 +25,8 @@ export interface HeaderProps {
   className?: string;
   /** Header color variant for light canvas or dark/transparent backgrounds */
   variant?: "light" | "dark" | "transparent";
+  /** Whether to auto-hide the header when idle and reveal on scroll or mouse interaction */
+  autoHideOnScroll?: boolean;
   /** Optional custom middle navigation links for views like MusicianDetailView */
   customNavItems?: HeaderNavItem[];
   /** Currently active navigation item ID */
@@ -43,12 +45,73 @@ export const Header: React.FC<HeaderProps> = ({
   isSticky = false,
   className,
   variant = "light",
+  autoHideOnScroll = true,
   customNavItems,
   activeNavItemId,
   onNavItemClick,
 }) => {
   const navigate = useNavigate();
   const fontBadge = useFontRole("BADGE_TAG");
+
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Immersive Idle Auto-Hide tracking logic (3s inactivity timer, wake-up on scroll & top mousemove)
+  useEffect(() => {
+    if (!isSticky || !autoHideOnScroll) {
+      setIsVisible(true);
+      return;
+    }
+
+    const resetHideTimeout = () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      setIsVisible(true);
+      timeoutRef.current = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+    };
+
+    // Initial 3-second countdown on mount
+    resetHideTimeout();
+
+    // Wake up header ONLY when scroll position hits the very top (<= 10px)
+    const handleScroll = () => {
+      const scrollContainer = document.querySelector(".overflow-y-auto");
+      const currentScroll =
+        window.scrollY > 0
+          ? window.scrollY
+          : (scrollContainer?.scrollTop ?? 0);
+
+      if (currentScroll <= 10) {
+        resetHideTimeout();
+      }
+    };
+
+    // Wake up header when mouse cursor approaches the top area (< 80px)
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 80) {
+        resetHideTimeout();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+      capture: true,
+    });
+    window.addEventListener("mousemove", handleMouseMove, {
+      passive: true,
+    });
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      window.removeEventListener("scroll", handleScroll, { capture: true });
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isSticky, autoHideOnScroll]);
 
   useEffect(() => {
     safeInitializeIcons();
@@ -156,8 +219,15 @@ export const Header: React.FC<HeaderProps> = ({
     }
   }
 
+  const transitionClass =
+    isSticky && autoHideOnScroll
+      ? `transition-transform duration-300 ease-in-out ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`
+      : "";
+
   const dynamicStickyClass = isSticky
-    ? `sticky top-0 z-50 w-full ${variantBgClass}`
+    ? `sticky top-0 z-50 w-full ${transitionClass} ${variantBgClass}`
     : `relative w-full z-20 ${variantBgClass}`;
 
   const hasCustomNav = customNavItems && customNavItems.length > 0;
