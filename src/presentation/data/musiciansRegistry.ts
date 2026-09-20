@@ -441,28 +441,40 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "2018",
+        year: "2015 - 2017",
         event:
-          "Merilis single 'Kultusan' dan 'Ikat Aku di Tulang Belikatmu' yang meraih nominasi pertamanya di Anugerah Musik Indonesia (AMI Awards) 2018 untuk kategori Artis Solo Pria Pop Terbaik.",
-        category: "award",
+          "Mengawali karier musik independen di SoundCloud (2015) hingga merilis singel debut resminya, 'Kultusan' (2017).",
+        category: ["career", "release"],
+      },
+      {
+        year: "2018 - 2019",
+        event:
+          "Mencuri perhatian industri lewat 'Ikat Aku di Tulang Belikatmu' yang meraih nominasi pertamanya di AMI Awards 2018 untuk kategori Artis Solo Pria Pop Terbaik.",
+        category: ["release", "award"],
       },
       {
         year: "2020",
         event:
-          "Merilis album perdana 'Berhati' yang memperlihatkan identitas musikal Sal sebagai penulis lagu yang menggabungkan pop kontemporer, folk, R&B, dan art pop.",
-        category: "release",
+          "Merilis album perdana 'Berhati' yang memperlihatkan identitas musikal Sal sebagai penulis lagu yang menggabungkan pop kontemporer, folk, R&B, dan art pop. Sekaligus memulai debut panggung teaternya lewat pementasan 'Anugerah Terindah'",
+        category: ["release", "career"],
       },
       {
-        year: "2021",
+        year: "2021 - 2022",
         event:
-          "Merilis EP 'MARKISA' dengan eksplorasi musik yang teatrikal dan megah, serta memulai debut akting layar lebar sebagai Tokek dalam film 'Seperti Dendam, Rindu Harus Dibayar Tuntas' yang mengantarkannya pada nominasi Festival Film Indonesia (FFI).",
-        category: "career",
+          "Debut akting layar lebar sebagai Tokek dalam film 'Seperti Dendam, Rindu Harus Dibayar Tuntas' (2021) yang mengantarkannya pada nominasi Festival Film Indonesia (FFI). Merilis EP 'Markers and Such Pens Flashdisks' (2022) dengan eksplorasi musik yang teatrikal dan megah.",
+        category: ["career", "release"],
       },
       {
         year: "2024",
         event:
-          "Meluncurkan karya hits fenomenal 'Gala Bunga Matahari' dan 'Dari planet lain' yang mendapat sambutan luar biasa di berbagai platform media sosial karena liriknya yang menyentuh tentang kehilangan, kerinduan, dan harapan.",
-        category: "release",
+          "Meluncurkan album 'Markers and Such Pens Flashdisks' dengan hits fenomenal 'Gala Bunga Matahari' yang mendapat sambutan luar biasa di berbagai platform media sosial karena liriknya yang menyentuh tentang kehilangan, kerinduan, dan harapan. Meraih penghargaan Artis Solo Pria Pop Terbaik di AMI Awards.",
+        category: ["release", "award"],
+      },
+      {
+        year: "2025 - 2026",
+        event:
+          "Berekspansi ke televisi sebagai juri tamu Indonesian Idol (2025), hingga penayangan perdana global film 'Monster Pabrik Rambut' di Festival Film Internasional Berlin 2026.",
+        category: ["career"],
       },
     ],
     catalog: [

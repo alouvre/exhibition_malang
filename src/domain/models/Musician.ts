@@ -8,7 +8,7 @@ export type MilestoneCategory =
 export interface HistoryEvent {
   year: string;
   event: string;
-  category?: MilestoneCategory;
+  category?: string | string[];
 }
 
 export interface TrackCatalogItem {

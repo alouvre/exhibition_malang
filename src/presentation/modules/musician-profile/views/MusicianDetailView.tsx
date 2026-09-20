@@ -233,7 +233,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                       .sort((a, b) => {
                         const yearA = parseInt(a.year, 10) || 0;
                         const yearB = parseInt(b.year, 10) || 0;
-                        return yearA - yearB;
+                        return yearB - yearA;
                       })
                       .map((award, idx) => (
                         <div
@@ -300,7 +300,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
                               }
                               className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer select-none flex items-center gap-1.5 border ${
                                 isHovered
-                                  ? "bg-slate-100 text-white border-slate-900 shadow-md scale-105"
+                                  ? "bg-slate-100 text-slate-900 border-slate-900 shadow-md scale-105"
                                   : "bg-white/80 hover:bg-black/10 text-stone-800 border-black/10 hover:border-black/20 backdrop-blur-sm"
                               }`}
                             >
@@ -421,7 +421,7 @@ export const MusicianDetailView: React.FC<MusicianDetailViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     layout:
-      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in pb-28 sm:pb-32 md:cursor-none md:[&_*]:cursor-none " +
+      "flex flex-col flex-1 h-full overflow-y-auto select-none animate-fade-in pb-0 sm:pb-0 md:cursor-none md:[&_*]:cursor-none " +
       DESIGN_TOKENS.utility.scrollbar,
     background: COLORS.canvasBg,
     text: "text-slate-900",

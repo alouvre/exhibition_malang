@@ -128,23 +128,28 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
         >
           HISTORICAL TIMELINE
         </h4>
-        <div className="flex flex-col gap-4 py-3 border-l-2 border-slate-200 pl-4 pr-2 sm:pl-4 mt-3">
+        <div className="flex flex-col gap-8 py-3 border-l-2 border-slate-200 pl-4 pr-2 sm:pl-4 mt-3">
           {musician.historyTimeline.map((item, idx) => (
             <div key={idx} className="flex flex-col gap-4 relative px-4 group">
-              <span className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-[#FF1F00] ring-4 ring-white" />
-              <div className="flex items-center gap-2">
+              <span className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-slate-900 ring-4 ring-white" />
+              <div className="flex items-center gap-2 flex-wrap">
                 <span
-                  className={`text-xs font-black tracking-wider text-[#FF1F00] ${badgeTagClass}`}
+                  className={`text-xs font-black tracking-wider text-slate-900 ${badgeTagClass}`}
                 >
                   {item.year}
                 </span>
-                {item.category && (
-                  <span
-                    className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 bg-white text-slate-900 rounded border border-slate-200 ${badgeTagClass}`}
-                  >
-                    {item.category}
-                  </span>
-                )}
+                {item.category &&
+                  (Array.isArray(item.category)
+                    ? item.category
+                    : [item.category]
+                  ).map((category, catIdx) => (
+                    <span
+                      key={catIdx}
+                      className={`text-[9px] font-bold uppercase tracking-wider px-2 py-1 bg-white text-slate-900 rounded border border-slate-200 ${badgeTagClass}`}
+                    >
+                      {category}
+                    </span>
+                  ))}
               </div>
               <span
                 className={`text-xs sm:text-sm md:text-md font-medium text-slate-700 leading-relaxed font-normal tracking-wide normal-case ${bodyTextClass}`}
@@ -198,7 +203,7 @@ const styles = StyleSheet.create({
       "text-sm sm:text-base md:text-md text-slate-700 leading-relaxed font-normal tracking-wide normal-case pl-0 sm:pl-6 lg:pl-16",
     timelineBox: "flex flex-col gap-3 pl-0 sm:pl-6 lg:pl-16",
     timelineHeading:
-      "text-[10px] sm:text-sm font-bold tracking-widest text-slate-800 uppercase",
+      "text-[10px] sm:text-base md:text-md font-black tracking-widest text-slate-800 uppercase",
   },
 });
 
