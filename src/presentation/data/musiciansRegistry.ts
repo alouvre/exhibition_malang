@@ -170,10 +170,14 @@ export const musiciansRegistry: MusicianData[] = [
     },
     awards: [
       {
-        year: "1995",
-        title: "Pelopor Lady Rocker Indonesia",
-        organization: "Anugerah Musik Nasional",
-        category: "Honorary Award",
+        year: "Era 60-an",
+        title: "Juara Pertama Lomba Menyanyi Anak-anak",
+        organization: "RRI Malang",
+      },
+      {
+        year: "1970-an",
+        title: "Gelar 'Lady Rocker' Pertama Indonesia",
+        organization: "Majalah Musik Aktual",
       },
     ],
     collaborations: [
@@ -210,28 +214,34 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "1978",
+        year: "1968 - 1971",
         event:
-          "Merilis album solo debut 'Biarkan Aku Lari' ciptaan Ian Antono yang meledak di pasaran.",
-        category: "release",
+          "Memulai perjalanan profesional pertamanya sejak duduk di bangku Sekolah Dasar dengan meraih juara pertama lomba menyanyi anak-anak dan menjadi penyanyi cilik di RRI Malang[cite: 11].",
+        category: ["career", "award"],
       },
       {
-        year: "1981",
+        year: "1972 - 1977",
         event:
-          "Mewakili musisi rock wanita Indonesia dalam festival panggung musik internasional.",
-        category: "concert",
+          "Mengawali formasi grup dengan bergabung bersama band Tornado (1972-1975) yang aktif tampil di berbagai daerah di Jawa Timur[cite: 11]. Ia juga memulai debut aktingnya di layar lebar lewat film 'Tangan Besi' pada 1972[cite: 11].",
+        category: ["career"],
       },
       {
-        year: "1995",
+        year: "Akhir 1970-an - 1980-an",
         event:
-          "Menerima penghargaan kehormatan sebagai Pelopor Lady Rocker Indonesia.",
-        category: "award",
+          "Mencetak sejarah sebagai penyanyi wanita Indonesia pertama yang diberi julukan 'Lady Rocker' oleh majalah musik Aktual[cite: 11]. Merilis deretan mahakarya seperti 'Biarawati' (1978) dan 'Jakarta Blue Jeansku' (1984), serta melangsungkan pertunjukan hingga ke Amerika Serikat[cite: 11].",
+        category: ["career", "release"],
       },
       {
-        year: "2021",
+        year: "1994 - 1997",
         event:
-          "Merayakan 53 tahun berkarya di kancah musik rock dengan peluncuran film dokumenter.",
-        category: "legacy",
+          "Tetap konsisten di jalur musik rock dengan merilis album 'Take Me with You' (1994) hingga singel duet 'Cinta Negri Serumput' (1997)[cite: 11]. Ia juga kerap berkolaborasi dengan raksasa musik nasional seperti Godbless dan Achmad Albar[cite: 11].",
+        category: ["release", "career"],
+      },
+      {
+        year: "2018",
+        event:
+          "Merayakan 50 tahun dedikasinya di dunia musik dengan menggelar 'Konser Emas' berkonsep orkestra rock pada hari ulang tahunnya, 15 September 2018, di UBTV Malang[cite: 11]. Konser ini didukung penuh oleh 26 musisi perempuan dari Voice of Malang[cite: 11].",
+        category: ["career"],
       },
     ],
     catalog: [
@@ -293,10 +303,19 @@ export const musiciansRegistry: MusicianData[] = [
     },
     awards: [
       {
+        year: "2008",
+        title: "Multi-Platinum Award (Album 'Maia & Friends')",
+        organization: "Sony BMG Music Entertainment Indonesia",
+      },
+      {
+        year: "2008",
+        title: "Nominasi Karya Produksi Duo Grup Terbaik",
+        organization: "Anugerah Musik Indonesia (AMI) Awards",
+      },
+      {
         year: "2009",
-        title: "Duo Pop Terbaik",
-        organization: "Anugerah Musik Indonesia",
-        category: "Pop Music",
+        title: "Nominasi Karya Produksi Duo Grup Pop Terbaik",
+        organization: "Anugerah Musik Indonesia (AMI) Awards",
       },
     ],
     collaborations: [
@@ -318,22 +337,34 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "2008",
+        year: "Masa Remaja - 2007",
         event:
-          "Bergabung dalam proyek duo pop legendaris nasional, merilis hits global yang mendominasi tangga lagu Indonesia.",
-        category: "career",
+          "Memulai perjalanan bermusik sejak usia remaja dengan membentuk grup musik Komet 14, dilanjutkan dengan grup Infinity setelah lulus SMA yang membawanya menjadi musisi kafe profesional. Ia juga sempat bergabung dengan Dimensi Baru dan Punk Romance sebelum mengundurkan diri pada pertengahan 2007.",
+        category: ["career"],
       },
       {
-        year: "2018",
+        year: "2008 - 2009",
         event:
-          "Memulai re-branding karir menggunakan nama asli Dita Meychan dan merilis single solo eksperimental 'Setia'.",
-        category: "release",
+          "Terpilih melalui audisi ketat untuk mendampingi Maia Estianty dalam grup Duo Maia, lalu merilis album sukses 'Maia & Friends' (2008) dan 'Sang Juara' (2009). Ia juga mencetak debut akting layar lebarnya melalui film 'XXL-Double Extra Large'.",
+        category: ["career", "release"],
       },
       {
-        year: "2026",
+        year: "2012 - 2017",
         event:
-          "Diabadikan dalam pameran Music Gallery Vision klaster Media Arts Museum Musik Indonesia atas kontribusi besarnya di pop modern.",
-        category: "legacy",
+          "Terus produktif bersama Duo Maia merilis berbagai album, serta meluncurkan album mini solo bertajuk 'Mey Chan and Her Pals' pada tahun 2013. Ia juga merambah acara televisi bergengsi seperti 'The Remix' (2015) dan menjadi juri di 'Just Duet' (2016), sebelum akhirnya resmi keluar dari Duo Maia pada tahun 2017.",
+        category: ["release", "career"],
+      },
+      {
+        year: "2018 - 2020",
+        event:
+          "Kembali ke industri musik sebagai solois menggunakan nama aslinya, Dita, dengan merilis singel perdana 'Setia' (2018). Ia kemudian merilis lagu emosional 'Ibu' (2019) untuk mengenang almarhumah ibundanya, serta singel 'Lagu Rindu' pada awal 2020.",
+        category: ["release"],
+      },
+      {
+        year: "2022",
+        event:
+          "Setelah sempat vakum selama dua tahun, ia kembali mewarnai belantika musik dengan merilis singel religi 'Tuhan Tahu', yang tak lama kemudian disusul dengan perilisan singel pop 'Menyesal Mengenalmu'.",
+        category: ["release", "career"],
       },
     ],
     catalog: [
@@ -551,6 +582,21 @@ export const musiciansRegistry: MusicianData[] = [
         organization: "Radar Malang Awards",
       },
       {
+        year: "2021",
+        title: "Nominasi Grup Keroncong Kontemporer Terbaik",
+        organization: "Anugerah Musik Indonesia (AMI) Awards",
+      },
+      // {
+      //   year: "2022",
+      //   title: "Nominasi Grup Keroncong Kontemporer Terbaik",
+      //   organization: "Anugerah Musik Indonesia (AMI) Awards",
+      // },
+      // {
+      //   year: "2023",
+      //   title: "Nominasi Grup Keroncong Kontemporer Terbaik",
+      //   organization: "Anugerah Musik Indonesia (AMI) Awards",
+      // },
+      {
         year: "2023",
         title: "Duta Musik Budaya Malang",
         organization: "Dinas Kebudayaan & Pariwisata Kota Malang",
@@ -580,19 +626,34 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "2014",
+        year: "2014 - 2016",
         event:
-          "Dibentuk di Malang, merilis riak karya independen pertama yang memantik perhatian skena folk lokal.",
+          "Dibentuk di lingkungan kampus Universitas Negeri Malang pada 27 Februari 2014. Merilis album perdana fisik dan digital bertajuk 'LUTA' pada September 2016 dengan visi memperkenalkan musik keroncong kepada anak muda.",
+        category: ["career", "release"],
       },
       {
-        year: "2018",
+        year: "2017 - 2018",
         event:
-          "Merilis album penuh ikonik 'Lirik Reta', mempertegas eksplorasi bebunyian etnik yang berpadu pop urban.",
+          "Membangun label rekaman mandiri bernama Creatorikos Audio Visual (2017). Disusul perilisan mini album 'Esok Lagi' dalam format kaset pita bersama Lokananta yang diluncurkan di kawasan ikonik Kampung Warna-Warni Jodipan (2018).",
+        category: ["career", "release"],
       },
       {
-        year: "2026",
+        year: "2021",
         event:
-          "Menjadi representasi esensial klaster UNESCO City of Media Arts dalam perhelatan akbar Museum Musik Indonesia.",
+          "Merilis album keempat 'Langkah Baru' yang ditandai dengan menggelar konser virtual di stadion tertua di Indonesia, Stadion Gajayana Malang. Mereka juga meraih nominasi Anugerah Musik Indonesia (AMI) perdana mereka lewat single 'Keroncongkan Sekitarmu'.",
+        category: ["release", "award", "career"],
+      },
+      {
+        year: "2022 - 2023",
+        event:
+          "Merilis album penuh 'Orkes Is Dead' yang mendapat ulasan positif dari media nasional karena keberanian aransemen dan produktivitas kuratorial album. Kos Atos juga memperluas jangkauan kuratorial melalui program pameran tematik yang didukung oleh Midden Indonesia sebagai bagian dari Cities of Media Arts oleh UNESCO.",
+        category: ["release", "award", "career"],
+      },
+      {
+        year: "2024 - 2025",
+        event:
+          "Mengukuhkan diri sebagai kelompok keroncong vernakular paling produktif di Indonesia dalam perayaan 10 tahun karier mereka. Memeriahkan pembukaan Solo Keroncong Festival di Pura Mangkunegaran (2024) serta menyiapkan rilisan single 'Si Alan, OTW!' untuk tahun 2025.",
+        category: ["career", "release"],
       },
     ],
     catalog: [
@@ -659,18 +720,38 @@ export const musiciansRegistry: MusicianData[] = [
     awards: [
       {
         year: "1992",
-        title: "Grand Prix Winner",
-        organization: "Asia Bagus Festival Tokyo",
+        title: "Grand Champion",
+        organization: "Festival Asia Bagus (Jepang)",
+      },
+      {
+        year: "1997",
+        title: "Album Pop & Lagu Pop Terbaik (Album 'Cinta')",
+        organization: "Anugerah Musik Indonesia (AMI) Awards",
       },
       {
         year: "1999",
-        title: "Artis Solo Pria/Wanita Pop Terbaik",
-        organization: "Anugerah Musik Indonesia",
+        title: "Album Indonesia Terbaik & Most Wanted Female Artist",
+        organization: "Anugerah Industri Muzik (AIM) & MTV Asia Tenggara",
       },
       {
-        year: "2001",
-        title: "Most Popular Female Artist",
-        organization: "MTV Asia Awards",
+        year: "2000",
+        title: "Penyanyi Wanita Terbaik & Lagu Terbaik (Album 'Mencintaimu')",
+        organization: "Anugerah Musik Indonesia (AMI) Awards",
+      },
+      {
+        year: "2005",
+        title: "10 Artis Asia Terbesar & Artis Wanita Terbaik",
+        organization: "Channel V & Anugerah Planet Muzik (APM)",
+      },
+      {
+        year: "2007",
+        title: "Anugerah Khas (Special Achievement Award)",
+        organization: "Anugerah Planet Muzik (APM) Singapura",
+      },
+      {
+        year: "2016",
+        title: "Original Soundtrack Terbaik ('Surga yang Tak Dirindukan')",
+        organization: "Indonesian Box Office Movie Awards (IBOMA)",
       },
     ],
     collaborations: [
@@ -707,19 +788,46 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "1992",
+        year: "1984 - 1992",
         event:
-          "Menjuarai ajang pencarian bakat internasional Asia Bagus di Jepang, memicu lonjakan karir musik profesionalnya.",
+          "Memulai karier kanak-kanak dengan mengisi suara film 'Megaloman' dan merilis album perdana 'Biasa Saja' pada usia 12 tahun[cite: 9]. Namanya melambung pesat di industri musik setelah menjuarai festival Asia Bagus di Jepang pada tahun 1992[cite: 9].",
+        category: ["career", "award"],
       },
       {
-        year: "1998",
+        year: "1995 - 1997",
         event:
-          "Merilis album solo fenomenal 'Sayang' yang meledak di pasaran dan mengukuhkan posisinya sebagai Diva Pop Indonesia.",
+          "Merilis album profesional perdananya, 'Terserah' (1995)[cite: 9]. Ia kemudian menikah dengan Anang Hermansyah dan merilis album duet fenomenal 'Cinta' yang menembus penjualan satu juta kopi, sekaligus membintangi sinetron hit 'Abad 21'[cite: 9].",
+        category: ["release", "career"],
       },
       {
-        year: "2006",
+        year: "1998 - 1999",
         event:
-          "Mengadakan konser tunggal megah dan terus aktif menelurkan karya kolaboratif skala internasional.",
+          "Meluncurkan album 'Sayang' dengan singel andalan 'Menghitung Hari' yang membawanya populer dan memenangkan penghargaan bergengsi di Malaysia[cite: 9]. Ia juga menjadi pelopor kesuksesan sinetron Ramadan di Indonesia lewat 'Doaku Harapanku'[cite: 9].",
+        category: ["release", "career", "award"],
+      },
+      {
+        year: "2000 - 2001",
+        event:
+          "Merilis album hit 'Mencintaimu' yang memborong banyak piala di AMI Awards dan Anugerah Planet Muzik[cite: 9]. Kesuksesan luar biasa dari 'Konser KD' pada tahun 2001 secara resmi mengukuhkan gelarnya sebagai Diva Pop Indonesia[cite: 9].",
+        category: ["release", "award", "career"],
+      },
+      {
+        year: "2004 - 2006",
+        event:
+          "Menggelar 'Konser KD 1530' dan merilis album 'Cahaya' yang sukses diganjar triple platinum[cite: 9]. Ia melebarkan sayap dengan membentuk grup vokal 3 Diva (bersama Titi DJ dan Ruth Sahanaya) serta melakoni debut layar lebar di film 'Jatuh Cinta Lagi'[cite: 9].",
+        category: ["career", "release"],
+      },
+      {
+        year: "2009 - 2011",
+        event:
+          "Merilis album duet kolaborasi internasional 'CTKD' bersama penyanyi Malaysia, Siti Nurhaliza (2009)[cite: 9]. Setelah berpisah dengan Anang, ia meresmikan pernikahan keduanya dengan pengusaha asal Timor Leste, Raul Lemos, pada tahun 2011[cite: 9].",
+        category: ["release", "career"],
+      },
+      {
+        year: "2015 - 2023",
+        event:
+          "Menggelar 'Konser Traya' dan kembali mencetak hit pemenang penghargaan lewat lagu tema film 'Surga yang Tak Dirindukan' (2015)[cite: 9]. Ia juga resmi menjabat sebagai anggota DPR-RI periode 2019-2024 dan sukses menggelar konser tunggal di Singapura pada 2023[cite: 9].",
+        category: ["career", "release", "award"],
       },
     ],
     catalog: [
@@ -743,6 +851,148 @@ export const musiciansRegistry: MusicianData[] = [
         album: "Cahaya (2004)",
         duration: "04:02",
         youtubeId: "ySkUk3Az0Q8",
+      },
+    ],
+  },
+  {
+    id: "keisya-levronka",
+    slug: "keisya-levronka",
+    name: "KEISYA LEVRONKA",
+    genre: "POP",
+    year: "2019 - PRESENT",
+    image: "/assets/keisya_levronka/Picture1.jpg",
+    exhibitionImages: [
+      "/assets/keisya_levronka/Picture1.jpg",
+      "/assets/keisya_levronka/Picture2.jpg",
+    ],
+    album: "LEVRONKA",
+    biography:
+      "Keisya Levronka, lahir di Malang pada 2 Februari 2003, adalah penyanyi dan aktris muda yang memulai karier profesionalnya melalui ajang pencarian bakat Indonesian Idol Musim Kesepuluh. Memiliki warna vokal yang unik dan gaya bernyanyi yang emosional, namanya melesat pesat di industri musik Asia Tenggara berkat hit fenomenal 'Tak Ingin Usai'. Selain bermusik, Keisya juga aktif dalam dunia seni peran layar lebar dan serial web, mengukuhkan dirinya sebagai salah satu talenta muda paling bersinar dari kota Malang.",
+    headlineSummary:
+      "Bintang Pop Muda & Pencetak Hit Tangga Lagu Asia Tenggara",
+    musicalProfile: {
+      primaryInstruments: ["Vocalist"],
+      // influences: ["Tiara Andini", "Mahalini", "Raisa"],
+      subGenres: ["Pop", "Pop Balada", "Teen Pop"],
+    },
+    awards: [
+      {
+        year: "2020",
+        title: "Silver Creator Award (100.000 Subscribers)",
+        organization: "YouTube Creator Awards",
+      },
+      {
+        year: "2022",
+        title:
+          "Lagu Bahasa Melayu Terbaik Dipersembahkan oleh Artis Luar Negara",
+        organization: "Anugerah Industri Muzik (AIM) Malaysia",
+      },
+      {
+        year: "2022",
+        title:
+          "Nominasi Pemeran Pembantu Wanita Terpuji Serial Web ('Jingga & Senja')",
+        organization: "Festival Film Bandung",
+      },
+      {
+        year: "2022",
+        title: "Nominasi Breakthrough Artist & Song of the Year",
+        organization: "Indonesian Music Awards",
+      },
+      {
+        year: "2023",
+        title: "Pendatang Baru Terpopuler",
+        organization: "TikTok Indonesia Awards",
+      },
+      {
+        year: "2023",
+        title: "Pop Music Video of The Year ('Tak Ingin Usai')",
+        organization: "YouTube Music (Indonesia Music Week)",
+      },
+    ],
+    collaborations: [
+      {
+        name: "Andi Rianto",
+        projectTitle: "Mengejar Matahari",
+        role: "Duet & Remake Project",
+      },
+      {
+        name: "Bayu Skak",
+        projectTitle: "Lara Ati (Film & Series)",
+        role: "Co-Star & Soundtrack Contributor",
+      },
+      {
+        name: "Laleilmanino",
+        projectTitle: "Tergesa",
+        role: "Songwriting Collaboration",
+      },
+    ],
+    historyTimeline: [
+      {
+        year: "2019 - 2020",
+        event:
+          "Mengawali langkah profesionalnya melalui ajang Indonesian Idol Musim Kesepuluh, lalu melakukan debut sebagai penyanyi dengan merilis singel pop ceria berjudul 'Jadi Kekasihku Saja'[cite: 10].",
+        category: ["career", "release"],
+      },
+      {
+        year: "2021",
+        event:
+          "Melakukan debut di dunia seni peran dengan membintangi serial web 'Jingga dan Senja', yang sukses mengantarkannya pada nominasi Festival Film Bandung[cite: 10].",
+        category: ["career"],
+      },
+      {
+        year: "2022",
+        event:
+          "Merilis singel fenomenal 'Tak Ingin Usai' yang berhasil memuncaki tangga lagu digital Asia Tenggara dan menganugerahinya piala 'Lagu Bahasa Melayu Terbaik' di ajang Anugerah Industri Muzik (AIM) Malaysia[cite: 10].",
+        category: ["release", "award"],
+      },
+      {
+        year: "2023 - 2024",
+        event:
+          "Meluncurkan album studio perdana 'Levronka' (2023), merilis singel 'Bahagia Tanpaku' (2024), serta aktif membintangi berbagai judul layar lebar seperti 'Lara Ati' dan 'Sekawan Limo'[cite: 10].",
+        category: ["release", "career"],
+      },
+      {
+        year: "2025 - 2026",
+        event:
+          "Merilis album digital kompilasi 'Tersesat Dalam Rasa' dan menjadi pemeran utama dalam film horor 'Pamali: Tumbal' (2025)[cite: 10]. Setahun kemudian, ia meluncurkan album studio kedua bergenre pop-rock bertajuk 'Rombak'[cite: 10].",
+        category: ["career", "release"],
+      },
+    ],
+    catalog: [
+      {
+        number: "01",
+        title: "Tak Ingin Usai",
+        album: "Levronka (2023)",
+        duration: "04:38",
+        youtubeId: "V5F2pW1E6eA",
+      },
+      {
+        number: "02",
+        title: "Mengejar Matahari",
+        album: "Levronka (2023)",
+        duration: "04:12",
+        youtubeId: "XnK5yOEqo8o",
+      },
+      {
+        number: "03",
+        title: "Jadi Kekasihku Saja",
+        album: "Levronka (2023)",
+        duration: "03:19",
+        youtubeId: "L9a8tQ5l2Y0",
+      },
+      {
+        number: "04",
+        title: "Tergesa",
+        album: "Levronka (2023)",
+        duration: "03:22",
+        youtubeId: "P_zK3y8u5qE",
+      },
+      {
+        number: "05",
+        title: "Lagu Untuk Hari Ini",
+        album: "Levronka (2023)",
+        duration: "03:40",
+        youtubeId: "g4oV-H2A5wY",
       },
     ],
   },
@@ -772,13 +1022,24 @@ export const musiciansRegistry: MusicianData[] = [
     awards: [
       {
         year: "1987",
-        title: "Juara 1 Festival Janur Kuning",
-        organization: "Festival Janur Kuning Jakarta",
+        title: "Juara II Tingkat Remaja",
+        organization: "Festival Bintang Radio dan Televisi",
+      },
+      {
+        year: "1989",
+        title: "Juara I",
+        organization: "Festival Bintang Radio dan Televisi",
       },
       {
         year: "1996",
-        title: "Penjualan Album Nostalgia Tertinggi",
-        organization: "HDX Awards",
+        title: "4x Platinum Award (Album 'Mengapa Tiada Maaf')",
+        organization: "BASF Awards",
+      },
+      {
+        year: "1996",
+        title:
+          "3x Platinum Award (OST. 'Kembalinya Pendekar Pemanah Rajawali')",
+        organization: "BASF Awards",
       },
     ],
     collaborations: [
@@ -805,19 +1066,40 @@ export const musiciansRegistry: MusicianData[] = [
     ],
     historyTimeline: [
       {
-        year: "1987",
+        year: "1987 - 1989",
         event:
-          "Mengawali langkah profesional dengan mengikuti Festival Janur Kuning dan mengamankan posisi juara.",
+          "Memulai langkah di industri musik melalui Festival Bintang Radio dan Televisi dengan meraih juara kedua (1987) dan juara pertama (1989), yang kemudian membawanya pada tawaran rekaman bersama Billboard All Stars[cite: 10].",
+        category: ["career", "award"],
       },
       {
-        year: "1996",
+        year: "1990 - 1994",
         event:
-          "Merilis album 'Mengapa Tiada Maaf' yang meledak luar biasa dengan rekor penjualan fantastis di industri musik nasional.",
+          "Merilis album perdana 'Kasmaran' (1990) dan tampil sebagai vokalis latar di North Sea Jazz Festival, Belanda[cite: 10]. Ia kemudian mencetak kesuksesan besar lewat album daur ulang 'Hilang Permataku' pada tahun berikutnya[cite: 10].",
+        category: ["career", "release"],
       },
       {
-        year: "2011",
+        year: "1995 - 1997",
         event:
-          "Membentuk grup vokal 5 Wanita bersama penyanyi ternama lainnya, mempertegas kontribusi musiknya.",
+          "Mencapai puncak karier komersial melalui album 'Mengapa Tiada Maaf' dan 'OST Return of the Condor Heroes' (1996) yang terjual ratusan ribu kopi, memberikannya total tujuh penghargaan Platinum dari BASF di tahun tersebut[cite: 10].",
+        category: ["release", "award"],
+      },
+      {
+        year: "1999 - 2008",
+        event:
+          "Sempat membentuk grup 3 Bidadari (1999) dan mendulang sukses lewat album adaptasi 'OST. Meteor Garden' (2001)[cite: 10]. Ia meluncurkan buku biografi dan album '35' (2007), serta bergabung dalam kelompok vokal 5 Wanita[cite: 10].",
+        category: ["career", "release"],
+      },
+      {
+        year: "2011 - 2014",
+        event:
+          "Berekspansi ke dunia bisnis multisektor serta mendirikan PAUD 'Cahaya Permata Abadi' di Kota Batu untuk anak kurang mampu[cite: 10]. Di bidang musik, ia merilis singel 'Nurlela' (2011) bersama Krisdayanti dan Iis Dahlia, serta merilis album 'Tuhan Jagakan Dia' (2014)[cite: 10].",
+        category: ["career", "release"],
+      },
+      {
+        year: "2020 - 2026",
+        event:
+          "Aktif memandu acara televisi 'ReYunian' (2020-sekarang) dan merilis ragam singel kolaborasi, termasuk 'Kapusan Janji' bersama Didi Kempot (2020) hingga singel 'Terlalu Lama Sendiri' (2026)[cite: 10].",
+        category: ["career", "release"],
       },
     ],
     catalog: [
@@ -875,14 +1157,9 @@ export const musiciansRegistry: MusicianData[] = [
     },
     awards: [
       {
-        year: "2004",
-        title: "Band Pendatang Baru Terbaik",
-        organization: "Dahsyatnya Awards / MTV Indonesia",
-      },
-      {
-        year: "2006",
-        title: "Nominasi Duo/Grup Pop Terbaik",
-        organization: "Anugerah Musik Indonesia",
+        year: "2003",
+        title: "Platinum Award (Album Debut 'Flanella')",
+        organization: "Harpa Records Indonesia",
       },
     ],
     collaborations: [
@@ -906,17 +1183,26 @@ export const musiciansRegistry: MusicianData[] = [
       {
         year: "2000",
         event:
-          "Resmi didirikan di Malang, merintis karir dari panggung-panggung festival kampus lokal.",
+          "Resmi dibentuk pada 26 November 2000 di Malang dan langsung meluncurkan album indie perdana bertajuk 'Berangkat dari Mimpi', meskipun materi lagu mereka sempat berkali-kali ditolak oleh berbagai label di Jakarta.",
+        category: ["career", "release"],
       },
       {
         year: "2003",
         event:
-          "Merilis album debut self-titled dengan single hits 'Bila Ku Jauh' yang merajai tangga lagu radio nasional.",
+          "Merilis lagu 'Bila Engkau' pada momen Valentine yang meledak di radio lokal dan memikat produser Harpa Records. Mereka akhirnya merilis album penuh pertama dan langsung dianugerahi penghargaan Platinum.",
+        category: ["career", "release", "award"],
       },
       {
-        year: "2005",
+        year: "2005 - 2009",
         event:
-          "Meluncurkan album kedua 'Aku Bisa' yang semakin mengukuhkan nama Flanella di jajaran grup pop papan atas.",
+          "Meluncurkan album kedua 'Aku Bisa' (2005), disusul oleh album ketiga 'Berjuta Rasa' di bawah naungan Trinity Optima Production (2009). Era ini juga diwarnai masuknya Onky, Catur, dan Dhana untuk menggantikan personel sebelumnya.",
+        category: ["release", "career"],
+      },
+      {
+        year: "2015 - 2016",
+        event:
+          "Setelah jeda yang cukup panjang, Flanella merilis singel 'Tiada Duanya' pada Oktober 2015. Lagu ini menjadi andalan untuk peluncuran album keempat mereka, 'Surfresh', pada April 2016 dengan formasi teranyar bersama Kunya di posisi bass.",
+        category: ["release", "career"],
       },
     ],
     catalog: [

@@ -128,7 +128,7 @@ export const BioContent: React.FC<BioContentProps> = ({ musician }) => {
         >
           HISTORICAL TIMELINE
         </h4>
-        <div className="flex flex-col gap-8 py-3 border-l-2 border-slate-200 pl-4 pr-2 sm:pl-4 mt-3">
+        <div className="flex flex-col gap-8 py-3 border-l-1 border-slate-300 pl-4 pr-2 sm:pl-4 mt-3">
           {musician.historyTimeline.map((item, idx) => (
             <div key={idx} className="flex flex-col gap-4 relative px-4 group">
               <span className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-slate-900 ring-4 ring-white" />

@@ -32,7 +32,7 @@ export interface OverlayNavbarProps {
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: "icons", label: "ICONS", href: "#showcase-icons" },
-  { id: "evolution", label: "EVOLUTION", href: "#timeline-section" },
+  // { id: "evolution", label: "EVOLUTION", href: "#timeline-section" },
   { id: "contact", label: "ABOUT MMI", href: "#footer-section" },
 ];
 
